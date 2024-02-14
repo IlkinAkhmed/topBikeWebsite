@@ -33,7 +33,7 @@ function App() {
           <Route element={<PrivateRoute check={["admin"]} />}>
             {/* <Route path="/admin" element={<Admin />} /> */}
           </Route>
-          <Route path="/shop" element={<Shop />} />
+          <Route path="/shop" element={<Shop isLoginOpen={isLoginOpen} setIsLoginOpen={setIsLoginOpen} />} />
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/details/:id" element={<Details />} />

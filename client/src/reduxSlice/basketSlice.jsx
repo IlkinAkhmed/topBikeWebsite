@@ -17,7 +17,6 @@ export const BasketSlice = createSlice({
         addId: (state, action) => {
             state.id = action.payload
         },
-
         openBasket: (state, action) => {
             state.isOpen = action.payload
         }

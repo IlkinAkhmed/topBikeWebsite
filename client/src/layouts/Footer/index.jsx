@@ -12,7 +12,7 @@ function Footer() {
           <div className="icons">
             <i className='fa-brands fa-twitter'></i>
             <i className='fa-solid fa-basketball'></i>
-            <i class="fa-brands fa-behance"></i>
+            <i className="fa-brands fa-behance"></i>
             <i className='fa-brands fa-instagram'></i>
           </div>
         </div>

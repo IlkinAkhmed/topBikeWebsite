@@ -49,8 +49,7 @@ export const deleteDataFromBasket = async (req, res) => {
             res.status(404).send("User Not Found")
             return
         }
-        const deletedData = user.basket.filter(x => x._id.toString() !== productId)
-        console.log(deletedData)
+        user.basket = user.basket.filter(x => x._id.toString() !== productId)
         await user.save()
         res.status(200).send("Product Deleted")
 
@@ -73,7 +72,6 @@ export const increaseCount = async (req, res) => {
             return
         }
         const product = user.basket.find(x => x._id == productId)
-        console.log(product)
         if (product) {
             product.count++
             await user.save()
@@ -100,7 +98,7 @@ export const decreaseCount = async (req, res) => {
         const product = user.basket.find(x => x._id == productId)
         if (product) {
             if (product.count === 1) {
-                res.status(200).send('product count must be minumum 1!!!')
+                res.status(201).send('product count must be minumum 1!!!')
                 return
             }
             product.count--

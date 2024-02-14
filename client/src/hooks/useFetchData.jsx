@@ -9,11 +9,13 @@ function useFetchData(urlTitle) {
     async function fetchData() {
         const res = await axios.get(`http://localhost:7000/${urlTitle}`)
         setProduct(res.data)
+
     }
 
     useEffect(() => {
         fetchData()
         setisLoading(false)
+        console.log(product)
     }, [])
 
 

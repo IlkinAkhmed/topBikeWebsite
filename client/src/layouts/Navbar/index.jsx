@@ -9,7 +9,7 @@ import Search from '../../components/Search'
 import { userContext } from '../../context/userContext'
 
 function Navbar({ isLoginOpen, setIsLoginOpen }) {
-  const { user, setUser } = useContext(userContext);
+  const { user, setUser, basketArr } = useContext(userContext);
 
   const basketOpen = useSelector((state) => state.basket.isOpen)
   const wishlistArr = useSelector((state) => state.wishlist.value)
@@ -80,7 +80,7 @@ function Navbar({ isLoginOpen, setIsLoginOpen }) {
             {
               user
                 ?
-                <img style={{width:"30px",height:"30px",borderRadius:"50%"}} src={`${user.profileImg ? user.profileImg : "https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg"}`} alt="" />
+                <img style={{ width: "30px", height: "30px", borderRadius: "50%" }} src={`${user.profileImg ? user.profileImg : "https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg"}`} alt="" />
                 :
                 <i onClick={() => setIsLoginOpen(!isLoginOpen)} className={item.navIcons[0]}></i>
             }
@@ -91,7 +91,7 @@ function Navbar({ isLoginOpen, setIsLoginOpen }) {
             </i>
             <i onClick={() => dispatch(openBasket(!basketOpen))} className={item.navIcons[2]}>
               <div className="cartMessage">
-                5
+                {basketArr.length}
               </div>
             </i>
           </div>

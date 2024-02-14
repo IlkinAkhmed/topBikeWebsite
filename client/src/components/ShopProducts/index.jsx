@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import "./index.scss"
 import useFetchData from '../../hooks/useFetchData'
 import FilterArea from '../ShopFilterArea'
@@ -9,8 +9,9 @@ import axios from 'axios'
 import toast from "react-hot-toast"
 import { getCookie } from '../../../helper/cookies'
 import { jwtDecode } from "jwt-decode"
+import { userContext } from '../../context/userContext'
 
-function ShopProducts() {
+function ShopProducts({ isLoginOpen, setIsLoginOpen }) {
     const [image, setImage] = useState(null)
     const { product, isLoading } = useFetchData('products')
     const [isFilterAreOpen, setIsFilterAreOpen] = useState(false)
@@ -19,6 +20,8 @@ function ShopProducts() {
     const [colorCategory, setColorCategory] = useState('all')
     const [sizeCategory, setSizeCategory] = useState('all')
     const [priceInputValue, setpriceInputValue] = useState(0)
+    const { user } = useContext(userContext)
+
 
     const [maxPrice, setMaxPrice] = useState(0);
 
@@ -32,6 +35,7 @@ function ShopProducts() {
 
 
 
+    const [deleteLoading, setDeleteLoading] = useState(false);
 
 
 
@@ -49,21 +53,28 @@ function ShopProducts() {
 
     const token = getCookie('token')
     const decoded = jwtDecode(token)
+    const { basketArr, fetchBasketData } = useContext(userContext)
 
     const handleBasket = async (id) => {
-        try {
-            const res = await axios.post(`http://localhost:7000/users/${decoded._id}/addBasket`, {
-                productId: id
-            })
-            // dispatch(openModal(!isModalOpen))
-            // dispatch(addId(id))
-            res.status===201 ? toast.success('Already in Cart, Count increased') : toast.success('Added To Cart')
+        if (user) {
+            try {
+                setDeleteLoading(true)
+                const res = await axios.post(`http://localhost:7000/users/${decoded._id}/addBasket`, {
+                    productId: id
+                })
+                // dispatch(openModal(!isModalOpen))
+                // dispatch(addId(id))
+                res.status === 201 ? toast.success('Already in Cart, Count increased') : toast.success('Added To Cart')
+                setDeleteLoading(false)
+                await fetchBasketData()
 
-        } catch (error) {
-            toast.error(`Error: ${error.message} `)
+            } catch (error) {
+                toast.error(`Error: ${error.message} `)
+            }
+        } else {
+            setIsLoginOpen(!isLoginOpen)
         }
     }
-
 
 
 
@@ -72,14 +83,14 @@ function ShopProducts() {
         <section className='shop-products'>
             <div className="filter-area">
                 <div onClick={() => setIsFilterAreOpen(!isFilterAreOpen)} className="filter">
-                    <i class="fa-solid fa-filter"></i>
+                    <i className="fa-solid fa-filter"></i>
                     <p>FILTER</p>
                 </div>
                 <div className="featured">
                     <div className="dottes">
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                        <i className="fa-solid fa-ellipsis-vertical"></i>
+                        <i className="fa-solid fa-ellipsis-vertical"></i>
+                        <i className="fa-solid fa-ellipsis-vertical"></i>
                         <div className="colls">
                             <span>2</span>
                             <span>3</span>
@@ -89,7 +100,7 @@ function ShopProducts() {
                     </div>
                     <div className="sort" onClick={() => setisSubMenuOpen(!isSubMenuOpen)}>
                         <p>Featured</p>
-                        <i class={`fa-solid ${isSubMenuOpen ? 'fa-caret-up' : 'fa-caret-down'}`}></i>
+                        <i className={`fa-solid ${isSubMenuOpen ? 'fa-caret-up' : 'fa-caret-down'}`}></i>
                     </div>
                     <ul className={`featured-subMenu ${isSubMenuOpen ? 'featured-subMenu-open' : ''}`}>
                         <li style={{ cursor: 'pointer' }}>Featured</li>
@@ -117,7 +128,8 @@ function ShopProducts() {
                                 className="newCard">
                                 {item.sale ? <p className='sale'>SALE</p> : null}
                                 <div className="productIcons">
-                                    <i onClick={() => handleBasket(item._id)} className={item.basketIcon}></i>
+
+                                    <i onClick={() => handleBasket(item._id)} className={`${deleteLoading ? 'loader' : item.basketIcon}`}>                                    </i>
                                     <i onClick={() => dispatch(addToWishlist(item))} className={wishlistArr.find(x => x._id === item._id) ? item.addedHeartIcon : item.heartIcon}></i>
                                     <i className={item.eyeIcon}></i>
                                 </div>

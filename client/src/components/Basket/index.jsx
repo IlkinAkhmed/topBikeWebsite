@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import "./index.scss"
 import { useDispatch, useSelector } from 'react-redux'
 import { openBasket } from '../../reduxSlice/basketSlice'
@@ -9,21 +9,39 @@ import axios from 'axios'
 import { getCookie } from '../../../helper/cookies'
 import { jwtDecode } from "jwt-decode"
 import toast from 'react-hot-toast'
+import { userContext } from '../../context/userContext'
 
 function Basket() {
     const basketOpen = useSelector((state) => state.basket.isOpen)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const [basketArr, setBasketArr] = useState([])
 
     const token = getCookie('token')
     const decoded = jwtDecode(token)
 
-    const handleDelete = async (id) => {
+
+
+    const { basketArr, fetchBasketData } = useContext(userContext)
+    const [deleteLoading, setDeleteLoading] = useState(false);
+
+
+
+    useEffect(() => {
+        fetchBasketData()
+        console.log(basketArr)
+    }, [])
+
+
+
+    async function handleDelete(id) {
         try {
+            setDeleteLoading(true)
             await axios.delete(`http://localhost:7000/users/${decoded._id}/delete`, {
-                productId: id
+                data: {
+                    productId: id
+                }
             })
+            setDeleteLoading(false)
             await fetchBasketData()
             toast.success("Product has been deleted")
         } catch (error) {
@@ -31,15 +49,26 @@ function Basket() {
         }
     }
 
-    const fetchBasketData = async () => {
-        const res = await axios.get(`http://localhost:7000/users/${decoded._id}/basket`)
-        setBasketArr(res.data)
+    const modifyCount = async (id, type) => {
+        try {
+            if (type) {
+                await axios.post(`http://localhost:7000/users/${decoded._id}/increaseCount`, {
+                    productId: id
+                })
+                toast.success('Count Increased')
+                await fetchBasketData()
+            } else {
+                const res = await axios.post(`http://localhost:7000/users/${decoded._id}/decreaseCount`, {
+                    productId: id
+                })
+                res.status === 201 ? toast.error('Count must be 1 or more') : toast.success('Count Increased')
+                await fetchBasketData()
+            }
+
+        } catch (error) {
+            toast.error(`Error ${error.message}`)
+        }
     }
-
-    useEffect(() => {
-        fetchBasketData()
-    }, [])
-
 
     const subTotal = basketArr.reduce((initial, value) => initial + parseInt(value.product.newPrice), 0);
 
@@ -61,10 +90,30 @@ function Basket() {
                         </div>
                         <div className="bas-details">
                             <p onClick={() => { navigate(`/details/${x.product._id}`), dispatch(openBasket(!basketOpen)) }} >{x.product.title}</p>
-                            <p>QTY : <span onClick={() => dispatch(increaseCount(x.product))}>+</span> {x.count} <span className={`${x.product.count === 1 ? "disabled-button-color" : ''}`} onClick={() => dispatch(decreaseCount(x.product))}> - </span></p>
+                            <p>
+                                QTY :
+                                <span
+                                    onClick={() => modifyCount(x._id, true)}
+                                >
+                                    +
+                                </span>
+                                {x.count}
+                                <span
+                                    className={`${x.product.count === 1 ? "disabled-button-color" : ''}`}
+                                    onClick={() => modifyCount(x._id, false)}>
+                                    -
+                                </span>
+                            </p>
                             <p>${x.product.newPrice}.00</p>
-                        </div>
-                        <i onClick={() => handleDelete(x.product._id)} className='fa-solid fa-trash-can'></i>
+                        </div>                        
+                        <i
+                            onClick={() => handleDelete(x._id)}
+                            className={`fa-solid fa-trash-can`}
+                        >
+                            {deleteLoading && (
+                                <div class="loader"></div>
+                            )}
+                        </i>
                     </div>
                 ))}
             </div>

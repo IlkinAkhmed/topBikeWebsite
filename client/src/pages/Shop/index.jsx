@@ -6,14 +6,14 @@ import ShopProducts from '../../components/ShopProducts'
 import { useSelector } from 'react-redux'
 import Modal from '../../components/ProductModal'
 
-function Shop() {
+function Shop({ isLoginOpen, setIsLoginOpen }) {
   const isModalOpen = useSelector(state => state.basket.isModalOpen)
   return (
     <>
       {/* {isModalOpen ? <Modal /> : null} */}
       <ShopHeader />
       <Collection />
-      <ShopProducts />
+      <ShopProducts isLoginOpen={isLoginOpen} setIsLoginOpen={setIsLoginOpen} />
     </>
   )
 }
