@@ -1,0 +1,53 @@
+.category {
+    width: 100%;
+    min-height: 500px;
+    padding: 40px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .categoryCard {
+        width: 32%;
+        height: 450px;
+        position: relative;
+        cursor: pointer;
+        overflow: hidden;
+
+        &:hover .cardBgImg {
+            transform: scale(1.05);
+            transition: .5s;
+        }
+        &:hover .categoryName{
+            transform: translateY(0);
+            transition: .5s;
+        }
+
+        .cardBgImg {
+
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            transition: .5s;
+            width: 100%;
+            height: 100%;
+        }
+
+        .categoryName {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            font-size: 25px;
+            padding: 20px 0;
+            text-align: center;
+            color: black;
+            background-color: rgb(255, 255, 255, 0.700);
+            transform: translateY(70px);
+            transition: .5s;
+            &:hover{
+                color: goldenrod;
+            }
+        }
+    }
+}

@@ -1,0 +1,67 @@
+.collection {
+    width: 100%;
+    height: 400px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    line-height: 2;
+    overflow: hidden;
+
+    &:hover .backImg {
+        transform: scale(1.07);
+    }
+
+    .backImg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        transition: all .5s;
+        filter: contrast(50%);
+
+    }
+
+    .top-img,
+    .bottom-img {
+        position: absolute;
+        left: 0;
+        width: 100%;
+    }
+
+    .top-img {
+        transform: rotate(180deg);
+        top: 0;
+    }
+
+    .bottom-img {
+        bottom: 0;
+    }
+
+    p {
+        font-size: 40px;
+
+    }
+
+    span {
+        letter-spacing: 2px;
+        font-size: 20px;
+    }
+
+    button {
+        cursor: pointer;
+        padding: 15px 30px;
+        border: 2px solid black;
+        background-color: transparent;
+        transition: all .5s;
+
+        &:hover {
+            background-color: goldenrod;
+            color: white;
+            border-color: goldenrod;
+            box-sizing: border-box;
+        }
+    }
+}

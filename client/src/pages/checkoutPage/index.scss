@@ -1,0 +1,171 @@
+#checkOut {
+    // height: 100vh;
+    display: flex;
+
+    .leftBox {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        // justify-content: end;
+        align-items: end;
+        padding: 50px 10px;
+        flex-direction: column;
+        border-right: 1px solid gray;
+
+        input:focus {
+            border: 3px solid rgb(25, 158, 215) !important;
+            outline: none;
+        }
+
+        #firstForm {
+            display: flex;
+            flex-direction: column;
+            width: 500px;
+            gap: 10px;
+
+            label {
+                font-size: 25px;
+            }
+
+            input {
+                width: 90%;
+                height: 50px;
+                padding: 0px 10px;
+                border-radius: 5px;
+
+            }
+            .check {
+                display: flex;
+                gap: 10px;
+
+                input {
+                    width: 17px;
+                    height: 17px;
+                }
+            }
+           
+        }
+
+        #secondForm {
+            width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            label {
+                font-size: 25px;
+            }
+
+            select {
+                height: 50px;
+                border-radius: 5px;
+            }
+
+            .normalBox {
+                width: 100%;
+                display: flex;
+                gap: 10px;
+                justify-content: space-between;
+
+                input {
+                    height: 50px;
+                    width: 50%;
+                    border-radius: 5px;
+                    padding: 0px 10px;
+                    border: 1px solid gray;
+                }
+
+            }
+            p{
+                color: rgb(25,158,215);
+                cursor: pointer;
+            }
+
+            input {
+                border-radius: 5px;
+                height: 50px;
+                padding: 0px 10px;
+                border: 1px solid gray;
+
+            }
+            .check {
+                display: flex;
+                gap: 10px;
+
+                input {
+                    width: 17px;
+                    height: 17px;
+                }
+            }
+        }
+        .shippingBox{
+            width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            p{
+                font-size: 20px;
+            }
+            .shipBox{
+                border: 3px solid rgb(25, 158, 215);
+                border-radius: 5px;
+                display: flex;
+                height: 60px;
+                padding: 0px 5px;
+                justify-content: space-between;
+                background: rgba(17, 163, 225, 0.558);
+                align-items: center;
+                p{
+                    font-size: 15px;
+                }
+            }
+        }
+        .paymentBox{
+            margin-top: 50px;
+            width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            p{
+                font-size: 25px;
+            }
+            span{
+                font-size: 15px;
+                color: gray;
+            }
+            .storeBox{
+                height: 150px;
+                background: #FAFAFA;
+    color: gray;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+                i{
+                    font-size: 40px;
+                }
+p{
+    font-size: 15px;
+}
+            }
+            .payNowBtn{
+                height: 50px;
+                background: #FAFAFA;
+                border-radius: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid gray;
+                cursor: pointer;
+                color: gray;
+            }
+        }
+    }
+
+    .rightBox {
+        background: green;
+        width: 50%;
+        height: 100%;
+
+    }
+}

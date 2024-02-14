@@ -1,0 +1,84 @@
+.store {
+    width: 100%;
+    text-align: center;
+    min-height: 1000px;
+    padding: 40px 0;
+
+    .store-head {
+        width: 50%;
+        margin: auto;
+
+        span {
+            font-size: 50px;
+        }
+
+        p {
+            font-size: 17px;
+            padding: 20px 0;
+        }
+    }
+
+    .bike-wrapper {
+        width: 75%;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 700px;
+
+        .right-bike {
+            width: 49%;
+            overflow: hidden;
+
+            &:hover img {
+                filter: grayscale(100%);
+                transform: scale(1.1);
+            }
+
+            img {
+                width: 100%;
+                transition: all .5s;
+                height: 100%;
+            }
+        }
+
+        .left-bikes {
+            width: 49%;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+
+            .img {
+                overflow: hidden;
+                width: 100%;
+
+                &:hover img {
+                    filter: grayscale(100%);
+                    transform: scale(1.1);
+                }
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+                transition: all .5s;
+            }
+        }
+    }
+
+    .store-details {
+        width: 75%;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        padding: 50px 0;
+
+        ul {
+            width: 32%;
+            line-height: 2;
+
+        }
+    }
+}

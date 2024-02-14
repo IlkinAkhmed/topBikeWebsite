@@ -1,0 +1,137 @@
+.filter-side {
+    border: 1px solid white;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-around;
+    height: 0;
+    overflow: hidden;
+    transition: all .5s;
+
+    ul {
+        width: 19%;
+
+        hr {
+            margin: 5px 0;
+            width: 50px;
+            height: 1px;
+            border: 1px solid goldenrod;
+            background-color: goldenrod;
+        }
+
+        li {
+            margin: 5px 0;
+            cursor: pointer;
+            transition: all .3s;
+            width: fit-content;
+
+            &:hover {
+                color: goldenrod;
+            }
+        }
+    }
+
+    .categories {
+        flex-direction: column;
+    }
+
+    .color {
+        flex-direction: column;
+        display: flex;
+        p{
+            cursor: pointer;
+
+            &:hover {
+                color: goldenrod;
+            }
+        }
+
+        ul {
+            display: flex;
+            gap: 10px;
+
+            li {
+                padding: 2px;
+                border-radius: 100%;
+                border: 1px solid transparent;
+
+                p {
+                    padding: 10px;
+                    border-radius: 100%;
+                }
+
+                &:hover {
+                    border: 1px solid gray;
+                }
+            }
+
+            :first-child {
+                p {
+                    background: black;
+                }
+            }
+
+            :nth-child(2) {
+                p {
+                    background-color: purple;
+                }
+            }
+
+            :nth-child(3) {
+                p {
+                    background-color: yellow;
+                }
+            }
+
+            :nth-child(4) {
+                p {
+                    background-color: green;
+                }
+            }
+
+            :nth-child(5) {
+                p {
+                    background-color: blue;
+                }
+
+            }
+
+            :nth-child(6) {
+                p {
+                    background-color: gray;
+                }
+            }
+        }
+    }
+
+    .size {
+        display: flex;
+        flex-direction: column;
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+    }
+
+    .tags {
+        ul {
+            display: flex;
+            flex-direction: column;
+
+            li {
+                display: flex;
+                margin: 2px 0;
+            }
+        }
+    }
+}
+.filterAreaOpen{
+    padding: 20px;
+    border: 1px solid gray;
+    height: fit-content!important;
+}
+
+.color-border{
+    border: 1px solid gray;
+}
