@@ -2,7 +2,7 @@ import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "../../model/UserModel/Model.js";
 import cloudinary from "../../utils/categoriesCloudinary.js";
-const PrivateKey = "wexvlj@!@#$!__++=";
+const PrivateKey = "wexvlj@!@#$!__++="; 
 
 
 

@@ -85,6 +85,10 @@ function Details() {
                                 </div>
                             </div>
                             <p>Categories: <span style={{ color: "goldenrod", fontWeight: "bold" }}>{product.category}</span></p>
+                            <div className="comment">
+                                <input type="text" placeholder='Take a comment' />
+                                <i className='fa-solid fa-paper-plane'></i>
+                            </div>
                         </div>
                     </div>
                     <div className="choose">

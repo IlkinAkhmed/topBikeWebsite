@@ -11,6 +11,7 @@ import userRouter from "./src/router/UserRouter/routes.js";
 import basketRouter from "./src/router/basketRouter/routers.js";
 import wishlistRouter from "./src/router/wishlistRouter/routers.js";
 import profileImageRouter from "./src/router/profileImage/profileImageRouter.js";
+import commentRouter from "./src/router/CommentRouter/router.js";
 const port = 7000;
 
 
@@ -30,6 +31,7 @@ app.use('/', basketRouter)
 app.use('/', userRouter)
 app.use('/', wishlistRouter)
 app.use('/', profileImageRouter)
+app.use('/', commentRouter)
 
 connect(
     "mongodb+srv://topBike:topbike123@cluster0.ghwwmer.mongodb.net/"

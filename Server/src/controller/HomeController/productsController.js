@@ -1,4 +1,4 @@
-import { Products } from "../../model/HomeController/productsModel.js"
+import { Products } from "../../model/HomeModel/productsModel.js"
 import cloudinary from "../../utils/categoriesCloudinary.js"
 
 

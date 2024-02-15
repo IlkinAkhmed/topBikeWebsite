@@ -1,4 +1,4 @@
-import { latestNews } from "../../model/HomeController/LatestNewsModel.js"
+import { latestNews } from "../../model/HomeModel/LatestNewsModel.js"
 
 export async function latestNewsPost(req, res) {
     try {

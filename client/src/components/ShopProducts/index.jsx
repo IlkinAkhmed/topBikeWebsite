@@ -97,9 +97,7 @@ function ShopProducts() {
                                 className="newCard">
                                 {item.sale ? <p className='sale'>SALE</p> : null}
                                 <div className="productIcons">
-                                    {Loading && basketOpen === false ? <div class="loader"></div> :
-                                        <i onClick={() => handleBasket(item._id)} className={`${item.basketIcon}`}></i>
-                                    }
+                                    <i onClick={() => handleBasket(item._id)} className={`${item.basketIcon}`}></i>
                                     <i onClick={() => handleWishlist(item._id)} className={wishlistArr.find(x => x.product._id === item._id && user) ? item.addedHeartIcon : item.heartIcon}></i>
                                     <i className={item.eyeIcon}></i>
                                 </div>

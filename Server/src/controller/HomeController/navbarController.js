@@ -1,4 +1,4 @@
-import { Navbar } from "../../model/HomeController/navbarModel.js"
+import { Navbar } from "../../model/HomeModel/navbarModel.js"
 
 export async function navbarPost(req, res) {
     try {

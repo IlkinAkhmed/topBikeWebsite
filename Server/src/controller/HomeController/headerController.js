@@ -1,4 +1,4 @@
-import { Header } from "../../model/HomeController/headerModel.js"
+import { Header } from "../../model/HomeModel/headerModel.js"
 
 export async function headerPost(req, res) {
     try {

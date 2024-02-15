@@ -75,34 +75,38 @@
 
 
 /* HTML: <div class="loader"></div> */
+/* HTML: <div class="loader"></div> */
 .loader {
+    width: 60px;
     position: fixed;
-    top: 50%;
+    top: 5%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-5%, -50%);
     z-index: 999;
-    width: 40px;
-    aspect-ratio: 1;
-    display: grid;
+    aspect-ratio: 2;
+    --_g: no-repeat radial-gradient(circle closest-side, orange 90%, #0000);
+    background:
+        var(--_g) 0% 50%,
+        var(--_g) 50% 50%,
+        var(--_g) 100% 50%;
+    background-size: calc(100%/3) 50%;
+    animation: l3 1s infinite linear;
 }
 
-.loader::before,
-.loader::after {
-    content: "";
-    grid-area: 1/1;
-    border-radius: 50%;
-    background: repeating-radial-gradient(farthest-side, #0000 0%, orange 1% 10%, #0000 11% 30%);
-    -webkit-mask: repeating-conic-gradient(orange 0 36deg, #0000 0 72deg);
-    animation: l19 4s infinite linear;
-}
+@keyframes l3 {
+    20% {
+        background-position: 0% 0%, 50% 50%, 100% 50%
+    }
 
-.loader::after {
-    -webkit-mask: repeating-conic-gradient(#0000 0 36deg, orange 0 72deg);
-    animation-direction: reverse;
-}
+    40% {
+        background-position: 0% 100%, 50% 0%, 100% 50%
+    }
 
-@keyframes l19 {
-    100% {
-        transform: rotate(1turn)
+    60% {
+        background-position: 0% 50%, 50% 100%, 100% 0%
+    }
+
+    80% {
+        background-position: 0% 50%, 50% 50%, 100% 100%
     }
 }

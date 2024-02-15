@@ -1,4 +1,4 @@
-import Category from '../../model/HomeController/categoryModel.js';
+import Category from '../../model/HomeModel/categoryModel.js';
 import cloudinary from '../../utils/categoriesCloudinary.js';
 
 export async function categoryPost(req, res) {

@@ -1,4 +1,4 @@
-import { Shipping } from "../../model/HomeController/shippingModel.js"
+import { Shipping } from "../../model/HomeModel/shippingModel.js"
 
 export async function shippingPost(req, res) {
     try {

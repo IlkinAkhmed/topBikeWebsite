@@ -74,6 +74,7 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
+
                     .add-button {
                         padding: 20px 0;
                         width: 45%;
@@ -109,6 +110,36 @@
                         border: 1px solid goldenrod;
                     }
                 }
+
+                .comment {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 20px;
+
+                    input {
+                        height: 40px;
+                        outline: none;
+                        border: none;
+                        border-bottom: 2px solid transparent;
+                        font-size: 1.2em;
+
+                        &:focus {
+                            border-color: orange;
+                        }
+                    }
+
+                    i {
+                        color: black;
+                        font-size: 20px;
+                        cursor: pointer;
+
+                        &:hover {
+                            color: orange;
+                        }
+                    }
+                }
             }
         }
 
@@ -118,19 +149,23 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            .choose-card{
+
+            .choose-card {
                 width: 100%;
                 padding: 20px;
                 border: 1px solid rgb(189, 189, 189);
                 line-height: 2;
                 cursor: pointer;
-                &:hover{
+
+                &:hover {
                     border-color: black;
                 }
-                p{
+
+                p {
                     color: gray;
                 }
             }
+
         }
 
     }
