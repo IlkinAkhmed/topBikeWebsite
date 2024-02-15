@@ -10,8 +10,8 @@ import { userContext } from '../../context/userContext';
 import { useNavigate } from 'react-router';
 import { jwtDecode } from "jwt-decode"
 
-function Login({ isLoginOpen, setIsLoginOpen }) {
-    const { token, setUser, setToken } = useContext(userContext);
+function Login() {
+    const { token, setUser, setToken, fetchBasketData,isLoginOpen,setIsLoginOpen } = useContext(userContext);
     const navigate = useNavigate();
 
     const [changeForm, setChangeForm] = useState(true)
@@ -30,6 +30,7 @@ function Login({ isLoginOpen, setIsLoginOpen }) {
             setUser(decoded)
             setToken(token)
             setCookie('token', token)
+            await fetchBasketData()
         } catch (error) {
             toast.error(`${error.message}`)
         }

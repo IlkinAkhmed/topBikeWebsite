@@ -259,23 +259,3 @@
 }
 
 
-
-// const handleBasket = async (id) => {
-//     try {
-//         await axios.post(`http://localhost:7000/users/${decoded._id}/addBasket`, {
-//             headers: {
-//                 Authorization: token
-//             },
-//             data: {
-//                 productId: id
-//             }
-//         })
-//         dispatch(openModal(!isModalOpen))
-//         dispatch(addId(id))
-//         toast.success(`Succes: Added to Cart`)
-
-
-//     } catch (error) {
-//         toast.error(`Error: ${error.message} `)
-//     }
-// }

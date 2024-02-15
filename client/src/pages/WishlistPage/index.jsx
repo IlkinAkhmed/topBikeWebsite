@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import WishlistHeader from '../../components/WishlistHeader'
 import "./index.scss"
 import { removeProduct } from '../../reduxSlice/wishlistSlice'
 import { Link } from 'react-router-dom'
+import { userContext } from '../../context/userContext'
 
 function Wishlist() {
 
-
-    const wishlistArr = useSelector(state => state.wishlist.value)
+    const { wishlistArr, fetchWishlistData } = useContext(userContext)
     const dispatch = useDispatch()
-
     useEffect(() => {
-        localStorage.setItem('wishlist', JSON.stringify(wishlistArr))
-    }, [wishlistArr])
+        fetchWishlistData()
+        console.log(wishlistArr)
+    }, [])
 
 
 

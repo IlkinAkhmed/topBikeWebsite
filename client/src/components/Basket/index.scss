@@ -5,12 +5,14 @@
     top: 0;
     right: 0;
     text-align: center;
-    z-index: 6;
+    z-index: 10;
     background-color: #f7f7f7;
     transform: translateX(340px);
     transition: all .5s ease;
     border-left: 1px solid black;
     overflow-y: scroll;
+
+
 
     &::-webkit-scrollbar {
         display: none;
@@ -194,45 +196,11 @@
     position: sticky !important;
 }
 
-
-/* HTML: <div class="loader"></div> */
-.loader {
-    position: absolute;
-    bottom: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 40px;
-    aspect-ratio: .75;
-    --c: no-repeat linear-gradient(orange 0 0);
-    background:
-        var(--c) 0% 50%,
-        var(--c) 50% 50%,
-        var(--c) 100% 50%;
-    animation: l7 1s infinite linear alternate;
-}
-
-@keyframes l7 {
-    0% {
-        background-size: 20% 50%, 20% 50%, 20% 50%
-    }
-
-    20% {
-        background-size: 20% 20%, 20% 50%, 20% 50%
-    }
-
-    40% {
-        background-size: 20% 100%, 20% 20%, 20% 50%
-    }
-
-    60% {
-        background-size: 20% 50%, 20% 100%, 20% 20%
-    }
-
-    80% {
-        background-size: 20% 50%, 20% 50%, 20% 100%
-    }
-
-    100% {
-        background-size: 20% 50%, 20% 50%, 20% 50%
-    }
+.basket-bg {
+    position: fixed;
+    z-index: 9;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
 }

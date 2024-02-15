@@ -1,12 +1,12 @@
 import React from 'react'
 import "./index.scss"
 
-function Register() {
+function Profile() {
   return (
-    <div className='register'>
+    <div className='profile'>
 
     </div>
   )
 }
 
-export default Register
+export default Profile

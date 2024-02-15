@@ -7,11 +7,10 @@ import { addToWishlist } from '../../reduxSlice/wishlistSlice'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
 import toast from "react-hot-toast"
-import { getCookie } from '../../../helper/cookies'
-import { jwtDecode } from "jwt-decode"
 import { userContext } from '../../context/userContext'
 
-function ShopProducts({ isLoginOpen, setIsLoginOpen }) {
+function ShopProducts() {
+    const basketOpen = useSelector((state) => state.basket.isOpen)
     const [image, setImage] = useState(null)
     const { product, isLoading } = useFetchData('products')
     const [isFilterAreOpen, setIsFilterAreOpen] = useState(false)
@@ -20,7 +19,7 @@ function ShopProducts({ isLoginOpen, setIsLoginOpen }) {
     const [colorCategory, setColorCategory] = useState('all')
     const [sizeCategory, setSizeCategory] = useState('all')
     const [priceInputValue, setpriceInputValue] = useState(0)
-    const { user } = useContext(userContext)
+    const { wishlistArr, handleBasket, handleWishlist, Loading, fetchWishlistData, user } = useContext(userContext)
 
 
     const [maxPrice, setMaxPrice] = useState(0);
@@ -32,55 +31,25 @@ function ShopProducts({ isLoginOpen, setIsLoginOpen }) {
         }
     }, [product]);
 
-
-
-
-    const [deleteLoading, setDeleteLoading] = useState(false);
-
-
-
-
-    const wishlistArr = useSelector(state => state.wishlist.value)
     const isModalOpen = useSelector(state => state.basket.isModalOpen)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     useEffect(() => {
-        setpriceInputValue(maxPrice && maxPrice + 1)
-        localStorage.setItem('wishlist', JSON.stringify(wishlistArr))
+        fetchWishlistData()
     }, [])
 
-    const token = getCookie('token')
-    const decoded = jwtDecode(token)
-    const { basketArr, fetchBasketData } = useContext(userContext)
 
-    const handleBasket = async (id) => {
-        if (user) {
-            try {
-                setDeleteLoading(true)
-                const res = await axios.post(`http://localhost:7000/users/${decoded._id}/addBasket`, {
-                    productId: id
-                })
-                // dispatch(openModal(!isModalOpen))
-                // dispatch(addId(id))
-                res.status === 201 ? toast.success('Already in Cart, Count increased') : toast.success('Added To Cart')
-                setDeleteLoading(false)
-                await fetchBasketData()
 
-            } catch (error) {
-                toast.error(`Error: ${error.message} `)
-            }
-        } else {
-            setIsLoginOpen(!isLoginOpen)
-        }
-    }
+
 
 
 
 
     return (
         <section className='shop-products'>
+            {Loading && basketOpen === false ? <div class="loader"></div> : null}
             <div className="filter-area">
                 <div onClick={() => setIsFilterAreOpen(!isFilterAreOpen)} className="filter">
                     <i className="fa-solid fa-filter"></i>
@@ -128,9 +97,10 @@ function ShopProducts({ isLoginOpen, setIsLoginOpen }) {
                                 className="newCard">
                                 {item.sale ? <p className='sale'>SALE</p> : null}
                                 <div className="productIcons">
-
-                                    <i onClick={() => handleBasket(item._id)} className={`${deleteLoading ? 'loader' : item.basketIcon}`}>                                    </i>
-                                    <i onClick={() => dispatch(addToWishlist(item))} className={wishlistArr.find(x => x._id === item._id) ? item.addedHeartIcon : item.heartIcon}></i>
+                                    {Loading && basketOpen === false ? <div class="loader"></div> :
+                                        <i onClick={() => handleBasket(item._id)} className={`${item.basketIcon}`}></i>
+                                    }
+                                    <i onClick={() => handleWishlist(item._id)} className={wishlistArr.find(x => x.product._id === item._id && user) ? item.addedHeartIcon : item.heartIcon}></i>
                                     <i className={item.eyeIcon}></i>
                                 </div>
                                 <div className="img">

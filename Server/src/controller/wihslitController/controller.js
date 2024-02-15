@@ -15,7 +15,7 @@ export const addToWishlist = async (req, res) => {
         if (product) {
             user.wishlist = user.wishlist.filter(item => !item.product._id.equals(productId));
             await user.save();
-            res.status(200).send("Product Deleted from Wishlist");
+            res.status(201).send("Product Deleted from Wishlist");
             return;
         }
 
@@ -54,7 +54,7 @@ export const deleteDataFromWishlist = async (req, res) => {
             res.status(404).send("User Not Found")
             return
         }
-        user.wishlist = user.wishlist.filter(x => x._id != productId)
+        user.wishlist = user.wishlist.filter(item => !item.product._id.equals(productId));
         await user.save()
         res.status(200).send("Product Deleted")
 

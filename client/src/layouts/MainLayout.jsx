@@ -4,10 +4,10 @@ import { Outlet } from "react-router-dom"
 import Navbar from './Navbar'
 import Basket from '../components/Basket'
 
-function MainLayout({ isLoginOpen, setIsLoginOpen }) {
+function MainLayout() {
     return (
         <>
-            <Navbar isLoginOpen={isLoginOpen} setIsLoginOpen={setIsLoginOpen} />
+            <Navbar  />
             <Basket />
             <Outlet />
             <Footer />
