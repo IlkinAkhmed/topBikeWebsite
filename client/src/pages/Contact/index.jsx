@@ -1,12 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ContactHeader from '../../components/ContactHeader'
 import Form from '../../components/ContactForm'
+import Loading from '../Loading'
 
-function Contact() {
+function Contact({ loading, setLoading }) {
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    setLoading(true)
+  }, [])
   return (
     <>
-      <ContactHeader/>
-      <Form/>
+      {loading ? <Loading /> :
+        <>
+          <ContactHeader />
+          <Form />
+        </>
+      }
     </>
   )
 }

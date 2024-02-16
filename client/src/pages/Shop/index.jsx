@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import "./index.scss"
 import ShopHeader from '../../components/ShopHeader'
 import Collection from '../../components/ShowCollection'
@@ -6,15 +6,30 @@ import ShopProducts from '../../components/ShopProducts'
 import { useSelector } from 'react-redux'
 import Modal from '../../components/ProductModal'
 import { userContext } from '../../context/userContext'
+import Loading from '../Loading'
 
-function Shop() {
+function Shop({ loading, setLoading }) {
   const isModalOpen = useSelector(state => state.basket.isModalOpen)
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    setLoading(true)
+  }, [])
   return (
+
     <>
-      {/* {isModalOpen ? <Modal /> : null} */}
-      <ShopHeader />
-      <Collection />
-      <ShopProducts />
+      {loading ? <Loading /> :
+        (
+          <>
+            {isModalOpen ? <Modal /> : null}
+            <ShopHeader />
+            <Collection />
+            <ShopProducts />
+          </>
+
+        )
+      }
     </>
   )
 }

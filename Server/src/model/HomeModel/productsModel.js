@@ -16,10 +16,9 @@ const bikeProductSchema = new Schema(
         category: { type: String },
         color: { type: String },
         size: { type: String },
-        comment: [
+        commentsCollection: [
             {
-                text: { type: String },
-                user: { type: mongoose.Schema.Types.ObjectId, ref: "topBikeUser" },
+                comment: { type: mongoose.Schema.Types.ObjectId, ref: "topBikeComments" },
             }
         ]
 

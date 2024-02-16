@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CartHeader from '../../components/CartHeader';
 import CartProduct from '../../components/CartProducts';
+import Loading from '../Loading';
 
-function Cart() {
+function Cart({ loading, setLoading }) {
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+        setLoading(true)
+    }, [])
     return (
         <>
-            <CartHeader />
-            <CartProduct />
+            {loading ? <Loading /> :
+                <>
+                    <CartHeader />
+                    <CartProduct />
+                </>
+
+            }
         </>
     )
 }

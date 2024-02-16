@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router'
 import axios from 'axios'
 import toast from "react-hot-toast"
 import { userContext } from '../../context/userContext'
+import { addId, openModal } from '../../reduxSlice/basketSlice'
 
 function ShopProducts() {
     const basketOpen = useSelector((state) => state.basket.isOpen)
@@ -94,10 +95,11 @@ function ShopProducts() {
                         .filter(item => item.color === colorCategory || colorCategory === 'all')
                         .map((item) => (
                             <div
+                                key={item._id}
                                 className="newCard">
                                 {item.sale ? <p className='sale'>SALE</p> : null}
                                 <div className="productIcons">
-                                    <i onClick={() => handleBasket(item._id)} className={`${item.basketIcon}`}></i>
+                                    <i onClick={() => { handleBasket(item._id), user && dispatch(openModal(!isModalOpen)), user && dispatch(addId(item._id)) }} className={`${item.basketIcon}`}></i>
                                     <i onClick={() => handleWishlist(item._id)} className={wishlistArr.find(x => x.product._id === item._id && user) ? item.addedHeartIcon : item.heartIcon}></i>
                                     <i className={item.eyeIcon}></i>
                                 </div>

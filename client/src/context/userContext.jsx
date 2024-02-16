@@ -10,6 +10,7 @@ function UserProvider({ children }) {
     const [basketArr, setBasketArr] = useState([])
     const [Loading, setLoading] = useState(false);
     const [wishlistArr, setWishlistArr] = useState([])
+
     const [token, setToken] = useState(
         getCookie('token')
             ? getCookie('token')
@@ -20,8 +21,8 @@ function UserProvider({ children }) {
             : null
     );
 
-
     localStorage.setItem("user", JSON.stringify(user));
+
 
     const decoded = token && jwtDecode(token)
 
@@ -74,6 +75,8 @@ function UserProvider({ children }) {
             setIsLoginOpen(!isLoginOpen)
         }
     }
+
+
 
     const data = {
         decoded,

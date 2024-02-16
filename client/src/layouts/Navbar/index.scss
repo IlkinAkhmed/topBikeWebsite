@@ -79,7 +79,45 @@ nav {
         cursor: pointer;
         transition: 0.3s;
 
-        .fa-bag-shopping,.fa-heart {
+        .profile-img {
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            .profile-sub-menu {
+                z-index: 10;
+                opacity: 0;
+                visibility: hidden;
+                position: absolute;
+                background-color: white;
+                width: 200px;
+                height: 100px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 10px;
+                padding: 10px;
+                border-radius: 5px;
+                top: 50px;
+                left: -20px;
+                color: black;
+                transition: all .3s;
+
+                div {
+                    display: flex;
+                    gap: 10px;
+                    font-size: 0.7em;
+                    color: rgb(74, 74, 74);
+
+                    &:hover {
+                        color: orange;
+                    }
+                }
+            }
+        }
+
+        .fa-bag-shopping,
+        .fa-heart {
             position: relative;
 
             .cartMessage {
@@ -99,6 +137,7 @@ nav {
             color: #ffab00;
             transition: 0.3s;
         }
+
     }
 }
 
@@ -107,4 +146,9 @@ nav {
     position: fixed;
     top: 0;
     left: 0;
+}
+
+.profileActive {
+    opacity: 1 !important;
+    visibility: visible !important;
 }

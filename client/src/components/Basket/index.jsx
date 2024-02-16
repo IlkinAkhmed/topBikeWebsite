@@ -74,7 +74,7 @@ function Basket() {
 
     return (
         <>
-            {basketOpen && <div className="basket-bg" onClick={() => dispatch(openBasket(!basketOpen))}></div>}
+            {basketOpen && <div className="overLay" onClick={() => dispatch(openBasket(!basketOpen))}></div>}
             <div className={`basket ${basketOpen ? 'basket-open' : ''}`}>
                 <div className="basket-head">
                     <i onClick={() => dispatch(openBasket(!basketOpen))} className='fa-solid fa-xmark'></i>

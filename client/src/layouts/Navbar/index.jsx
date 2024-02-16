@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import axios from "axios"
 import "./index.scss"
 import { NavLink, useNavigate } from 'react-router-dom'
+import Cookies from 'js-cookie';
 import useFetchData from '../../hooks/useFetchData'
 import { useDispatch, useSelector } from 'react-redux'
 import { openBasket } from '../../reduxSlice/basketSlice'
@@ -10,10 +11,9 @@ import { userContext } from '../../context/userContext'
 import toast from 'react-hot-toast'
 
 function Navbar() {
-  const { user, setUser, basketArr,isLoginOpen,setIsLoginOpen } = useContext(userContext);
+  const { user, setToken, setUser, basketArr, isLoginOpen, setIsLoginOpen, wishlistArr, fetchWishlistData } = useContext(userContext);
 
   const basketOpen = useSelector((state) => state.basket.isOpen)
-  const wishlistArr = useSelector((state) => state.wishlist.value)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -21,9 +21,13 @@ function Navbar() {
 
 
   const [isSearchOpen, setisSearchOpen] = useState(false)
+  const [isLoginDropDownOpen, setIsLoginDropDownOpen] = useState(false)
   const [scroll, setScroll] = useState(false);
 
 
+  useEffect(() => {
+    fetchWishlistData()
+  }, [])
 
   function handleScroll() {
     if (window.scrollY > 120) {
@@ -33,8 +37,17 @@ function Navbar() {
     }
   }
 
+  const handleLogout = () => {
+    Cookies.remove('token');
+    setUser(null);
+    setToken(null);
+    toast.success('Logged Out');
+    setIsLoginDropDownOpen(false);
+  };
+
 
   useEffect(() => {
+
     window.addEventListener('scroll', handleScroll)
     return () => {
       window.removeEventListener('scroll', handleScroll)
@@ -81,7 +94,36 @@ function Navbar() {
             {
               user
                 ?
-                <img onClick={() => { setUser(null), toast.success('Log Outed') }} style={{ width: "30px", height: "30px", borderRadius: "50%" }} src={`${user.profileImg ? user.profileImg : "https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg"}`} alt="" />
+                <div className='profile-img'>
+                  {isLoginDropDownOpen && <div className="overLay" onClick={() => setIsLoginDropDownOpen(!isLoginDropDownOpen)} ></div>}
+
+                  <img
+                    onClick={() => setIsLoginDropDownOpen(!isLoginDropDownOpen)}
+                    style={{ width: "30px", height: "30px", borderRadius: "50%" }}
+                    src={`${user.profileImg
+                      ?
+                      user.profileImg
+                      :
+                      "https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg"}`}
+                    alt="" />
+                  <div className={`profile-sub-menu ${isLoginDropDownOpen && 'profileActive'}`}>
+
+                    <div>
+                      <i className='fa-solid fa-user'></i>
+                      <p>Profile</p>
+                    </div>
+                    <div onClick={handleLogout}>
+                      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                      <p>Log Out</p>
+                    </div>
+                    <div>
+                      <i class="fa-regular fa-image"></i>
+                      <p>Change Profile Image</p>
+                    </div>
+
+                  </div>
+
+                </div>
                 :
                 <i onClick={() => setIsLoginOpen(!isLoginOpen)} className={item.navIcons[0]}></i>
             }
@@ -95,12 +137,13 @@ function Navbar() {
                 {user && basketArr.length}
               </div>
             </i>
-          </div>
+          </div >
 
         </>
-      ))}
+      ))
+      }
       <Search isSearchOpen={isSearchOpen} setisSearchOpen={setisSearchOpen} />
-    </nav>
+    </nav >
   )
 }
 

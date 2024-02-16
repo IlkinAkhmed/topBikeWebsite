@@ -19,6 +19,8 @@ function App() {
 
   const { isLoginOpen } = useContext(userContext)
 
+  const [loading, setLoading] = useState(true)
+
   return (
     <><Toaster
       position="top-left"
@@ -26,22 +28,22 @@ function App() {
     />
       {isLoginOpen ? <Login /> : null}
       <Routes>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<HomePage />} />
+        <Route element={<MainLayout loading={loading} setLoading={setLoading} />}>
+          <Route path="/" element={<HomePage loading={loading} setLoading={setLoading} />} />
           <Route element={<PrivateRoute check={["user", "admin"]} />}>
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/contact" element={<Contact loading={loading} setLoading={setLoading} />} />
+            <Route path="/cart" element={<Cart loading={loading} setLoading={setLoading} />} />
+            <Route path="/wishlist" element={<Wishlist loading={loading} setLoading={setLoading} />} />
           </Route>
           <Route element={<PrivateRoute check={["admin"]} />}>
             {/* <Route path="/admin" element={<Admin />} /> */}
           </Route>
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/details/:id" element={<Details />} />
+          <Route path="/shop" element={<Shop loading={loading} setLoading={setLoading} />} />
+          <Route path="/about" element={<About loading={loading} setLoading={setLoading} />} />
+          <Route path="/blog" element={<Blog loading={loading} setLoading={setLoading} />} />
+          <Route path="/details/:id" element={<Details loading={loading} setLoading={setLoading} />} />
         </Route>
-        <Route path="/checkout" element={<CheckOut />} />
+        <Route path="/checkout" element={<CheckOut loading={loading} setLoading={setLoading} />} />
       </Routes>
     </>
   )

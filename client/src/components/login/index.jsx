@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router';
 import { jwtDecode } from "jwt-decode"
 
 function Login() {
-    const { token, setUser, setToken, fetchBasketData,isLoginOpen,setIsLoginOpen } = useContext(userContext);
+    const { token, setUser, setToken, fetchBasketData, isLoginOpen, setIsLoginOpen } = useContext(userContext);
     const navigate = useNavigate();
 
     const [changeForm, setChangeForm] = useState(true)
@@ -22,14 +22,27 @@ function Login() {
     const handleLogin = async (values) => {
         try {
             const res = await axios.post('http://localhost:7000/login', values)
-            setCookie("token", res.data, "600h")
-            toast.success('Successfully logined!')
-            setIsLoginOpen(!isLoginOpen)
-            const token = res.data;
+            toast.success('Successfully Logined!')
+            setToken(res.data)
+            setCookie("token", token, "600h")
             const decoded = jwtDecode(token);
             setUser(decoded)
-            setToken(token)
-            setCookie('token', token)
+            setIsLoginOpen(!isLoginOpen)
+            await fetchBasketData()
+        } catch (error) {
+            toast.error(`${error.message}`)
+        }
+    }
+
+    const handleRegister = async (values) => {
+        try {
+            const res = await axios.post('http://localhost:7000/register', values)
+            toast.success('Successfully Registered!')
+            setToken(res.data)
+            setCookie("token", token, "600h")
+            const decoded = jwtDecode(token);
+            setUser(decoded)
+            setIsLoginOpen(!isLoginOpen)
             await fetchBasketData()
         } catch (error) {
             toast.error(`${error.message}`)
@@ -102,9 +115,10 @@ function Login() {
                                     .min(8, 'Must be 8 characters or more')
                                     .required('Required')
                             })}
-                            onSubmit={(values, { setSubmitting }) => {
+                            onSubmit={(values, { setSubmitting, resetForm }) => {
+                                handleRegister(values)
+                                resetForm()
                                 setTimeout(() => {
-                                    alert(JSON.stringify(values, null, 2));
                                     setSubmitting(false);
                                 }, 400);
                             }}

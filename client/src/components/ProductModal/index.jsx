@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { openModal } from '../../reduxSlice/basketSlice'
@@ -10,6 +10,7 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import { FreeMode, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { userContext } from '../../context/userContext'
 
 
 
@@ -20,6 +21,8 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 
 
 function Modal() {
+    const { basketArr } = useContext(userContext)
+
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -28,8 +31,6 @@ function Modal() {
     const [data, setData] = useState([])
 
 
-    const basketArr = useSelector(state => state.basket.cart)
-    const isModalOpen = useSelector(state => state.basket.isModalOpen)
 
 
 
@@ -39,16 +40,19 @@ function Modal() {
         const res = await axios.get('http://localhost:7000/products')
         setData(res.data)
     }
+
     useEffect(() => {
         fetchData()
     }, [])
 
 
+    const isModalOpen = useSelector(state => state.basket.isModalOpen)
     const id = useSelector(state => state.basket.id)
-    const findedDataInCart = basketArr.find(x => x._id === id)
+    const findedDataInCart = id && basketArr.find(x => x.product._id === id)
+    console.log('first', findedDataInCart);
 
 
-    const subTotal = basketArr.reduce((initial, products) => initial + parseInt(products.total), 0)
+    const subTotal = basketArr.reduce((initial, data) => initial + parseInt(data.product.newPrice), 0)
 
 
 
@@ -62,13 +66,13 @@ function Modal() {
                         <div className="added">
                             <p>
                                 <i className='fa-solid fa-check'></i>
-                                {findedDataInCart && findedDataInCart.count !== 1 ? 'Already In Cart!!!. Count Of Product Increased' : 'Added To Cart Sucessfully'}
+                                {findedDataInCart.product && findedDataInCart.product.count !== 1 ? 'Already In Cart!!!. Count Of Product Increased' : 'Added To Cart Sucessfully'}
                             </p>
-                            <img src={findedDataInCart && findedDataInCart.img[0]} alt="" />
-                            <h5>{findedDataInCart && findedDataInCart.title}</h5>
-                            <p>Price: <span style={{ color: "goldenrod" }}>${findedDataInCart && findedDataInCart.newPrice}.00</span></p>
-                            <p>QTY: <span style={{ color: "goldenrod" }}>{findedDataInCart && findedDataInCart.count}</span></p>
-                            <p>Product Total: <span style={{ color: "goldenrod" }}>${findedDataInCart && findedDataInCart.total}.00</span></p>
+                            <img src={findedDataInCart.product && findedDataInCart.product.img[0]} alt="" />
+                            <h5>{findedDataInCart.product && findedDataInCart.product.title}</h5>
+                            <p>Price: <span style={{ color: "goldenrod" }}>${findedDataInCart.product && findedDataInCart.product.newPrice}.00</span></p>
+                            <p>QTY: <span style={{ color: "goldenrod" }}>{findedDataInCart.product && findedDataInCart.product.count}</span></p>
+                            <p>Product Total: <span style={{ color: "goldenrod" }}>${findedDataInCart.product && findedDataInCart.product.total}.00</span></p>
                         </div>
                         <div className="continue">
                             <p>There are <span style={{ color: "goldenrod" }}>{basketArr.length}</span> items in  your cart</p>
@@ -76,13 +80,12 @@ function Modal() {
                             <button onClick={() => dispatch(openModal(!isModalOpen))}>CONTINUE SHOPPING</button>
                             <button onClick={() => { dispatch(openModal(!isModalOpen)), navigate('/cart') }}>GO TO CART</button>
                             <p>
-                                <input onChange={() => setIsChecked(!isChecked)} type="checkbox" />
+                                <input style={{ marginRight: "10px", cursor: "pointer" }} onChange={() => setIsChecked(!isChecked)} type="checkbox" />
                                 Agree with term and conditional.
                             </p>
                             <button
                                 onClick={() => { navigate('/checkout'), dispatch(openModal(!isModalOpen)) }}
                                 disabled={!isChecked}
-
                                 className={`${isChecked ? '' : 'disabled-button'}`}
                             >
                                 PROCEED TO CHECKOUT
@@ -90,7 +93,7 @@ function Modal() {
                         </div>
                     </div>
                     <div className="bottom">
-                        <i style={{ fontSize: '1.3em', fontWeight: 'bold' }}>You can aslo buy other <span style={{ color: "goldenrod" }}>{findedDataInCart.category}'s:</span></i>
+                        <i style={{ fontSize: '1.3em', fontWeight: 'bold' }}>You can aslo buy other <span style={{ color: "goldenrod" }}>{findedDataInCart.product.category}'s:</span></i>
                         <Swiper
                             slidesPerView={3}
                             spaceBetween={50}
@@ -103,7 +106,7 @@ function Modal() {
                         >
                             {
                                 data
-                                    .filter(x => x.category === findedDataInCart.category)
+                                    .filter(x => x.category === findedDataInCart.product.category)
                                     .map(item => (
                                         <SwiperSlide className={'modal-card'}>
                                             <div className="modal-img">

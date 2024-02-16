@@ -4,6 +4,6 @@ const wishlistRouter = Router();
 
 wishlistRouter.get('/users/:userId/wishlist', getWishlistData);
 wishlistRouter.post('/users/:userId/addWishlist', addToWishlist);
-wishlistRouter.post("/users/:userId/deletewish", deleteDataFromWishlist);
+wishlistRouter.delete("/users/:userId/deletewish", deleteDataFromWishlist);
 
 export default wishlistRouter;

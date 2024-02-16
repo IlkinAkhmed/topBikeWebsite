@@ -1,17 +1,25 @@
 import jwt from 'jsonwebtoken';
+import Comment from '../../model/CommentModel/model.js';
 import { Products } from '../../model/HomeModel/productsModel.js';
-import { User } from '../../model/UserModel/Model.js';
 const PrivateKey = "wexvlj@!@#$!__++=";
 
 
 
+// ---------------------------------COMMENT------------------------------------------
 
 export async function postComment(req, res) {
     try {
         const { productId, } = req.params
-        const { text, userId } = req.body
+        const { text } = req.body
         const product = await Products.findById(productId)
-        product.comment.push({ user: userId, text })
+        const token = req.headers.authorization;
+        const decoded = jwt.verify(token, PrivateKey);
+        const comment = new Comment({
+            text: text,
+            from: decoded
+        })
+        await comment.save()
+        product.commentsCollection.push({ comment: comment._id });
         await product.save()
         res.status(201).send('comment created successfully');
     } catch (err) {
@@ -22,8 +30,17 @@ export async function postComment(req, res) {
 export async function getAllCommentsOfProduct(req, res) {
     try {
         const { productId } = req.params
-        const product = await Products.findById(productId)
-        res.status(200).send(product.comment);
+        const product = await Products.findById(productId).populate("commentsCollection.comment")
+        res.status(200).send(product.commentsCollection);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
+
+export async function getAllComments(req, res) {
+    try {
+        const comments = await Comment.find({})
+        res.status(200).send(comments);
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -41,11 +58,11 @@ export async function deleteComment(req, res) {
                 res.status(404).send("Product Not Found")
                 return
             }
-            product.comment = product.comment.filter(x => x._id.toString() !== commentId)
+            product.commentsCollection = product.commentsCollection.filter(x => x._id.toString() !== commentId)
             await product.save()
-            res.status(200).send('Comment Updated')
+            res.status(200).send('Comment Deleted')
         } else {
-            res.status(406).send('You have not access to update Comment')
+            res.status(406).send('You have not access to delete Comment')
         }
 
     } catch (error) {
@@ -56,7 +73,7 @@ export async function deleteComment(req, res) {
 export async function updateComment(req, res) {
     try {
         const { commentId } = req.params
-        const { userId, productId,text } = req.body
+        const { userId, productId, text } = req.body
         const product = await Products.findById(productId)
         const token = req.headers.authorization;
         const decoded = jwt.verify(token, PrivateKey);
@@ -65,14 +82,95 @@ export async function updateComment(req, res) {
                 res.status(404).send("Product Not Found")
                 return
             }
-            const findedComment = product.comment.find(x => x._id.toString() === commentId)
+            const findedComment = product.commentsCollection.find(x => x._id.toString() === commentId)
             findedComment.text = text
             await product.save()
-            res.status(200).send('Comment Deleted')
+            res.status(200).send('Comment Updated')
         } else {
-            res.status(406).send('You have not access to delete Comment')
+            res.status(406).send('You have not access to update Comment')
         }
 
+    } catch (error) {
+        res.status(500).send(error.message);
+
+    }
+}
+
+
+
+// ---------------------------------REPLY------------------------------------------
+
+export const replyComment = async (req, res) => {
+    try {
+        const { commentId } = req.params
+        const { text } = req.body
+        const token = req.headers.authorization;
+        const decoded = jwt.verify(token, PrivateKey);
+        const comment = await Comment.findById(commentId)
+        comment.replies.push({ text, from: decoded })
+        await comment.save();
+        res.status(201).send("reply added");
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
+
+
+export const getAllRepliesOfComment = async (req, res) => {
+    try {
+        const { commentId } = req.params
+        const comment = await Comment.findById(commentId)
+        res.status(200).send(comment.replies)
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
+
+
+export async function deleteReply(req, res) {
+    try {
+        const { replyId } = req.params
+        const { userId, commentId } = req.body
+        const comment = await Comment.findById(commentId)
+        const token = req.headers.authorization;
+        const decoded = jwt.verify(token, PrivateKey);
+        if (decoded.role === 'admin' || decoded._id === userId) {
+            if (!comment) {
+                res.status(404).send("Comment Not Found")
+                return
+            }
+            comment.replies = comment.replies.filter(x => x._id.toString() !== replyId)
+            await comment.save()
+            res.status(200).send('Reply Deleted')
+        } else {
+            res.status(406).send('You have not access to delete Reply')
+        }
+
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
+
+
+export async function updateReply(req, res) {
+    try {
+        const { replyId } = req.params
+        const { userId, commentId, text } = req.body
+        const comment = await Comment.findById(commentId)
+        const token = req.headers.authorization;
+        const decoded = jwt.verify(token, PrivateKey);
+        if (decoded.role === 'admin' || decoded._id === userId) {
+            if (!comment) {
+                res.status(404).send("Reply Not Found")
+                return
+            }
+            const findedReply = comment.replies.find(x => x._id.toString() === replyId)
+            findedReply.text = text
+            await comment.save()
+            res.status(200).send('Reply Updated')
+        } else {
+            res.status(406).send('You have not access to update Reply')
+        }
     } catch (error) {
         res.status(500).send(error.message);
 

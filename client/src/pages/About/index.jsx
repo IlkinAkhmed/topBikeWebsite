@@ -1,17 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AboutHeader from '../../components/AboutHeader'
 import Store from '../../components/AboutStore'
 import Teams from '../../components/AboutTeams'
 import Unique from '../../components/AboutUnique'
 import "./index.scss"
+import Loading from '../Loading'
 
-function About() {
+function About({ loading, setLoading }) {
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    setLoading(true)
+  }, [])
   return (
     <>
-      <AboutHeader />
-      <Unique />
-      <Teams />
-      <Store />
+      {loading ? <Loading /> :
+        (
+          <>
+            <AboutHeader />
+            <Unique />
+            <Teams />
+            <Store />
+          </>
+
+        )
+      }
+
     </>
   )
 }

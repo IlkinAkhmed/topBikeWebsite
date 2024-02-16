@@ -58,7 +58,7 @@ export async function updateProduct(req, res) {
 // GET ALL
 export async function GetAllproductItems(req, res) {
     try {
-        const items = await Products.find({})
+        const items = await Products.find({}).populate("commentsCollection.comment")
         res.status(200).send(items)
     } catch (error) {
         res.status(500).send(error.message)

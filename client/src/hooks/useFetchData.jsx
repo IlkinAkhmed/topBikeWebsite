@@ -15,7 +15,6 @@ function useFetchData(urlTitle) {
     useEffect(() => {
         fetchData()
         setisLoading(false)
-        console.log(product)
     }, [])
 
 
