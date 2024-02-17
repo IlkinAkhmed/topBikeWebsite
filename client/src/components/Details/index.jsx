@@ -14,14 +14,14 @@ function Details({ pageLoading, setPageLoading }) {
     const [product, setProduct] = useState(null)
     const { wishlistArr, handleBasket, handleWishlist, user, isLoading } = useContext(userContext)
 
-const [OpenCommentBox, setOpenCommentBox] = useState(false)
+    const [OpenCommentBox, setOpenCommentBox] = useState(false)
 
     const { id } = useParams()
     const navigate = useNavigate()
 
-function handleOpenComment() {
-    setOpenCommentBox(!OpenCommentBox)
-}
+    function handleOpenComment() {
+        setOpenCommentBox(!OpenCommentBox)
+    }
 
 
     async function fetchData() {
@@ -50,7 +50,6 @@ function handleOpenComment() {
 
 
 
-
     const basketOpen = useSelector((state) => state.basket.isOpen)
     return (
         <>
@@ -64,7 +63,7 @@ function handleOpenComment() {
                             product && <section className='details'>
                                 {isLoading && basketOpen === false ? <div class="loader"></div> : null}
                                 <div className="det-head">
-                                    <Comment OpenCommentBox={OpenCommentBox} handleOpenComment={handleOpenComment} />
+                                    <Comment OpenCommentBox={OpenCommentBox} handleOpenComment={handleOpenComment} id={id} />
                                     <img className='backImg' src="https://topbike-store-demo.myshopify.com/cdn/shop/files/slider2.jpg?v=1613576060" alt="" />
                                     <h3>Home <span style={{ color: "goldenrod" }}>{`> ${product.title}`}</span> </h3>
                                     <img className='bottom-img' src={image} alt="" />
@@ -77,10 +76,16 @@ function handleOpenComment() {
                                         <div className="det-texts">
                                             <div className="det-name">
                                                 <h3>{product.title}</h3>
-                                             <div className="icon">
-                                             <i class="fa-regular fa-comment" onClick={handleOpenComment}></i>
-                                                <i onClick={() => handleWishlist(product._id)} className={wishlistArr.find(x => x.product._id === id) && user ? product.addedHeartIcon : product.heartIcon}></i>
-                                             </div>
+                                                <div className="icon">
+                                                    <div className='comment-icon'>
+                                                        <div className="description">
+                                                            <p>Add Comment</p>
+                                                            <i class="fa-solid fa-caret-down"></i>
+                                                        </div>
+                                                        <i class="fa-regular fa-comment" onClick={handleOpenComment}></i>
+                                                    </div>
+                                                    <i onClick={() => handleWishlist(product._id)} className={wishlistArr.find(x => x.product._id === id) && user ? product.addedHeartIcon : product.heartIcon}></i>
+                                                </div>
                                             </div>
                                             <p style={{ color: "goldenrod", fontSize: "1.3em", fontWeight: "bold" }}>${product.newPrice}.00 USD</p>
                                             <p style={{ color: "gray", fontSize: "1.3em" }}>
@@ -101,10 +106,6 @@ function handleOpenComment() {
                                                 </div>
                                             </div>
                                             <p>Categories: <span style={{ color: "goldenrod", fontWeight: "bold" }}>{product.category}</span></p>
-                                            <div className="comment">
-                                                <input type="text" placeholder='Take a comment' />
-                                                <i className='fa-solid fa-paper-plane'></i>
-                                            </div>
                                         </div>
                                     </div>
                                     <div className="choose">

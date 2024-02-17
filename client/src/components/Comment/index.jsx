@@ -1,96 +1,125 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './Comment.scss'
+import axios from 'axios'
+import { userContext } from '../../context/userContext'
+import toast from 'react-hot-toast'
 
-function Comment({OpenCommentBox, handleOpenComment}) {
+function Comment({ OpenCommentBox, handleOpenComment, id }) {
+    const { user, token } = useContext(userContext)
+    const [commentsOfProduct, setCommentsOfProduct] = useState([])
+    const [count, setCount] = useState(0)
+    const [isReplyOpen, setIsReplyOpen] = useState(false)
+    const [text, setText] = useState('')
+
+    console.log(user)
+
+    const fetchComment = async () => {
+        const res = await axios.get(`http://localhost:7000/products/${id}/comments`)
+        setCommentsOfProduct(res.data)
+    }
+
+    const postComment = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post(`http://localhost:7000/products/${id}/addComment`, {
+                text: text,
+            }, {
+                headers: {
+                    Authorization: token
+                },
+            });
+            setText("");
+            toast.success('Comment Added Successfully');
+            await fetchComment();
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
+
+
+    useEffect(() => {
+        fetchComment()
+    }, [])
     return (
-        <div className={`commentBox ${OpenCommentBox ? "open":''}`}>
-            <div className="upBox">
-                <div className="countBox">100</div>
-                <div className="commentTextBox">
-                    Comments
-                </div>
-                <div className="deleteBtn" onClick={handleOpenComment}>
-                    <i class="fa-solid fa-xmark"></i>
-                </div>
-            </div>
-            <div className="middleBox">
-                <div className="peopleCommentBox">
-                    <div className="imgBox">
-                        <div className="peopleBox">
-                            <img src="https://b.fssta.com/uploads/application/soccer/headshots/713.png" alt="" />
-                        </div>
+        <>
+            {OpenCommentBox && <div className="overLay" onClick={handleOpenComment}></div>}
+            <div className={`commentBox ${OpenCommentBox ? "open" : ''}`}>
+                <div className="upBox">
+                    <div className="countBox">{commentsOfProduct.length + parseInt(count)}</div>
+                    <div className="commentTextBox">
+                        Comments
                     </div>
-                    <div className="normalBox">
-                        <div className="emailBox">
-                            <p style={{ color: "blue" }}>Salam@shaaskdoask.com</p>
-                            <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. lorem </span>
-                            <div className="heartBox">
-                                <p>10</p>
-                                <i class="fa-regular fa-heart"></i>
-                            </div>
-                            <div className="replayBtn">
-                                <i class="fa-solid fa-reply"></i>
-                            </div>
-                        </div>
-                        <div className="replayBox">
-                            <div className="width">
-                                <div className="replayImgBox">
-                                    <img src="https://media.gq-magazine.co.uk/photos/63a477939733c9d888e506b9/1:1/w_1436,h_1436,c_limit/Screenshot%202022-12-22%20at%2015.27.06.png" alt="" />
+                    <div className="deleteBtn" onClick={handleOpenComment}>
+                        <i className="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+                <div className="middleBox">
+                    {!user && <div className='covering'></div>}
+                    {commentsOfProduct && commentsOfProduct.map(x => (
+                        <div className="peopleCommentBox" key={x.comment._id}>
+                            <div className="imgBox">
+                                <div className="peopleBox">
+                                    <img
+                                        src={`${x.comment.from.profileImg
+                                            ?
+                                            x.comment.from.profileImg
+                                            :
+                                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8QATbxHgFvoPhdxKFIcSQragjLC6BcCo9FiU0koLh0FGzL3FocfsauUs53dAHfKCecaA&usqp=CAU"}`}
+                                        alt=""
+                                    />
                                 </div>
                             </div>
-                            <div className="Box">
-                                <p style={{ color: "blue" }}>Salam@shaaskdoask.com</p>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
-                            </div>
-                            <div className="heartBox">
-                                <span>10</span>
-                                <i class="fa-regular fa-heart"></i>
-                            </div>
-                        </div>
-                        <div className="replayBox">
-                            <div className="width">
-                                <div className="replayImgBox">
-                                    <img src="https://pyxis.nymag.com/v1/imgs/928/99b/132f4571ae588e791568e45f01efc5edd8-angelina-jolie.1x.rsquare.w1400.jpg" alt="" />
+                            <div className="normalBox">
+                                <div className="emailBox">
+                                    <p style={{ color: "blue" }}>{x.comment.from.email}</p>
+                                    <span>{x.comment.text}</span>
+                                    <div className="heartBox">
+                                        <p>1</p>
+                                        <i className="fa-regular fa-heart"></i>
+                                    </div>
+                                    <div className="replayBtn">
+                                        <i className="fa-solid fa-reply"></i>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="Box">
-                                <p style={{ color: "blue" }}>Salam@shaaskdoask.com</p>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis harum itaque quibusdam quidem sunt rem. A facere temporibus esse magni, voluptatibus id? Maiores est ducimus quam consectetur, quia sed et.1</p>
-                            </div>
-                            <div className="heartBox">
-                                <span>10</span>
-                                <i class="fa-regular fa-heart"></i>
-                            </div>
-                        </div>
+                                {x.comment.replies.length !== 0 &&
+                                    <div onClick={() => setIsReplyOpen(!isReplyOpen)} className="replyCount">{x.comment.replies.length} replies</div>}
+                                {
+                                    x.comment.replies.map(reply => (
+                                        <div className={`replayBox ${isReplyOpen ? "replyOpen" : ""}`} key={reply._id}>
+                                            <div className="width">
+                                                <div className="replayImgBox">
+                                                    <img src={reply.from.profileImg} alt="" />
+                                                </div>
+                                            </div>
+                                            <div className="Box">
+                                                <p style={{ color: "blue" }}>{reply.from.email}</p>
+                                                <p>{reply.text} </p>
+                                            </div>
+                                            <div className="heartBox">
+                                                <span>10</span>
+                                                <i className="fa-regular fa-heart"></i>
+                                            </div>
+                                        </div>
 
-                    </div>
+                                    ))
+                                }
+
+                            </div>
+                        </div >
+                    ))}
                 </div>
-                <div className="peopleCommentBox">
-                    <div className="imgBox">
-                        <div className="peopleBox">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Jeff_Bezos_at_Amazon_Spheres_Grand_Opening_in_Seattle_-_2018_%2839074799225%29_%28cropped%29.jpg/800px-Jeff_Bezos_at_Amazon_Spheres_Grand_Opening_in_Seattle_-_2018_%2839074799225%29_%28cropped%29.jpg" alt="" />
-                        </div>
-                    </div>
-                    <div className="emailBox">
-                        <p style={{color:"blue"}}>Salam@shaaskdoask.com</p>
-                        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla in nostrum quod provident impedit porro incidunt itaque cum excepturi! Labore debitis nobis distinctio, optio voluptatem excepturi omnis maiores recusandae odit fugit, possimus esse vitae culpa quisquam quaerat! Ipsa, nobis explicabo. Modi, earum impedit magni ratione qui aperiam non at id tempore natus molestiae, saepe odit temporibus optio, nihil amet voluptas corporis explicabo animi? Consectetur expedita dolorum perspiciatis cumque earum voluptas beatae, ratione, sint velit nulla placeat ex fugit quisquam natus rem provident ab perferendis magnam quis ea recusandae eum repudiandae veritatis! Illum facilis itaque ullam deleniti libero laborum excepturi porro?</span>
-                        <div className="heartBox">
-                            <p>10</p>
-                            <i class="fa-regular fa-heart"></i>
-                        </div>
-                        <div className="replayBtn">
-                            <i class="fa-solid fa-reply"></i>
-                        </div>
-                    </div>
+                <div className="downBox">
+                    {user ? (
+                        <form action="" onSubmit={(e) => postComment(e)}>
+                            <input value={text} onChange={(e) => setText(e.target.value)} type="text" placeholder='Comment...' />
+                            <button type='submit'>Send</button>
+                        </form>
+                    ) : (
+                        <i style={{ color: "gray" }}>Please Login to Comment</i>
+                    )}
                 </div>
             </div>
-            <div className="downBox">
-                <form action="">
-                    <input type="text" placeholder='Comment...' />
-                    <button type='submit'>Send</button>
-                </form>
-            </div>
-        </div>
+        </>
     )
 }
 

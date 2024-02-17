@@ -58,14 +58,54 @@
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-.icon{
-    font-size: 1em;
-    gap: 10px;
-    display: flex;
-i{
-    cursor: pointer;
-}
-}
+
+                    .icon {
+                        font-size: 1.2em;
+                        gap: 10px;
+                        display: flex;
+
+                        i {
+                            cursor: pointer;
+                        }
+
+                        .comment-icon {
+                            position: relative;
+
+                            &:hover .description {
+                                opacity: 1 !important;
+                                visibility: visible !important;
+
+                            }
+
+                            .description {
+                                opacity: 0;
+                                visibility: hidden;
+                                transition: all .3s;
+                                width: 100px;
+                                position: absolute;
+                                top: -40px;
+                                left: -40px;
+                                background-color: #000000;
+                                color: white;
+                                padding: 10px;
+                                border-radius: 8px;
+                                font-size: .6em;
+                                border: 1px solid black;
+
+                                i {
+                                    position: absolute;
+                                    bottom: -10px;
+                                    left: 50%;
+                                    transform: translate(-50%);
+                                    font-size: 1.6em;
+                                    color: black;
+                                }
+                            }
+
+                        }
+
+                    }
+
                     .fa-heart {
                         cursor: pointer;
                         transition: all .3s;

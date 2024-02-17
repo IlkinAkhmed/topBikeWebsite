@@ -104,7 +104,7 @@ function Navbar() {
                       ?
                       user.profileImg
                       :
-                      "https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg"}`}
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8QATbxHgFvoPhdxKFIcSQragjLC6BcCo9FiU0koLh0FGzL3FocfsauUs53dAHfKCecaA&usqp=CAU"}`}
                     alt="" />
                   <div className={`profile-sub-menu ${isLoginDropDownOpen && 'profileActive'}`}>
 

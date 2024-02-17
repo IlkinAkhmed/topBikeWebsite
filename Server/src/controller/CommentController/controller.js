@@ -58,11 +58,12 @@ export async function deleteComment(req, res) {
                 res.status(404).send("Product Not Found")
                 return
             }
-            product.commentsCollection = product.commentsCollection.filter(x => x._id.toString() !== commentId)
+            product.commentsCollection = product.commentsCollection.filter(x => x.comment._id.toString() !== commentId.toString())
+            // await Comment.findByIdAndDelete(commentId)
             await product.save()
             res.status(200).send('Comment Deleted')
         } else {
-            res.status(406).send('You have not access to delete Comment')
+            res.status(406).send('You do not have access to delete Comment')
         }
 
     } catch (error) {
