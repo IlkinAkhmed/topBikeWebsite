@@ -9,8 +9,9 @@ import Loading from '../Loading'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
-function Wishlist({ loading, setLoading }) {
-    const { wishlistArr, handleBasket, fetchWishlistData, user, decoded } = useContext(userContext)
+function Wishlist({ pageLoading, setPageLoading }) {
+    const { wishlistArr, handleBasket, fetchWishlistData, user, decoded, isLoading, setIsLoading } = useContext(userContext)
+    // console.log(Loading)
 
 
     // const { wishlistArr, fetchWishlistData } = useContext(userContext)
@@ -21,20 +22,20 @@ function Wishlist({ loading, setLoading }) {
 
     useEffect(() => {
         setTimeout(() => {
-            setLoading(false);
+            setPageLoading(false);
         }, 2000);
-        setLoading(true)
+        setPageLoading(true)
     }, [])
 
     async function handleDelete(id) {
         try {
-            // setLoading(true)
+            setIsLoading(true)
             await axios.delete(`http://localhost:7000/users/${decoded._id}/deletewish`, {
                 data: {
                     productId: id
                 }
             })
-            // setLoading(false)
+            setIsLoading(false)
             await fetchWishlistData()
             toast.success("Product has been deleted")
         } catch (error) {
@@ -42,16 +43,17 @@ function Wishlist({ loading, setLoading }) {
         }
     }
 
+    const basketOpen = useSelector((state) => state.basket.isOpen)
 
 
     return (
         <>
             {
-                loading ? (
+                pageLoading ? (
                     <Loading />
                 ) : (
                     <section className='wishlist'>
-                        {/* {Loading && <div class="loader"></div>} */}
+                        {isLoading && basketOpen === false ? <div class="loader"></div> : null}
                         <WishlistHeader />
                         <div className="head">
                             <h1>My Favorites</h1>

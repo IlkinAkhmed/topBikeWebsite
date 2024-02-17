@@ -2,7 +2,7 @@ import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "../../model/UserModel/Model.js";
 import cloudinary from "../../utils/categoriesCloudinary.js";
-const PrivateKey = "wexvlj@!@#$!__++="; 
+const PrivateKey = "wexvlj@!@#$!__++=";
 
 
 
@@ -12,7 +12,7 @@ export async function register(req, res) {
     try {
         const findedUser = await User.findOne({ email: req.body.email });
         if (findedUser) {
-            res.send("Username already exist!! Try other Username");
+            res.status(406).send("Email already exist!! Please Try other Email");
             return;
         } else {
             const hashedPassword = await hash(req.body.password, 10);
@@ -105,7 +105,17 @@ export async function updateUser(req, res) {
 
 export async function getAllUsers(req, res) {
     try {
-        const users = await User.find({}).populate('basket.product').populate('wishlist.product')
+        const users = await User.find({})
+            .populate('basket.product')
+            .populate('wishlist.product')
+            .populate({
+                path: 'basket.product.commentsCollection.comment',
+                model: 'topBikeComments' // Replace 'Comment' with the actual model name for comments
+            })
+            .populate({
+                path: 'wishlist.product.commentsCollection.comment',
+                model: 'topBikeComments' // Replace 'Comment' with the actual model name for comments
+            });
         res.send(users);
     } catch (error) {
         res.status(500).send("Internal Server Error");

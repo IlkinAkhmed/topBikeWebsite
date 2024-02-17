@@ -8,7 +8,7 @@ import toast from 'react-hot-toast'
 import axios from 'axios'
 
 function CartProduct() {
-    const { basketArr, decoded, setLoading, Loading, fetchBasketData } = useContext(userContext)
+    const { basketArr, decoded, setIsLoading, isLoading, fetchBasketData } = useContext(userContext)
 
     const subTotal = basketArr.reduce((initial, data) => initial + parseInt(data.product.newPrice), 0)
 
@@ -18,11 +18,11 @@ function CartProduct() {
     const modifyCount = async (id, type) => {
         try {
             if (type) {
-                setLoading(true)
+                setIsLoading(true)
                 await axios.post(`http://localhost:7000/users/${decoded._id}/increaseCount`, {
                     productId: id
                 })
-                setLoading(false)
+                setIsLoading(false)
                 toast.success('Count Increased')
                 await fetchBasketData()
             } else {
@@ -40,19 +40,20 @@ function CartProduct() {
 
     async function handleDelete(id) {
         try {
-            setLoading(true)
+            setIsLoading(true)
             await axios.delete(`http://localhost:7000/users/${decoded._id}/delete`, {
                 data: {
                     productId: id
                 }
             })
-            setLoading(false)
+            setIsLoading(false)
             await fetchBasketData()
             toast.success("Product has been deleted")
         } catch (error) {
             toast.error(`${error.message}`)
         }
     }
+    const basketOpen = useSelector((state) => state.basket.isOpen)
 
 
     return (
@@ -61,7 +62,7 @@ function CartProduct() {
             {
                 basketArr.length > 0 ? (
                     <>
-                        {Loading ? <div className='loader'></div> : null}
+                {isLoading && basketOpen === false ? <div class="loader"></div> : null}
                         <div className="product-details">
                             <div className="product-properties">
                                 <div className="name">

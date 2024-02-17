@@ -6,16 +6,18 @@ import Unique from '../../components/AboutUnique'
 import "./index.scss"
 import Loading from '../Loading'
 
-function About({ loading, setLoading }) {
+function About({ pageLoading, setPageLoading }) {
   useEffect(() => {
     setTimeout(() => {
-      setLoading(false);
+      setPageLoading(false);
     }, 2000);
-    setLoading(true)
+    setPageLoading(true)
   }, [])
+
+
   return (
     <>
-      {loading ? <Loading /> :
+      {pageLoading ? <Loading /> :
         (
           <>
             <AboutHeader />

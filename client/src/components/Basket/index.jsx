@@ -17,7 +17,7 @@ function Basket() {
     const navigate = useNavigate()
     const { decoded } = useContext(userContext)
 
-    const { basketArr, fetchBasketData, Loading, setLoading } = useContext(userContext)
+    const { basketArr, fetchBasketData, isLoading, setIsLoading } = useContext(userContext)
 
     useEffect(() => {
         fetchBasketData()
@@ -32,13 +32,13 @@ function Basket() {
 
     async function handleDelete(id) {
         try {
-            setLoading(true)
+            setIsLoading(true)
             await axios.delete(`http://localhost:7000/users/${decoded._id}/delete`, {
                 data: {
                     productId: id
                 }
             })
-            setLoading(false)
+            setIsLoading(false)
             await fetchBasketData()
             toast.success("Product has been deleted")
         } catch (error) {
@@ -49,15 +49,19 @@ function Basket() {
     const modifyCount = async (id, type) => {
         try {
             if (type) {
+                setIsLoading(true)
                 await axios.post(`http://localhost:7000/users/${decoded._id}/increaseCount`, {
                     productId: id
                 })
+                setIsLoading(false)
                 toast.success('Count Increased')
                 await fetchBasketData()
             } else {
+                setIsLoading(true)
                 const res = await axios.post(`http://localhost:7000/users/${decoded._id}/decreaseCount`, {
                     productId: id
                 })
+                setIsLoading(false)
                 res.status === 201 ? toast.error('Count must be 1 or more') : toast.success('Count Increased')
                 await fetchBasketData()
             }
@@ -109,7 +113,7 @@ function Basket() {
                                 onClick={() => handleDelete(x._id)}
                                 className={`fa-solid fa-trash-can`}
                             >
-                                {Loading && basketOpen === true ? <div class="loader"></div> : null}
+                                {isLoading && basketOpen === true ? <div class="loader"></div> : null}
                             </i>
                         </div>
                     ))}

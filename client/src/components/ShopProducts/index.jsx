@@ -11,16 +11,15 @@ import { userContext } from '../../context/userContext'
 import { addId, openModal } from '../../reduxSlice/basketSlice'
 
 function ShopProducts() {
-    const basketOpen = useSelector((state) => state.basket.isOpen)
     const [image, setImage] = useState(null)
-    const { product, isLoading } = useFetchData('products')
+    const { product } = useFetchData('products')
     const [isFilterAreOpen, setIsFilterAreOpen] = useState(false)
     const [isSubMenuOpen, setisSubMenuOpen] = useState(false)
     const [category, setCategory] = useState('all')
     const [colorCategory, setColorCategory] = useState('all')
     const [sizeCategory, setSizeCategory] = useState('all')
     const [priceInputValue, setpriceInputValue] = useState(0)
-    const { wishlistArr, handleBasket, handleWishlist, Loading, fetchWishlistData, user } = useContext(userContext)
+    const { wishlistArr, handleBasket, handleWishlist, fetchWishlistData, user, fetchBasketData, isLoading } = useContext(userContext)
 
 
     const [maxPrice, setMaxPrice] = useState(0);
@@ -39,6 +38,7 @@ function ShopProducts() {
 
     useEffect(() => {
         fetchWishlistData()
+        fetchBasketData()
     }, [])
 
 
@@ -48,9 +48,10 @@ function ShopProducts() {
 
 
 
+const basketOpen = useSelector((state) => state.basket.isOpen)
     return (
         <section className='shop-products'>
-            {Loading && basketOpen === false ? <div class="loader"></div> : null}
+            {isLoading && basketOpen === false ? <div class="loader"></div> : null}
             <div className="filter-area">
                 <div onClick={() => setIsFilterAreOpen(!isFilterAreOpen)} className="filter">
                     <i className="fa-solid fa-filter"></i>
@@ -136,7 +137,7 @@ function ShopProducts() {
                 }
 
             </div>
-        </section>
+        </section >
     )
 }
 export default ShopProducts

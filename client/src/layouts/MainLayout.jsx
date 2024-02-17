@@ -4,19 +4,19 @@ import { Outlet } from "react-router-dom"
 import Navbar from './Navbar'
 import Basket from '../components/Basket'
 
-function MainLayout({ loading, setLoading }) {
+function MainLayout({ pageLoading, setPageLoading }) {
 
     useEffect(() => {
         setTimeout(() => {
-            setLoading(false);
+            setPageLoading(false);
         }, 2000);
     }, [])
     return (
         <>
-            {!loading && <Navbar />}
+            {!pageLoading && <Navbar />}
             <Basket />
             <Outlet />
-            {!loading && <Footer />}
+            {!pageLoading && <Footer />}
 
         </>
     )

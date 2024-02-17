@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router';
 import { jwtDecode } from "jwt-decode"
 
 function Login() {
-    const { token, setUser, setToken, fetchBasketData, isLoginOpen, setIsLoginOpen } = useContext(userContext);
+    const { token, setUser, setToken, fetchBasketData, isLoginOpen, setIsLoginOpen, fetchWishlistData } = useContext(userContext);
     const navigate = useNavigate();
 
     const [changeForm, setChangeForm] = useState(true)
@@ -23,29 +23,34 @@ function Login() {
         try {
             const res = await axios.post('http://localhost:7000/login', values)
             toast.success('Successfully Logined!')
-            setToken(res.data)
-            setCookie("token", token, "600h")
-            const decoded = jwtDecode(token);
+            res.status === 200 && setToken(res.data)
+            res.status === 200 && setCookie("token", res.data, "600h")
+            const decoded = res.status === 200 && jwtDecode(res.data);
             setUser(decoded)
             setIsLoginOpen(!isLoginOpen)
             await fetchBasketData()
+            await fetchWishlistData()
         } catch (error) {
-            toast.error(`${error.message}`)
+            toast.error("Wrong Details")
         }
     }
 
+    
+
+    // REGİSTER
     const handleRegister = async (values) => {
         try {
             const res = await axios.post('http://localhost:7000/register', values)
-            toast.success('Successfully Registered!')
-            setToken(res.data)
-            setCookie("token", token, "600h")
-            const decoded = jwtDecode(token);
+            res.status === 200 && setToken(res.data)
+            res.status === 200 && setCookie("token", res.data, "600h")
+            const decoded = res.status === 200 && jwtDecode(res.data);
             setUser(decoded)
             setIsLoginOpen(!isLoginOpen)
             await fetchBasketData()
+            await fetchWishlistData()
+            toast.success('Successfully Registered!')
         } catch (error) {
-            toast.error(`${error.message}`)
+            toast.error("Email already exist!! Please Try other Email")
         }
     }
 

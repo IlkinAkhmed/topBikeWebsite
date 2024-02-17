@@ -11,6 +11,7 @@ import 'swiper/css/pagination'
 import { FreeMode, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { userContext } from '../../context/userContext'
+import toast from 'react-hot-toast'
 
 
 
@@ -29,6 +30,8 @@ function Modal() {
 
     const [isChecked, setIsChecked] = useState(false)
     const [data, setData] = useState([])
+    const [addedData, setAddedData] = useState(null)
+    const id = useSelector(state => state.basket.id)
 
 
 
@@ -41,19 +44,25 @@ function Modal() {
         setData(res.data)
     }
 
+    async function fetchAddedData() {
+        const res = await axios.get(`http://localhost:7000/products/${id}`)
+        setAddedData(res.data)
+    }
+
+
     useEffect(() => {
         fetchData()
-    }, [])
+        fetchAddedData()
+    }, [id])
 
 
     const isModalOpen = useSelector(state => state.basket.isModalOpen)
-    const id = useSelector(state => state.basket.id)
-    const findedDataInCart = id && basketArr.find(x => x.product._id === id)
-    console.log('first', findedDataInCart);
+
+
+    const findedDataInCart = basketArr.find(x => x.product._id === id)
 
 
     const subTotal = basketArr.reduce((initial, data) => initial + parseInt(data.product.newPrice), 0)
-
 
 
 
@@ -61,18 +70,19 @@ function Modal() {
         <div className='modal'>
             <i onClick={() => dispatch(openModal(!isModalOpen))} className='fa-solid fa-xmark'></i>
             {
+                addedData &&
                 <>
                     <div className="top">
                         <div className="added">
                             <p>
                                 <i className='fa-solid fa-check'></i>
-                                {findedDataInCart.product && findedDataInCart.product.count !== 1 ? 'Already In Cart!!!. Count Of Product Increased' : 'Added To Cart Sucessfully'}
+                                {findedDataInCart && findedDataInCart.count !== 1 ? 'Already In Cart!!!. Count Of Product Increased' : !addedData.count && 'Added To Cart Sucessfully'}
                             </p>
-                            <img src={findedDataInCart.product && findedDataInCart.product.img[0]} alt="" />
-                            <h5>{findedDataInCart.product && findedDataInCart.product.title}</h5>
-                            <p>Price: <span style={{ color: "goldenrod" }}>${findedDataInCart.product && findedDataInCart.product.newPrice}.00</span></p>
-                            <p>QTY: <span style={{ color: "goldenrod" }}>{findedDataInCart.product && findedDataInCart.product.count}</span></p>
-                            <p>Product Total: <span style={{ color: "goldenrod" }}>${findedDataInCart.product && findedDataInCart.product.total}.00</span></p>
+                            <img src={addedData.img[0]} alt="" />
+                            <h5>{addedData.title}</h5>
+                            <p>Price: <span style={{ color: "goldenrod" }}>${addedData.newPrice}.00</span></p>
+                            <p>QTY: <span style={{ color: "goldenrod" }}>{findedDataInCart ? findedDataInCart.count : 1}</span></p>
+                            <p>Product Total: <span style={{ color: "goldenrod" }}>${addedData.total}.00</span></p>
                         </div>
                         <div className="continue">
                             <p>There are <span style={{ color: "goldenrod" }}>{basketArr.length}</span> items in  your cart</p>
@@ -93,7 +103,7 @@ function Modal() {
                         </div>
                     </div>
                     <div className="bottom">
-                        <i style={{ fontSize: '1.3em', fontWeight: 'bold' }}>You can aslo buy other <span style={{ color: "goldenrod" }}>{findedDataInCart.product.category}'s:</span></i>
+                        <i style={{ fontSize: '1.3em', fontWeight: 'bold' }}>You can aslo buy other <span style={{ color: "goldenrod" }}>{addedData.category}'s:</span></i>
                         <Swiper
                             slidesPerView={3}
                             spaceBetween={50}
@@ -106,7 +116,7 @@ function Modal() {
                         >
                             {
                                 data
-                                    .filter(x => x.category === findedDataInCart.product.category)
+                                    .filter(x => x.category === addedData.category)
                                     .map(item => (
                                         <SwiperSlide className={'modal-card'}>
                                             <div className="modal-img">

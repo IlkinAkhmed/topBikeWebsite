@@ -3,16 +3,16 @@ import ContactHeader from '../../components/ContactHeader'
 import Form from '../../components/ContactForm'
 import Loading from '../Loading'
 
-function Contact({ loading, setLoading }) {
+function Contact({ pageLoading, setPageLoading }) {
   useEffect(() => {
     setTimeout(() => {
-      setLoading(false);
+      setPageLoading(false);
     }, 2000);
-    setLoading(true)
+    setPageLoading(true)
   }, [])
   return (
     <>
-      {loading ? <Loading /> :
+      {pageLoading ? <Loading /> :
         <>
           <ContactHeader />
           <Form />

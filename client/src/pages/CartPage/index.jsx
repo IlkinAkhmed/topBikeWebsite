@@ -3,16 +3,16 @@ import CartHeader from '../../components/CartHeader';
 import CartProduct from '../../components/CartProducts';
 import Loading from '../Loading';
 
-function Cart({ loading, setLoading }) {
+function Cart({ pageLoading, setPageLoading }) {
     useEffect(() => {
         setTimeout(() => {
-            setLoading(false);
+            setPageLoading(false);
         }, 2000);
-        setLoading(true)
+        setPageLoading(true)
     }, [])
     return (
         <>
-            {loading ? <Loading /> :
+            {pageLoading ? <Loading /> :
                 <>
                     <CartHeader />
                     <CartProduct />

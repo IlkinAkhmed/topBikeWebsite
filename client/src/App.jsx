@@ -19,7 +19,7 @@ function App() {
 
   const { isLoginOpen } = useContext(userContext)
 
-  const [loading, setLoading] = useState(true)
+  const [pageLoading, setPageLoading] = useState(true)
 
   return (
     <><Toaster
@@ -28,22 +28,22 @@ function App() {
     />
       {isLoginOpen ? <Login /> : null}
       <Routes>
-        <Route element={<MainLayout loading={loading} setLoading={setLoading} />}>
-          <Route path="/" element={<HomePage loading={loading} setLoading={setLoading} />} />
+        <Route element={<MainLayout pageLoading={pageLoading} setPageLoading={setPageLoading} />}>
+          <Route path="/" element={<HomePage pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
           <Route element={<PrivateRoute check={["user", "admin"]} />}>
-            <Route path="/contact" element={<Contact loading={loading} setLoading={setLoading} />} />
-            <Route path="/cart" element={<Cart loading={loading} setLoading={setLoading} />} />
-            <Route path="/wishlist" element={<Wishlist loading={loading} setLoading={setLoading} />} />
+            <Route path="/contact" element={<Contact pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
+            <Route path="/cart" element={<Cart pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
+            <Route path="/wishlist" element={<Wishlist pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
           </Route>
           <Route element={<PrivateRoute check={["admin"]} />}>
             {/* <Route path="/admin" element={<Admin />} /> */}
           </Route>
-          <Route path="/shop" element={<Shop loading={loading} setLoading={setLoading} />} />
-          <Route path="/about" element={<About loading={loading} setLoading={setLoading} />} />
-          <Route path="/blog" element={<Blog loading={loading} setLoading={setLoading} />} />
-          <Route path="/details/:id" element={<Details loading={loading} setLoading={setLoading} />} />
+          <Route path="/shop" element={<Shop pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
+          <Route path="/about" element={<About pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
+          <Route path="/blog" element={<Blog pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
+          <Route path="/details/:id" element={<Details pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
         </Route>
-        <Route path="/checkout" element={<CheckOut loading={loading} setLoading={setLoading} />} />
+        <Route path="/checkout" element={<CheckOut pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
       </Routes>
     </>
   )

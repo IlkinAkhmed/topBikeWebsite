@@ -8,7 +8,7 @@ export const userContext = createContext();
 function UserProvider({ children }) {
     const [isLoginOpen, setIsLoginOpen] = useState(false)
     const [basketArr, setBasketArr] = useState([])
-    const [Loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [wishlistArr, setWishlistArr] = useState([])
 
     const [token, setToken] = useState(
@@ -27,26 +27,39 @@ function UserProvider({ children }) {
     const decoded = token && jwtDecode(token)
 
     const fetchBasketData = async () => {
-        const res = await axios.get(`http://localhost:7000/users/${decoded._id}/basket`)
-        setBasketArr(res.data)
-    }
+        try {
+            if (user) {
+                const res = await axios.get(`http://localhost:7000/users/${decoded._id}/basket`);
+                setBasketArr(res.data);
+            }
+        } catch (error) {
+            console.error('Error fetching wishlist data:', error);
+        }
+    };
+
 
     const fetchWishlistData = async () => {
-        const res = await axios.get(`http://localhost:7000/users/${decoded._id}/wishlist`)
-        setWishlistArr(res.data)
-    }
+        try {
+            if (user) {
+                const res = await axios.get(`http://localhost:7000/users/${decoded._id}/wishlist`);
+                setWishlistArr(res.data);
+            }
+        } catch (error) {
+            console.error('Error fetching wishlist data:', error);
+        }
+    };
 
     const handleBasket = async (id) => {
         if (user) {
             try {
-                setLoading(true)
+                setIsLoading(true)
                 const res = await axios.post(`http://localhost:7000/users/${decoded._id}/addBasket`, {
                     productId: id
                 })
                 // dispatch(openModal(!isModalOpen))
                 // dispatch(addId(id))
                 res.status === 201 ? toast.success('Already in Cart, Count increased') : toast.success('Added To Cart')
-                setLoading(false)
+                setIsLoading(false)
                 await fetchBasketData()
 
             } catch (error) {
@@ -60,12 +73,12 @@ function UserProvider({ children }) {
     const handleWishlist = async (id) => {
         if (user) {
             try {
-                setLoading(true)
+                setIsLoading(true)
                 const res = await axios.post(`http://localhost:7000/users/${decoded._id}/addWishlist`, {
                     productId: id
                 })
                 res.status === 201 ? toast.success('Deleted from Wishlist') : toast.success('Added To Wishlist')
-                setLoading(false)
+                setIsLoading(false)
                 await fetchWishlistData()
 
             } catch (error) {
@@ -88,8 +101,8 @@ function UserProvider({ children }) {
         setBasketArr,
         wishlistArr,
         setWishlistArr,
-        Loading,
-        setLoading,
+        isLoading,
+        setIsLoading,
         isLoginOpen,
         setIsLoginOpen,
         fetchBasketData,

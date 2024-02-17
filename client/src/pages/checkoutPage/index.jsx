@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './index.scss'
 import Loading from '../Loading'
+import { userContext } from '../../context/userContext'
 
-function CheckOut({ loading, setLoading }) {
+function CheckOut({ pageLoading, setPageLoading }) {
     useEffect(() => {
         setTimeout(() => {
-            setLoading(false);
+            setPageLoading(false);
         }, 2000);
-        setLoading(true)
+        setPageLoading(true)
     }, [])
     return (
         <>
-            {loading ? <Loading /> :
+            {pageLoading ? <Loading /> :
                 (
                     <section id='checkOut'>
                         <div className="leftBox">

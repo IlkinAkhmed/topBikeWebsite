@@ -113,11 +113,11 @@ function Navbar() {
                       <p>Profile</p>
                     </div>
                     <div onClick={handleLogout}>
-                      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                      <i className="fa-solid fa-arrow-right-from-bracket"></i>
                       <p>Log Out</p>
                     </div>
                     <div>
-                      <i class="fa-regular fa-image"></i>
+                      <i className="fa-regular fa-image"></i>
                       <p>Change Profile Image</p>
                     </div>
 

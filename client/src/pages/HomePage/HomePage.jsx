@@ -10,20 +10,20 @@ import NewProduct from '../../components/newProducts'
 import Login from '../../components/login'
 import Loading from '../Loading'
 
-function HomePage({ loading, setLoading }) {
+function HomePage({ pageLoading, setPageLoading }) {
   const isModalOpen = useSelector(state => state.basket.isModalOpen)
 
   useEffect(() => {
     setTimeout(() => {
-      setLoading(false);
+      setPageLoading(false);
     }, 2000);
-    setLoading(true)
+    setPageLoading(true)
   }, [])
 
   return (
     <>
       {
-        loading ?
+        pageLoading ?
           (
             <Loading />
           )

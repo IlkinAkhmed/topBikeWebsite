@@ -8,18 +8,18 @@ import Modal from '../../components/ProductModal'
 import { userContext } from '../../context/userContext'
 import Loading from '../Loading'
 
-function Shop({ loading, setLoading }) {
+function Shop({ pageLoading, setPageLoading }) {
   const isModalOpen = useSelector(state => state.basket.isModalOpen)
   useEffect(() => {
     setTimeout(() => {
-      setLoading(false);
+      setPageLoading(false);
     }, 2000);
-    setLoading(true)
+    setPageLoading(true)
   }, [])
   return (
 
     <>
-      {loading ? <Loading /> :
+      {pageLoading ? <Loading /> :
         (
           <>
             {isModalOpen ? <Modal /> : null}
