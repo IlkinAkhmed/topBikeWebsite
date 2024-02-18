@@ -22,3 +22,4 @@ export async function postProfileImage(req, res) {
         res.status(500).send(error.message)
     }
 }
+

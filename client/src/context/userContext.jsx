@@ -29,7 +29,7 @@ function UserProvider({ children }) {
     const fetchBasketData = async () => {
         try {
             if (user) {
-                const res = await axios.get(`http://localhost:7000/users/${decoded._id}/basket`);
+                const res = await axios.get(`http://localhost:7000/users/${user._id}/basket`);
                 setBasketArr(res.data);
             }
         } catch (error) {
@@ -41,7 +41,7 @@ function UserProvider({ children }) {
     const fetchWishlistData = async () => {
         try {
             if (user) {
-                const res = await axios.get(`http://localhost:7000/users/${decoded._id}/wishlist`);
+                const res = await axios.get(`http://localhost:7000/users/${user._id}/wishlist`);
                 setWishlistArr(res.data);
             }
         } catch (error) {
@@ -53,7 +53,7 @@ function UserProvider({ children }) {
         if (user) {
             try {
                 setIsLoading(true)
-                const res = await axios.post(`http://localhost:7000/users/${decoded._id}/addBasket`, {
+                const res = await axios.post(`http://localhost:7000/users/${user._id}/addBasket`, {
                     productId: id
                 })
                 // dispatch(openModal(!isModalOpen))
@@ -74,7 +74,7 @@ function UserProvider({ children }) {
         if (user) {
             try {
                 setIsLoading(true)
-                const res = await axios.post(`http://localhost:7000/users/${decoded._id}/addWishlist`, {
+                const res = await axios.post(`http://localhost:7000/users/${user._id}/addWishlist`, {
                     productId: id
                 })
                 res.status === 201 ? toast.success('Deleted from Wishlist') : toast.success('Added To Wishlist')
@@ -89,7 +89,8 @@ function UserProvider({ children }) {
         }
     }
 
-    
+
+
 
 
 

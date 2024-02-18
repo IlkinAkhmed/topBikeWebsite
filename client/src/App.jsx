@@ -15,6 +15,7 @@ import Wishlist from './pages/WishlistPage'
 import CheckOut from './pages/checkoutPage'
 import PrivateRoute from './routes/privateRoute'
 import { userContext } from './context/userContext'
+import Error from './pages/Error'
 function App() {
 
   const { isLoginOpen } = useContext(userContext)
@@ -28,6 +29,7 @@ function App() {
     />
       {isLoginOpen ? <Login /> : null}
       <Routes>
+        <Route path="*" element={<Error />} />
         <Route element={<MainLayout pageLoading={pageLoading} setPageLoading={setPageLoading} />}>
           <Route path="/" element={<HomePage pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
           <Route element={<PrivateRoute check={["user", "admin"]} />}>

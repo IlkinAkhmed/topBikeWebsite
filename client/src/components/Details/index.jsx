@@ -61,9 +61,9 @@ function Details({ pageLoading, setPageLoading }) {
                     <>
                         {
                             product && <section className='details'>
-                                {isLoading && basketOpen === false ? <div class="loader"></div> : null}
+                                {isLoading && basketOpen === false ? <div className="loader"></div> : null}
                                 <div className="det-head">
-                                    <Comment OpenCommentBox={OpenCommentBox} handleOpenComment={handleOpenComment} id={id} />
+                                    <Comment product={product} OpenCommentBox={OpenCommentBox} handleOpenComment={handleOpenComment} id={id} />
                                     <img className='backImg' src="https://topbike-store-demo.myshopify.com/cdn/shop/files/slider2.jpg?v=1613576060" alt="" />
                                     <h3>Home <span style={{ color: "goldenrod" }}>{`> ${product.title}`}</span> </h3>
                                     <img className='bottom-img' src={image} alt="" />
@@ -80,11 +80,17 @@ function Details({ pageLoading, setPageLoading }) {
                                                     <div className='comment-icon'>
                                                         <div className="description">
                                                             <p>Add Comment</p>
-                                                            <i class="fa-solid fa-caret-down"></i>
+                                                            <i className="fa-solid fa-caret-down"></i>
                                                         </div>
-                                                        <i class="fa-regular fa-comment" onClick={handleOpenComment}></i>
+                                                        <i className="fa-regular fa-comment" onClick={handleOpenComment}></i>
                                                     </div>
-                                                    <i onClick={() => handleWishlist(product._id)} className={wishlistArr.find(x => x.product._id === id) && user ? product.addedHeartIcon : product.heartIcon}></i>
+                                                    <div className='comment-icon'>
+                                                        <div className="description">
+                                                            <p>Like</p>
+                                                            <i className="fa-solid fa-caret-down"></i>
+                                                        </div>
+                                                        <i onClick={() => handleWishlist(product._id)} className={wishlistArr.find(x => x.product._id === id) && user ? product.addedHeartIcon : product.heartIcon}></i>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <p style={{ color: "goldenrod", fontSize: "1.3em", fontWeight: "bold" }}>${product.newPrice}.00 USD</p>

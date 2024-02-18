@@ -90,8 +90,8 @@ nav {
                 visibility: hidden;
                 position: absolute;
                 background-color: white;
-                width: 200px;
-                height: 100px;
+                width: 180px;
+                height: 80px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -102,9 +102,20 @@ nav {
                 left: -20px;
                 color: black;
                 transition: all .3s;
+                .changeImage{
+                    input{
+                        position: absolute;
+                        left: 0;
+                        opacity: 0;
+                        width: 180px;
+                        cursor: pointer;
+                        z-index: 5;
+                    }
+                }
 
                 div {
                     display: flex;
+                    align-items: center;
                     gap: 10px;
                     font-size: 0.7em;
                     color: rgb(74, 74, 74);

@@ -59,7 +59,7 @@ export async function deleteComment(req, res) {
                 return
             }
             product.commentsCollection = product.commentsCollection.filter(x => x.comment._id.toString() !== commentId.toString())
-            // await Comment.findByIdAndDelete(commentId)
+            await Comment.findByIdAndDelete(commentId)
             await product.save()
             res.status(200).send('Comment Deleted')
         } else {
@@ -108,9 +108,13 @@ export const replyComment = async (req, res) => {
         const token = req.headers.authorization;
         const decoded = jwt.verify(token, PrivateKey);
         const comment = await Comment.findById(commentId)
-        comment.replies.push({ text, from: decoded })
-        await comment.save();
-        res.status(201).send("reply added");
+        if (comment) {
+            comment.replies.push({ text, from: decoded })
+            await comment.save();
+            res.status(201).send("reply added");
+        } else {
+            res.status(404).send('comment not found')
+        }
     } catch (error) {
         res.status(500).send(error.message)
     }

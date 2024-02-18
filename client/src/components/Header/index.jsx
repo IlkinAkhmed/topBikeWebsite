@@ -1,11 +1,12 @@
 import 'aos/dist/aos.css';
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import useFetchData from '../../hooks/useFetchData';
 import './index.scss';
+import { userContext } from '../../context/userContext';
 
 function Header() {
   const { product } = useFetchData('header')

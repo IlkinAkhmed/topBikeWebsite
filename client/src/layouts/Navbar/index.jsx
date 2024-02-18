@@ -24,10 +24,31 @@ function Navbar() {
   const [isLoginDropDownOpen, setIsLoginDropDownOpen] = useState(false)
   const [scroll, setScroll] = useState(false);
 
+  // http://localhost:7000/user/65ca2cc758e06d088882b5a0/addProfileImage
+
 
   useEffect(() => {
     fetchWishlistData()
   }, [])
+
+  async function handleProfileImageChange(e) {
+    console.log(e.target.files[0])
+    // try {
+    //   const res = await axios.post(`http://localhost:7000/user/${user._id}/addProfileImage`, {
+    //     image: e.target.value
+    //   })
+    //   if (res.status === 200) {
+    //     toast.success("Image Uploaded")
+    //   } else {
+    //     toast.error("Error Occured")
+    //   }
+    // } catch (error) {
+    //   toast.error(error.message)
+    // }
+  }
+
+
+
 
   function handleScroll() {
     if (window.scrollY > 120) {
@@ -108,17 +129,17 @@ function Navbar() {
                     alt="" />
                   <div className={`profile-sub-menu ${isLoginDropDownOpen && 'profileActive'}`}>
 
-                    <div>
-                      <i className='fa-solid fa-user'></i>
-                      <p>Profile</p>
-                    </div>
                     <div onClick={handleLogout}>
                       <i className="fa-solid fa-arrow-right-from-bracket"></i>
                       <p>Log Out</p>
                     </div>
-                    <div>
-                      <i className="fa-regular fa-image"></i>
-                      <p>Change Profile Image</p>
+                    <div className='changeImage'>
+                      <i className="fa-regular fa-image"></i>  <label htmlFor="profileImageInput">Change Profile Image</label>
+                      <input
+                        type="file"
+                        name="profileImage"
+                        onChange={(e) => handleProfileImageChange(e)}
+                      />
                     </div>
 
                   </div>

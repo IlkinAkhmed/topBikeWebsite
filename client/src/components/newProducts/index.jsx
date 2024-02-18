@@ -17,7 +17,6 @@ function NewProduct() {
     const isModalOpen = useSelector(state => state.basket.isModalOpen)
 
     const { handleBasket, handleWishlist, wishlistArr, user, isLoading } = useContext(userContext)
-    console.log(basketOpen)
 
     return (
         <section className='newProduct'>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Category from '../../components/Category'
 import Header from '../../components/Header'
@@ -9,9 +9,12 @@ import Shipping from '../../components/Shipping'
 import NewProduct from '../../components/newProducts'
 import Login from '../../components/login'
 import Loading from '../Loading'
+import { userContext } from '../../context/userContext'
 
 function HomePage({ pageLoading, setPageLoading }) {
   const isModalOpen = useSelector(state => state.basket.isModalOpen)
+
+
 
   useEffect(() => {
     setTimeout(() => {

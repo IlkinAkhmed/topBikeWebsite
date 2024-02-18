@@ -118,7 +118,7 @@ function Modal() {
                                 data
                                     .filter(x => x.category === addedData.category)
                                     .map(item => (
-                                        <SwiperSlide className={'modal-card'}>
+                                        <SwiperSlide className={'modal-card'} key={item._id}>
                                             <div className="modal-img">
                                                 <img onClick={() => { navigate(`/details/${item._id}`), dispatch(openModal(!isModalOpen)) }} src={item.img[0]} alt="" />
                                             </div>

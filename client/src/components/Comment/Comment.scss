@@ -113,7 +113,7 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    gap: 7px;
+                    gap: 5px;
 
                     i {
                         cursor: pointer;
@@ -133,7 +133,6 @@
                 }
 
                 p {
-
                     font-size: 10px;
                 }
             }
@@ -157,7 +156,7 @@
             position: relative;
             height: 0;
             overflow: hidden;
-            transition: all .3s;
+            // transition: all .3s;
 
             p {
                 font-size: 12px;
