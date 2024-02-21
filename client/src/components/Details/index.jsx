@@ -1,19 +1,19 @@
-import axios from 'axios';
+import axios, { all } from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { Navigate, useNavigate, useParams } from 'react-router';
 import image from "../../../img/breadcrumb-shape-2.png";
 import { userContext } from '../../context/userContext';
 import Loading from '../../pages/Loading';
 import "./index.scss";
 import { useSelector } from 'react-redux';
 import Comment from '../../components/Comment';
+import toast from 'react-hot-toast';
 
 function Details({ pageLoading, setPageLoading }) {
 
 
     const [product, setProduct] = useState(null)
-    const [allData, setAllData] = useState([])
-    const { wishlistArr, handleBasket, handleWishlist, user, isLoading } = useContext(userContext)
+    const { wishlistArr, handleBasket, handleWishlist, user, isLoading, fetchCurrentUser } = useContext(userContext)
 
     const [OpenCommentBox, setOpenCommentBox] = useState(false)
 
@@ -23,21 +23,21 @@ function Details({ pageLoading, setPageLoading }) {
     function handleOpenComment() {
         setOpenCommentBox(!OpenCommentBox)
     }
-
-
+    
     async function fetchData() {
         try {
             const res = await axios.get(`http://localhost:7000/products/${id}`);
             setProduct(res.data);
+            await fetchCurrentUser()
         } catch (error) {
-            console.error(error.message);
+            return navigate('*')
         }
     }
 
-    async function fetchAllData() {
-        const res = await axios.get('http://localhost:7000/products')
-        setAllData(res.data)
-    }
+
+
+
+
 
 
 
@@ -58,7 +58,9 @@ function Details({ pageLoading, setPageLoading }) {
 
 
 
+
     const basketOpen = useSelector((state) => state.basket.isOpen)
+
 
     return (
         <>
@@ -70,7 +72,7 @@ function Details({ pageLoading, setPageLoading }) {
                     <>
                         {
                             product && <section className='details'>
-                                {isLoading && basketOpen === false && OpenCommentBox===false ? <div className="loader"></div> : null}
+                                {isLoading && basketOpen === false && OpenCommentBox === false ? <div className="loader"></div> : null}
                                 <div className="det-head">
                                     <Comment product={product} OpenCommentBox={OpenCommentBox} handleOpenComment={handleOpenComment} id={id} />
                                     <img className='backImg' src="https://topbike-store-demo.myshopify.com/cdn/shop/files/slider2.jpg?v=1613576060" alt="" />

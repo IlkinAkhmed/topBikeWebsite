@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Category from '../../components/Category'
 import Header from '../../components/Header'
 import LatestNews from '../../components/LatestNews'
@@ -10,10 +10,12 @@ import NewProduct from '../../components/newProducts'
 import Login from '../../components/login'
 import Loading from '../Loading'
 import { userContext } from '../../context/userContext'
+import { openModal } from '../../reduxSlice/basketSlice'
 
 function HomePage({ pageLoading, setPageLoading }) {
   const isModalOpen = useSelector(state => state.basket.isModalOpen)
-  const { fetchBasketData, fetchWishlistData, user,fetchCurrentUser } = useContext(userContext)
+  const { fetchBasketData, fetchWishlistData, user, fetchCurrentUser } = useContext(userContext)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     fetchBasketData()
@@ -39,6 +41,7 @@ function HomePage({ pageLoading, setPageLoading }) {
           )
           :
           <>
+            {isModalOpen && <div onClick={()=>dispatch(openModal(!isModalOpen))} className="overLay"></div>}
             {isModalOpen ? <Modal /> : null}
             <Header />
             <Shipping />

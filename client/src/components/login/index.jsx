@@ -13,7 +13,7 @@ import VerifyForm from '../EmailVerifyForm';
 import ResetPasswordForm from '../ResetPasswordForm';
 
 function Login() {
-    const { token, setUser, setToken, fetchBasketData, isLoginOpen, setIsLoginOpen, fetchWishlistData } = useContext(userContext);
+    const { token, setUser, setToken, fetchBasketData, isLoginOpen, setIsLoginOpen, fetchWishlistData,fetchCurrentUser } = useContext(userContext);
     const navigate = useNavigate();
 
     const [changeForm, setChangeForm] = useState(true)
@@ -35,6 +35,7 @@ function Login() {
             setUser(decoded)
             setIsLoginOpen(!isLoginOpen)
             await fetchBasketData()
+            await fetchCurrentUser()
             await fetchWishlistData()
         } catch (error) {
             toast.error("Wrong Details")
