@@ -7,9 +7,11 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import useFetchData from '../../hooks/useFetchData';
 import './index.scss';
 import { userContext } from '../../context/userContext';
+import { useNavigate } from 'react-router';
 
 function Header() {
   const { product } = useFetchData('header')
+  const navigate = useNavigate()
 
   return (
     <Swiper
@@ -24,7 +26,7 @@ function Header() {
             <img className='bgimg' src={item.bgImg} alt="" />
             <h1 data-aos="fade-left" data-aos-duration="1500">{item.headText}</h1>
             <p data-aos="fade-right" data-aos-duration="1500">{item.description}</p>
-            <button data-aos="fade-up" data-aos-duration="1500">{item.buttonText}</button>
+            <button onClick={()=>navigate('/shop')} data-aos="fade-up" data-aos-duration="1500">{item.buttonText}</button>
           </div>
         </SwiperSlide>
       ))}

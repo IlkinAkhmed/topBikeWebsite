@@ -1,8 +1,42 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import Loading from '../Loading'
+import { userContext } from '../../context/userContext'
+import NotMeanSection from '../../components/notMeanSection'
+import BlogsUpSection from '../../components/blogsUpSection'
+import BlogsDownSection from '../../components/blogsDownSection'
 
-function Blog() {
+function Blog({ pageLoading, setPageLoading }) {
+
+
+  const { fetchBasketData, fetchWishlistData, user,fetchCurrentUser } = useContext(userContext)
+
+  useEffect(() => {
+    fetchBasketData()
+    fetchWishlistData()
+    fetchCurrentUser()
+  }, [user])
+
+  useEffect(() => {
+    setTimeout(() => {
+      setPageLoading(false);
+    }, 2000);
+    setPageLoading(true)
+  }, [])
+
   return (
-    <div>Blog</div>
+    <>
+      {pageLoading ? <Loading /> :
+        (
+          <>
+            {/* <NotMeanSection />p */}
+            <BlogsUpSection />
+            <BlogsDownSection />
+          </>
+
+        )
+      }
+
+    </>
   )
 }
 

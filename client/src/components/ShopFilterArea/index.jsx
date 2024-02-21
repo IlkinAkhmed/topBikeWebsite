@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import "./index.scss"
+import { CategoryContext } from '../../context/categoryContext'
 
-function FilterArea({ setpriceInputValue, priceInputValue, setSizeCategory, isFilterAreaOpen, setCategory, setColorCategory,maxPrice }) {
+function FilterArea({ setpriceInputValue, priceInputValue, isFilterAreaOpen, maxPrice }) {
+    const { setColorCategory, setCategory, setSizeCategory } = useContext(CategoryContext)
     return (
         <div className={`filter-side ${isFilterAreaOpen ? 'filterAreaOpen' : ''}`} >
             <ul className='categories'>
@@ -40,7 +42,7 @@ function FilterArea({ setpriceInputValue, priceInputValue, setSizeCategory, isFi
             <ul className='price'>
                 <h2>Price Filter</h2>
                 <hr />
-                <input value={priceInputValue ? priceInputValue : "4401"} type="range" min="0" max={maxPrice+1} onChange={(e) => setpriceInputValue(e.target.value)} />
+                <input value={priceInputValue ? priceInputValue : "4401"} type="range" min="0" max={maxPrice + 1} onChange={(e) => setpriceInputValue(e.target.value)} />
                 <p>$0 - ${priceInputValue}</p>
             </ul>
             <ul className='tags'>

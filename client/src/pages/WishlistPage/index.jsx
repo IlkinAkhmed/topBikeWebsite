@@ -10,7 +10,7 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 
 function Wishlist({ pageLoading, setPageLoading }) {
-    const { wishlistArr, handleBasket, fetchWishlistData, user, decoded, isLoading, setIsLoading } = useContext(userContext)
+    const { wishlistArr, handleBasket, fetchWishlistData, user, decoded, isLoading, setIsLoading, fetchBasketData,fetchCurrentUser } = useContext(userContext)
     // console.log(Loading)
 
 
@@ -18,7 +18,9 @@ function Wishlist({ pageLoading, setPageLoading }) {
     // const dispatch = useDispatch()
     useEffect(() => {
         fetchWishlistData()
-    }, [])
+        fetchBasketData()
+        fetchCurrentUser()
+    }, [user])
 
     useEffect(() => {
         setTimeout(() => {

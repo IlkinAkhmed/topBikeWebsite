@@ -22,10 +22,22 @@
         transform: translate(-50%, -50%);
         background-color: white;
         width: 30%;
-        height: 550px;
+        height: 600px;
         padding: 50px;
         text-align: center;
         z-index: 12;
+
+        .label {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            gap: 5px;
+            font-size: .8em;
+
+            input {
+                width: 17px;
+            }
+        }
 
         .fa-xmark {
             position: absolute;
@@ -58,7 +70,8 @@
         align-items: center;
         gap: 10px;
         padding: 20px 0;
-        label{
+
+        label {
             font-weight: bold;
         }
 

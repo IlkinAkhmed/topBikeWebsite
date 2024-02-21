@@ -11,7 +11,7 @@ import { userContext } from '../../context/userContext'
 import toast from 'react-hot-toast'
 
 function Navbar() {
-  const { user, setToken, setUser, basketArr, isLoginOpen, setIsLoginOpen, wishlistArr, fetchWishlistData } = useContext(userContext);
+  const { user, setToken, setUser, basketArr, isLoginOpen, setIsLoginOpen, wishlistArr, fetchWishlistData, fetchCurrentUser,currentUSer } = useContext(userContext);
 
   const basketOpen = useSelector((state) => state.basket.isOpen)
   const dispatch = useDispatch()
@@ -24,7 +24,10 @@ function Navbar() {
   const [isLoginDropDownOpen, setIsLoginDropDownOpen] = useState(false)
   const [scroll, setScroll] = useState(false);
 
-  // http://localhost:7000/user/65ca2cc758e06d088882b5a0/addProfileImage
+  useEffect(() => {
+    fetchCurrentUser()
+  }, [])
+
 
 
   useEffect(() => {
@@ -32,20 +35,32 @@ function Navbar() {
   }, [])
 
   async function handleProfileImageChange(e) {
-    console.log(e.target.files[0])
-    // try {
-    //   const res = await axios.post(`http://localhost:7000/user/${user._id}/addProfileImage`, {
-    //     image: e.target.value
-    //   })
-    //   if (res.status === 200) {
-    //     toast.success("Image Uploaded")
-    //   } else {
-    //     toast.error("Error Occured")
-    //   }
-    // } catch (error) {
-    //   toast.error(error.message)
-    // }
+    const file = e.target.files[0];
+
+    if (file) {
+      const formData = new FormData();
+      formData.append('image', file);
+
+      try {
+        const res = await axios.post(`http://localhost:7000/user/${user._id}/addProfileImage`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        if (res.status === 200) {
+          toast.success("Image Uploaded");
+        } else {
+          toast.error("Error Occurred");
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
+      await fetchCurrentUser()
+      setIsLoginDropDownOpen(false)
+    }
   }
+
 
 
 
@@ -62,8 +77,8 @@ function Navbar() {
     Cookies.remove('token');
     setUser(null);
     setToken(null);
-    toast.success('Logged Out');
     setIsLoginDropDownOpen(false);
+    toast.success('Logged Out');
   };
 
 
@@ -80,10 +95,14 @@ function Navbar() {
 
 
 
+
+
+
+
   return (
     <nav className={scroll ? 'navbar scroll' : 'navbar'}>
       {product && product.map(item => (
-        <>
+        <div key={item._id} style={{ display: "flex", width: "100%", justifyContent: "space-between", alignItems: "center", padding: "20px 0" }}>
           <div className="nav-inner" >
             <div className="logo">
               <img onClick={() => navigate('/')} src={item.logo} alt="" />
@@ -106,6 +125,10 @@ function Navbar() {
               <div className="underLine"></div>
             </li>
             <li className='nav-ul-li'>
+              <NavLink className={'navLink'} to="/blog">{item.navTexts[3]}</NavLink>
+              <div className="underLine"></div>
+            </li>
+            <li className='nav-ul-li'>
               <NavLink className={'navLink'} to="/contact">{item.navTexts[4]}</NavLink>
               <div className="underLine"></div>
             </li>
@@ -121,9 +144,9 @@ function Navbar() {
                   <img
                     onClick={() => setIsLoginDropDownOpen(!isLoginDropDownOpen)}
                     style={{ width: "30px", height: "30px", borderRadius: "50%" }}
-                    src={`${user.profileImg
+                    src={`${currentUSer.profileImg
                       ?
-                      user.profileImg
+                      currentUSer.profileImg
                       :
                       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8QATbxHgFvoPhdxKFIcSQragjLC6BcCo9FiU0koLh0FGzL3FocfsauUs53dAHfKCecaA&usqp=CAU"}`}
                     alt="" />
@@ -137,7 +160,7 @@ function Navbar() {
                       <i className="fa-regular fa-image"></i>  <label htmlFor="profileImageInput">Change Profile Image</label>
                       <input
                         type="file"
-                        name="profileImage"
+                        name="profileImg"
                         onChange={(e) => handleProfileImageChange(e)}
                       />
                     </div>
@@ -160,7 +183,7 @@ function Navbar() {
             </i>
           </div >
 
-        </>
+        </div>
       ))
       }
       <Search isSearchOpen={isSearchOpen} setisSearchOpen={setisSearchOpen} />

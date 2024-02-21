@@ -9,12 +9,18 @@ import { setCookie } from '../../../helper/cookies';
 import { userContext } from '../../context/userContext';
 import { useNavigate } from 'react-router';
 import { jwtDecode } from "jwt-decode"
+import VerifyForm from '../EmailVerifyForm';
+import ResetPasswordForm from '../ResetPasswordForm';
 
 function Login() {
     const { token, setUser, setToken, fetchBasketData, isLoginOpen, setIsLoginOpen, fetchWishlistData } = useContext(userContext);
     const navigate = useNavigate();
 
     const [changeForm, setChangeForm] = useState(true)
+    const [userValues, setUserValues] = useState([])
+    const [isVerifyFormOpen, setIsVerifyFormOpen] = useState(false)
+    const [isResetFormOpen, setIsResetFormOpen] = useState(false)
+    const [isPasswordOpen, setIsPasswordOpen] = useState(false)
 
 
 
@@ -35,22 +41,22 @@ function Login() {
         }
     }
 
-    
 
-    // REGİSTER
-    const handleRegister = async (values) => {
+
+    function handleSubmit(userValues) {
+        setUserValues(userValues)
+        setIsVerifyFormOpen(true)
+        sendVerifyEmail(userValues.email)
+    }
+
+    async function sendVerifyEmail(email) {
         try {
-            const res = await axios.post('http://localhost:7000/register', values)
-            res.status === 200 && setToken(res.data)
-            res.status === 200 && setCookie("token", res.data, "600h")
-            const decoded = res.status === 200 && jwtDecode(res.data);
-            setUser(decoded)
-            setIsLoginOpen(!isLoginOpen)
-            await fetchBasketData()
-            await fetchWishlistData()
-            toast.success('Successfully Registered!')
+            const res = await axios.post('http://localhost:7000/sendVerificationCode', {
+                email: email
+            })
+            res.status === 200 ? toast.success('Verivication Code Sent, Please Enter Code') : toast.error('Invalid Email')
         } catch (error) {
-            toast.error("Email already exist!! Please Try other Email")
+            toast.error('Invalid Email ')
         }
     }
 
@@ -65,6 +71,7 @@ function Login() {
                         <img src="https://topbike-store-demo.myshopify.com/cdn/shop/files/LOGO.png?v=1613575279" alt="" />
                         <hr />
                         <h3>Great to have you back!</h3>
+                        {isResetFormOpen && <ResetPasswordForm setIsResetFormOpen={setIsResetFormOpen} />}
                         <Formik
                             initialValues={{ password: '', email: '' }}
                             validationSchema={Yup.object({
@@ -94,20 +101,25 @@ function Login() {
                                 </div>
 
                                 <label htmlFor="password">Password</label>
-                                <Field name="password" type="password" />
+                                <Field name="password" type={isPasswordOpen ? "text" : "password"} />
                                 <div style={{ color: "red" }}>
                                     <ErrorMessage name="password" />
                                 </div>
+                                <label htmlFor="" className='label'>
+                                    <input onChange={() => setIsPasswordOpen(!isPasswordOpen)} className='' type="checkBox" />
+                                    Show Password
+                                </label>
                                 <button type="submit">LOG IN</button>
                             </Form>
                         </Formik>
-                        <p className='forgot'>Forgot your Password?</p>
+                        <p className='forgot' onClick={() => setIsResetFormOpen(true)}>Forgot your Password?</p>
                         <p className='account'>Don’t have an account? <span onClick={() => setChangeForm(!changeForm)} >Register now</span></p>
                     </>
                 ) : (
                     <>
                         <i onClick={() => setIsLoginOpen(!isLoginOpen)} className="fa-solid fa-xmark"></i>
                         <h3>REGISTER</h3>
+                        {isVerifyFormOpen && <VerifyForm userValues={userValues} setIsLoginOpen={setIsLoginOpen} setIsVerifyFormOpen={setIsVerifyFormOpen} />}
                         <Formik
                             initialValues={{ password: '', email: '' }}
                             validationSchema={Yup.object({
@@ -121,7 +133,7 @@ function Login() {
                                     .required('Required')
                             })}
                             onSubmit={(values, { setSubmitting, resetForm }) => {
-                                handleRegister(values)
+                                handleSubmit(values)
                                 resetForm()
                                 setTimeout(() => {
                                     setSubmitting(false);
@@ -137,10 +149,14 @@ function Login() {
                                 </div>
 
                                 <label htmlFor="password">Password</label>
-                                <Field name="password" type="password" />
+                                <Field name="password" type={isPasswordOpen ? "text" : "password"} />
                                 <div style={{ color: "red" }}>
                                     <ErrorMessage name="password" />
                                 </div>
+                                <label htmlFor="" className='label'>
+                                    <input onChange={() => setIsPasswordOpen(!isPasswordOpen)} className='' type="checkBox" />
+                                    Show Password
+                                </label>
                                 <button type="submit">REGISTER</button>
                             </Form>
                         </Formik>

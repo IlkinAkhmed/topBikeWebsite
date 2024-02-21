@@ -9,18 +9,17 @@ import axios from 'axios'
 import toast from "react-hot-toast"
 import { userContext } from '../../context/userContext'
 import { addId, openModal } from '../../reduxSlice/basketSlice'
+import { CategoryContext } from '../../context/categoryContext'
 
 function ShopProducts() {
     const [image, setImage] = useState(null)
     const { product } = useFetchData('products')
     const [isFilterAreOpen, setIsFilterAreOpen] = useState(false)
     const [isSubMenuOpen, setisSubMenuOpen] = useState(false)
-    const [category, setCategory] = useState('all')
-    const [colorCategory, setColorCategory] = useState('all')
-    const [sizeCategory, setSizeCategory] = useState('all')
     const [priceInputValue, setpriceInputValue] = useState(0)
     const { wishlistArr, handleBasket, handleWishlist, fetchWishlistData, user, fetchBasketData, isLoading } = useContext(userContext)
-
+    
+    const { sizeCategory, colorCategory, category } = useContext(CategoryContext)
 
     const [maxPrice, setMaxPrice] = useState(0);
 
@@ -37,9 +36,11 @@ function ShopProducts() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        fetchWishlistData()
-        fetchBasketData()
-    }, [])
+        if (user) {
+            fetchWishlistData()
+            fetchBasketData()
+        }
+    }, [user])
 
 
 
@@ -48,7 +49,7 @@ function ShopProducts() {
 
 
 
-const basketOpen = useSelector((state) => state.basket.isOpen)
+    const basketOpen = useSelector((state) => state.basket.isOpen)
     return (
         <section className='shop-products'>
             {isLoading && basketOpen === false ? <div class="loader"></div> : null}
@@ -84,7 +85,7 @@ const basketOpen = useSelector((state) => state.basket.isOpen)
                     </ul>
                 </div>
             </div>
-            <FilterArea maxPrice={maxPrice} priceInputValue={priceInputValue} setpriceInputValue={setpriceInputValue} setSizeCategory={setSizeCategory} isFilterAreaOpen={isFilterAreOpen} setCategory={setCategory} setColorCategory={setColorCategory} />
+            <FilterArea maxPrice={maxPrice} priceInputValue={priceInputValue} setpriceInputValue={setpriceInputValue}  isFilterAreaOpen={isFilterAreOpen} />
             <div className="product-area">
                 {isLoading ? (
                     <h1>Loading...</h1>
@@ -102,7 +103,7 @@ const basketOpen = useSelector((state) => state.basket.isOpen)
                                 <div className="productIcons">
                                     <i onClick={() => { handleBasket(item._id), user && dispatch(openModal(!isModalOpen)), user && dispatch(addId(item._id)) }} className={`${item.basketIcon}`}></i>
                                     <i onClick={() => handleWishlist(item._id)} className={wishlistArr.find(x => x.product._id === item._id && user) ? item.addedHeartIcon : item.heartIcon}></i>
-                                    <i className={item.eyeIcon}></i>
+                                    <i onClick={() => navigate(`/details/${item._id}`)} className={item.eyeIcon}></i>
                                 </div>
                                 <div className="img">
                                     <img src={image && image.id === item._id ? image.img : item.img[0]} alt="" />

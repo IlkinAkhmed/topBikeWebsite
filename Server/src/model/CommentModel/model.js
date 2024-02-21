@@ -9,9 +9,19 @@ const commentModel = new Schema(
         replies: [
             {
                 text: { type: String },
-                from: { type: Object }
+                from: { type: Object },
+                likes: [
+                    {
+                        from: { type: Object }
+                    }
+                ]
             }
         ],
+        likes: [
+            {
+                from: { type: Object }
+            }
+        ]
     },
     { timestamps: true }
 );

@@ -3,9 +3,11 @@ import './Comment.scss'
 import axios from 'axios'
 import { userContext } from '../../context/userContext'
 import toast from 'react-hot-toast'
+import adminLogo from "../../../img/adminLogo.jpg"
+import { useSelector } from 'react-redux'
 
 function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
-    const { user, token } = useContext(userContext)
+    const { user, token, isLoading, setIsLoading, fetchBasketData, fetchWishlistData } = useContext(userContext)
     const [commentsOfProduct, setCommentsOfProduct] = useState([])
     const [count, setCount] = useState(0)
     const [openedReplies, setOpenedReplies] = useState([])
@@ -32,6 +34,11 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
         setCommentId(id)
     }
 
+    useEffect(() => {
+        fetchBasketData()
+        fetchWishlistData()
+    }, [user])
+
 
 
     const postReply = async (e) => {
@@ -41,6 +48,7 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
             return
         }
         try {
+            setIsLoading(true)
             await axios.post(`http://localhost:7000/comments/${commentId}/replyComment`, {
                 text: replyText,
             }, {
@@ -48,6 +56,7 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
                     Authorization: token
                 },
             });
+            setIsLoading(false)
             setReplyText("");
             toast.success('Reply Added Successfully');
             await fetchComment();
@@ -62,6 +71,7 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
 
     const deleteComment = async (id) => {
         try {
+            setIsLoading(true)
             await axios.delete(`http://localhost:7000/comments/${id}/delete`, {
                 headers: {
                     Authorization: token
@@ -71,6 +81,7 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
                     productId: product._id
                 }
             });
+            setIsLoading(false)
             toast.success('Comment Deleted Successfully');
             await fetchComment();
         } catch (error) {
@@ -80,6 +91,7 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
 
     const deleteReply = async (replyId, comment) => {
         try {
+            setIsLoading(true)
             await axios.delete(`http://localhost:7000/replies/${replyId}/delete`, {
                 headers: {
                     Authorization: token
@@ -89,6 +101,7 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
                     commentId: comment
                 }
             });
+            setIsLoading(false)
             toast.success('Reply Deleted Successfully');
             await fetchComment();
         } catch (error) {
@@ -107,6 +120,7 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
             return
         }
         try {
+            setIsLoading(true)
             await axios.post(`http://localhost:7000/products/${id}/addComment`, {
                 text: text,
             }, {
@@ -114,8 +128,48 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
                     Authorization: token
                 },
             });
+            setIsLoading(false)
             setText("");
             toast.success('Comment Added Successfully');
+            await fetchComment();
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
+
+    const likeComment = async (id) => {
+        try {
+            setIsLoading(true)
+            const res = await axios.post(`http://localhost:7000/comments/${id}/like`, {
+                userId: user._id,
+            }, {
+                headers: {
+                    Authorization: token
+                },
+            });
+            setIsLoading(false)
+
+            res.status === 200 ? toast.success('Comment Liked Successfully') : toast.success('Comment Removed Successfully')
+            await fetchComment();
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
+
+    const likeReply = async (id, replyId) => {
+        try {
+            setIsLoading(true)
+            const res = await axios.post(`http://localhost:7000/replies/${id}/like`, {
+                userId: user._id,
+                replyId: replyId,
+            }, {
+                headers: {
+                    Authorization: token
+                },
+            });
+            setIsLoading(false)
+
+            res.status === 200 ? toast.success('Comment Liked Successfully') : toast.success('Comment Removed Successfully')
             await fetchComment();
         } catch (error) {
             toast.error(error.message);
@@ -135,10 +189,13 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
         fetchComment()
     }, [])
 
+    const basketOpen = useSelector((state) => state.basket.isOpen)
+
     return (
         <>
             {OpenCommentBox && <div className="overLay" onClick={handleOpenComment}></div>}
             <div className={`commentBox ${OpenCommentBox ? "open" : ''}`}>
+                {isLoading && OpenCommentBox === true ? <div className="loader"></div> : null}
                 <div className="upBox">
                     <div className="countBox">{commentsOfProduct.length + parseInt(count)}</div>
                     <div className="commentTextBox">
@@ -166,11 +223,17 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
                             </div>
                             <div className="normalBox">
                                 <div className="emailBox">
-                                    <p style={{ color: "blue" }}>{x.comment.from.email}</p>
+                                    <div className="emailArea" style={{ width: "100%", display: "flex", alignItems: "center", gap: "5px" }}>
+                                        <span style={{ color: "blue", fontSize: ".8em" }}>{x.comment.from.email}</span>
+                                        {x.comment.from.role === "admin" ?
+                                            <img style={{ width: "15px", height: "15px", borderRadius: "100%" }} src={adminLogo} alt="" />
+                                            : null
+                                        }
+                                    </div>
                                     <span>{x.comment.text}</span>
                                     <div style={{ fontSize: ".7em" }} className="heartBox">
-                                        <p>1</p>
-                                        <i className="fa-regular fa-heart"></i>
+                                        <p>{x.comment.likes.length}</p>
+                                        <i style={{ color: "red" }} className={`${user && x.comment.likes.find(a => a.from._id === user._id) ? 'fa-solid' : "fa-regular"} fa-heart`} onClick={() => likeComment(x.comment._id)}></i>
                                         {
                                             user && user.role === "admin"
                                                 ||
@@ -205,12 +268,19 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
                                                 </div>
                                             </div>
                                             <div className="Box">
-                                                <p style={{ color: "blue" }}>{reply.from.email}</p>
+                                                <div style={{ display: "flex", alignItems: "center", gap: "5px" }} className="replyAdmin">
+                                                    <span style={{ color: "blue", fontSize: ".7em" }}>{reply.from.email}</span>
+                                                    {reply.from.role === "admin" ?
+                                                        <img style={{ width: "12px", height: "12px", borderRadius: "100%" }} src={adminLogo} alt="" />
+                                                        : null
+                                                    }
+                                                </div>
                                                 <p>{reply.text} </p>
                                             </div>
                                             <div className="heartBox">
-                                                <span>10</span>
-                                                <i className="fa-regular fa-heart"></i>
+                                                <span>{reply.likes.length}</span>
+                                                <i style={{ color: "red" }} className={`${user && reply.likes.find(a => a.from._id === user._id) ? 'fa-solid' : "fa-regular"} fa-heart`} onClick={() => likeReply(x.comment._id, reply._id)}></i>
+
                                                 {user && user.role === "admin" ||
                                                     user && user._id === reply.from._id ?
                                                     <i onClick={() => { deleteReply(reply._id, x.comment._id) }} className="fa-solid  fa-trash"></i> :

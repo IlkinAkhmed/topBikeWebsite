@@ -11,6 +11,7 @@
     transition: all .5s;
     overflow-y: scroll;
     border-bottom: 1px solid black;
+    z-index: 10;
 
     .fa-xmark {
         position: absolute;

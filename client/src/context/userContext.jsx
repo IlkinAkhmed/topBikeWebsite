@@ -3,14 +3,21 @@ import React, { createContext, useEffect, useState } from "react";
 import { getCookie } from "../../helper/cookies";
 import { jwtDecode } from "jwt-decode";
 import toast from "react-hot-toast";
+
 export const userContext = createContext();
 
 function UserProvider({ children }) {
     const [isLoginOpen, setIsLoginOpen] = useState(false)
     const [basketArr, setBasketArr] = useState([])
     const [isLoading, setIsLoading] = useState(false);
+    const [currentUSer, setCurrentUSer] = useState([])
     const [wishlistArr, setWishlistArr] = useState([])
 
+    const fetchCurrentUser = async () => {
+      const res = user && await axios.get(`http://localhost:7000/users/${user._id}`)
+      user && setCurrentUSer(res.data)
+    }
+    
     const [token, setToken] = useState(
         getCookie('token')
             ? getCookie('token')
@@ -20,7 +27,7 @@ function UserProvider({ children }) {
             ? JSON.parse(localStorage.getItem("user"))
             : null
     );
-
+    
     localStorage.setItem("user", JSON.stringify(user));
 
 
@@ -41,7 +48,7 @@ function UserProvider({ children }) {
     const fetchWishlistData = async () => {
         try {
             if (user) {
-                const res = await axios.get(`http://localhost:7000/users/${user._id}/wishlist`);
+            const res = await axios.get(`http://localhost:7000/users/${user._id}/wishlist`);
                 setWishlistArr(res.data);
             }
         } catch (error) {
@@ -56,8 +63,6 @@ function UserProvider({ children }) {
                 const res = await axios.post(`http://localhost:7000/users/${user._id}/addBasket`, {
                     productId: id
                 })
-                // dispatch(openModal(!isModalOpen))
-                // dispatch(addId(id))
                 res.status === 201 ? toast.success('Already in Cart, Count increased') : toast.success('Added To Cart')
                 setIsLoading(false)
                 await fetchBasketData()
@@ -110,6 +115,8 @@ function UserProvider({ children }) {
         setIsLoginOpen,
         fetchBasketData,
         fetchWishlistData,
+        fetchCurrentUser,
+        currentUSer,
         handleBasket,
         handleWishlist
     }

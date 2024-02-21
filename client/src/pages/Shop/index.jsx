@@ -8,9 +8,11 @@ import Modal from '../../components/ProductModal'
 import { userContext } from '../../context/userContext'
 import Loading from '../Loading'
 
-function Shop({ pageLoading, setPageLoading }) {
+function Shop({ pageLoading, setPageLoading,OpenCommentBox }) {
   const isModalOpen = useSelector(state => state.basket.isModalOpen)
+  const {fetchCurrentUser} = useContext(userContext)
   useEffect(() => {
+    fetchCurrentUser()
     setTimeout(() => {
       setPageLoading(false);
     }, 2000);
@@ -25,7 +27,7 @@ function Shop({ pageLoading, setPageLoading }) {
             {isModalOpen ? <Modal /> : null}
             <ShopHeader />
             <Collection />
-            <ShopProducts />
+            <ShopProducts OpenCommentBox={OpenCommentBox} />
           </>
 
         )

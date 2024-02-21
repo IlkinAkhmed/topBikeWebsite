@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import './index.scss'
 import Loading from '../Loading'
 import { userContext } from '../../context/userContext'
+import Stripe from '../../components/stripe'
 
 function CheckOut({ pageLoading, setPageLoading }) {
     useEffect(() => {
@@ -61,6 +62,7 @@ function CheckOut({ pageLoading, setPageLoading }) {
                                     <i class="fa-regular fa-money-bill-1"></i>
                                     <p>This store can’t accept payments right now.</p>
                                 </div>
+                                <Stripe/>
                                 <div className="payNowBtn">
                                     Pay Now
                                 </div>

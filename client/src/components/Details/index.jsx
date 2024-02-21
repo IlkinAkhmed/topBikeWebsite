@@ -12,6 +12,7 @@ function Details({ pageLoading, setPageLoading }) {
 
 
     const [product, setProduct] = useState(null)
+    const [allData, setAllData] = useState([])
     const { wishlistArr, handleBasket, handleWishlist, user, isLoading } = useContext(userContext)
 
     const [OpenCommentBox, setOpenCommentBox] = useState(false)
@@ -33,6 +34,13 @@ function Details({ pageLoading, setPageLoading }) {
         }
     }
 
+    async function fetchAllData() {
+        const res = await axios.get('http://localhost:7000/products')
+        setAllData(res.data)
+    }
+
+
+
 
 
 
@@ -51,6 +59,7 @@ function Details({ pageLoading, setPageLoading }) {
 
 
     const basketOpen = useSelector((state) => state.basket.isOpen)
+
     return (
         <>
             {
@@ -61,7 +70,7 @@ function Details({ pageLoading, setPageLoading }) {
                     <>
                         {
                             product && <section className='details'>
-                                {isLoading && basketOpen === false ? <div className="loader"></div> : null}
+                                {isLoading && basketOpen === false && OpenCommentBox===false ? <div className="loader"></div> : null}
                                 <div className="det-head">
                                     <Comment product={product} OpenCommentBox={OpenCommentBox} handleOpenComment={handleOpenComment} id={id} />
                                     <img className='backImg' src="https://topbike-store-demo.myshopify.com/cdn/shop/files/slider2.jpg?v=1613576060" alt="" />

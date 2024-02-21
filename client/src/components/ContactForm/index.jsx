@@ -14,6 +14,10 @@ function Form() {
 
     function handleSubmit(e) {
         e.preventDefault()
+        if (!email.trim() || !message.trim() || !subject.trim() || !name.trim()) {
+            toast.error("Please fill all form")
+            return
+        }
         try {
             const serviceId = "service_36dvwhb"
             const templateId = "template_cae27qq"
@@ -24,7 +28,7 @@ function Form() {
                 from_email: email,
                 subject: subject,
                 to_name: "Ilkin",
-                message: message
+                message: message,
 
             }
 

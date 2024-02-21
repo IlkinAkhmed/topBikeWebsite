@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import "./index.scss"
 import { Link } from 'react-router-dom'
+import { CategoryContext } from '../../context/categoryContext'
 
 function Footer() {
+  const { setColorCategory, setCategory, setSizeCategory } = useContext(CategoryContext)
+
+
   return (
     <footer>
       <div className="footer-inner">
@@ -20,9 +24,9 @@ function Footer() {
           <h2>Shop</h2>
           <hr />
           <Link className="footer-link" to={'/shop'}>Shopping</Link>
-          <Link className="footer-link" to={'/shop'}>Bicycle</Link>
-          <Link className="footer-link" to={'/shop'}>Bicycle Accessories</Link>
-          <Link className="footer-link" to={'/shop'}>Helmets</Link>
+          <Link className="footer-link" onClick={() => setCategory('bike')} to={'/shop'}>Bicycle</Link>
+          <Link className="footer-link" onClick={() => setCategory('accessory')} to={'/shop'}>Bicycle Accessories</Link>
+          <Link className="footer-link" onClick={() => setCategory('helmet')} to={'/shop'}>Helmets</Link>
         </ul>
         <ul>
           <h2>Aboout Us</h2>

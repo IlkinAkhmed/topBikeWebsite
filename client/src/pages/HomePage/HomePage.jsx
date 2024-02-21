@@ -13,6 +13,13 @@ import { userContext } from '../../context/userContext'
 
 function HomePage({ pageLoading, setPageLoading }) {
   const isModalOpen = useSelector(state => state.basket.isModalOpen)
+  const { fetchBasketData, fetchWishlistData, user,fetchCurrentUser } = useContext(userContext)
+
+  useEffect(() => {
+    fetchBasketData()
+    fetchWishlistData()
+    fetchCurrentUser()
+  }, [user])
 
 
 

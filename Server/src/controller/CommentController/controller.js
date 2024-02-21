@@ -27,6 +27,16 @@ export async function postComment(req, res) {
     }
 }
 
+export async function getCommentById(req, res) {
+    try {
+        const { commentId } = req.params;
+        const comment = await Comment.findById(commentId).populate("commentsCollection.comment")
+        res.send(comment);
+    } catch (error) {
+        res.status(500).send("Internal Server Error");
+    }
+}
+
 export async function getAllCommentsOfProduct(req, res) {
     try {
         const { productId } = req.params
@@ -94,6 +104,30 @@ export async function updateComment(req, res) {
     } catch (error) {
         res.status(500).send(error.message);
 
+    }
+}
+
+
+
+export const likeComment = async (req, res) => {
+    try {
+        const { commentId } = req.params
+        const { userId } = req.body
+        const token = req.headers.authorization;
+        const decoded = jwt.verify(token, PrivateKey);
+        const comment = await Comment.findById(commentId)
+        const findedLike = comment.likes.find(x => x.from._id === userId)
+        if (findedLike) {
+            comment.likes = comment.likes.filter((item) => item.from._id !== userId)
+            await comment.save()
+            res.status(201).send('Like removed successfully!')
+        } else {
+            comment.likes.push({ from: decoded })
+            await comment.save()
+            res.status(200).send('Like added successfully!')
+        }
+    } catch (error) {
+        res.status(500).send(error.message);
     }
 }
 
@@ -179,6 +213,29 @@ export async function updateReply(req, res) {
     } catch (error) {
         res.status(500).send(error.message);
 
+    }
+}
+
+export const likeReply = async (req, res) => {
+    try {
+        const { commentId } = req.params
+        const { replyId, userId } = req.body
+        const token = req.headers.authorization;
+        const decoded = jwt.verify(token, PrivateKey);
+        const comment = await Comment.findById(commentId)
+        const reply = comment.replies.find(x => x._id.toString() === replyId)
+        const findedLike = reply.likes.find(x => x.from._id === userId)
+        if (findedLike) {
+            reply.likes = reply.likes.filter((item) => item.from._id !== userId)
+            await comment.save()
+            res.status(201).send('Like removed successfully!')
+        } else {
+            reply.likes.push({ from: decoded })
+            await comment.save()
+            res.status(200).send('Like added successfully!')
+        }
+    } catch (error) {
+        res.status(500).send(error.message);
     }
 }
 
