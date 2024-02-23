@@ -1,26 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react';
-import './blogsDownSection.scss'
+import React from 'react'
+import "./blogsDownSection.scss"
+import { Link } from 'react-router-dom'
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
-import axios from 'axios'
+import { Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import useFetchData from '../../hooks/useFetchData';
 
 function BlogsDownSection() {
-  const [latest, setLatest] = useState('')
-
-  async function LatestAxios() {
-    const res = await axios.get("http://localhost:4001/latestnews")
-    setLatest(res.data)
-  }
-
-  useEffect(() => {
-    LatestAxios()
-  }, [])
-
+  const { product } = useFetchData('latestNews')
   return (
-    <section id='blogsDownSection'>
-      <h1>salam</h1>
+    <section id='latestNewSection'>
+      <div className="latestSectionUpBox">
+        <h1>LATEST NEWS</h1>
+      </div>
       <Swiper
         slidesPerView={2}
         spaceBetween={30}
@@ -49,23 +43,23 @@ function BlogsDownSection() {
         className="mySwiper"
       >
         {
-          latest && latest.map((item) => (
-            <SwiperSlide>
+          product && product.map((item) => (
+            <SwiperSlide key={item._id}>
 
-              <div className="latestBox">
+              <div className="latestBox" >
                 <div className="latestImgBox">
-                  <img src={item.image} alt="" />
-                  <div className="imgHoverBox">
-                    <p>{item.time}</p>
-                    <div className="latestLine"></div>
-                    <p>{item.date}</p>
+                  <img src={item.bgImg} alt="" />
+                  <div className="dec">
+                    <p>08</p>
+                    <hr />
+                    <p>DEC</p>
                   </div>
                 </div>
                 <div className="latestTextBox">
-                  <p style={{ color: "gray", fontSize: "18px", cursor: "pointer" }}>News</p>
-                  <p style={{ fontSize: "23px", cursor: "pointer" }}>{item.name}</p>
-                  <span style={{ color: "gray" }}>{item.comment}</span>
-                  <button><p>Readmore</p></button>
+                  <p style={{ color: "gray", fontSize: "18px", cursor: "pointer" }}>{item.news}</p>
+                  <p style={{ fontSize: "23px", cursor: "pointer" }}>{item.title}</p>
+                  <span style={{ color: "gray" }}>{item.description}</span>
+                  <button><p>{item.read}</p></button>
                 </div>
               </div>
             </SwiperSlide>

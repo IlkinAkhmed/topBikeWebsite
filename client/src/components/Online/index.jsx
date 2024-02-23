@@ -1,22 +1,21 @@
 import React from 'react'
-import "./index.scss"
-import { useNavigate } from 'react-router'
+import './index.scss'
 
 function Online() {
-  const navigate = useNavigate()
   return (
-    <section className='online'>
-      <img className='bgimg' src="https://topbike-store-demo.myshopify.com/cdn/shop/files/countdown-v1.jpg?v=1613575291" alt="" />
-      <div className="online-inner">
-        <p className='only'>Only Online</p>
-        <div className="time-wrapper">
+    <section id='onlyOnlineSection'>
+      <div className="onlineBox">
+        <div className="onlyTextBox">
+          <h3>Only Online</h3>
+        </div>
+        <div className="timerBox">
           <div className="time">
             <p>00</p>
             <span>Days</span>
           </div>
           <div className="time">
             <p>00</p>
-            <span>Hour</span>
+            <span>Hours</span>
           </div>
           <div className="time">
             <p>00</p>
@@ -24,14 +23,19 @@ function Online() {
           </div>
           <div className="time">
             <p>00</p>
-            <span>Secs</span>
+            <span>Sec</span>
           </div>
         </div>
-        <p className='get'>GET 30% OFF YOUR ORDER OF $100 OR MORE</p>
-        <p className='use'>USE CODE “TOPBIKE30”</p>
-        <button onClick={() => navigate('/shop')}>SHOP NOW</button>
+        <div className="onlyTextsBox">
+          <p>GET 30% OFF YOUR ORDER OF $100 OR MORE</p>
+          <span>USE CODE “TOPBIKE30”</span>
+        </div>
+        <div className="onlyShopBtn">
+          <button>
+            <p>Shop Now</p>
+          </button>
+        </div>
       </div>
-
     </section>
   )
 }

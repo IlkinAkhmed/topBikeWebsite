@@ -1,12 +1,12 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Toaster } from "react-hot-toast"
 import { Route, Routes } from 'react-router'
 import './App.css'
-import Comments from './components/Comments'
 import Dashboard from './components/Dashboard'
 import Details from './components/Details'
 import Products from './components/Products'
 import Users from './components/Users'
+import Comments from './components/adminComments'
 import Login from './components/login'
 import { userContext } from './context/userContext'
 import MainLayout from './layouts/MainLayout'
@@ -23,9 +23,17 @@ import AdminRouter from './routes/AdminRouter'
 import PrivateRoute from './routes/privateRoute'
 function App() {
 
-  const { isLoginOpen } = useContext(userContext)
+  const { isLoginOpen, token } = useContext(userContext)
+
+  useEffect(() => {
+    // This code will run after the component has mounted and whenever 'token' changes
+    if (!token) {
+      localStorage.removeItem('user');
+    }
+  }, [token]);
 
   const [pageLoading, setPageLoading] = useState(true)
+
 
   return (
     <><Toaster
@@ -37,13 +45,10 @@ function App() {
         <Route path="*" element={<Error />} />
         <Route element={<MainLayout pageLoading={pageLoading} setPageLoading={setPageLoading} />}>
           <Route path="/" element={<HomePage pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
-          <Route element={<PrivateRoute check={["user", "admin"]} />}>
+          <Route element={<PrivateRoute />}>
             <Route path="/contact" element={<Contact pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
             <Route path="/cart" element={<Cart pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
             <Route path="/wishlist" element={<Wishlist pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
-          </Route>
-          <Route element={<PrivateRoute check={["admin"]} />}>
-            {/* <Route path="/admin" element={<Admin />} /> */}
           </Route>
           <Route path="/shop" element={<Shop pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
           <Route path="/about" element={<About pageLoading={pageLoading} setPageLoading={setPageLoading} />} />

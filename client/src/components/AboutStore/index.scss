@@ -1,84 +1,73 @@
-.store {
-    width: 100%;
-    text-align: center;
-    min-height: 1000px;
-    padding: 40px 0;
+@mixin MyFlex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    .store-head {
-        width: 50%;
-        margin: auto;
+// @include MyFlex;
+#reasonToShopSection {
+    background-color: red;
+    background-image: url(https://topbike-store-demo.myshopify.com/cdn/shop/files/slider.jpg?v=1613576060);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 70vh;
+    @include MyFlex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0px 40px;
 
-        span {
-            font-size: 50px;
-        }
-
-        p {
-            font-size: 17px;
-            padding: 20px 0;
-        }
+    h1 {
+        text-align: center;
+        font-size: 50px;
+        color: white;
     }
 
-    .bike-wrapper {
-        width: 75%;
-        margin: auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        min-height: 700px;
+    .reasonShopLine {
+        background-color: #ffab00;
+        width: 60px;
+        height: 3px;
+    }
 
-        .right-bike {
-            width: 49%;
-            overflow: hidden;
+    .swiper {
+        width: 100%;
+        padding: 30px 0px 80px 0px;
+    }
 
-            &:hover img {
-                filter: grayscale(100%);
-                transform: scale(1.1);
-            }
-
-            img {
-                width: 100%;
-                transition: all .5s;
-                height: 100%;
-            }
-        }
-
-        .left-bikes {
-            width: 49%;
-            overflow: hidden;
-            height: 100%;
-            display: flex;
-            flex-wrap: wrap;
+    .swiper-slide {
+        text-align: center;
+        .aboutInformCard {
+            @include MyFlex;
+            flex-direction: column;
             gap: 20px;
+            color: white;
 
-            .img {
-                overflow: hidden;
-                width: 100%;
-
-                &:hover img {
-                    filter: grayscale(100%);
-                    transform: scale(1.1);
-                }
+            h1 {
+                font-size: 20px;
             }
 
-            img {
-                width: 100%;
-                height: 100%;
-                transition: all .5s;
+            p {
+                font-size: 20px;
+                max-width: 300px;
+                text-align: center;
             }
         }
     }
 
-    .store-details {
-        width: 75%;
-        margin: auto;
-        display: flex;
-        justify-content: space-between;
-        padding: 50px 0;
+    .swiper-pagination-fraction,
+    .swiper-pagination-custom,
+    .swiper-horizontal>.swiper-pagination-bullets,
+    .swiper-pagination-bullets.swiper-pagination-horizontal {
+        display: none;
+    }
+}
 
-        ul {
-            width: 32%;
-            line-height: 2;
-
+@media only screen and (max-width: 700px) {
+    #reasonToShopSection {
+        h1 {
+            font-size: 35px;
         }
     }
+
+
 }

@@ -59,17 +59,6 @@ function ShopProducts() {
                     <p>FILTER</p>
                 </div>
                 <div className="featured">
-                    <div className="dottes">
-                        <i className="fa-solid fa-ellipsis-vertical"></i>
-                        <i className="fa-solid fa-ellipsis-vertical"></i>
-                        <i className="fa-solid fa-ellipsis-vertical"></i>
-                        <div className="colls">
-                            <span>2</span>
-                            <span>3</span>
-                            <span>4</span>
-                            <span>5</span>
-                        </div>
-                    </div>
                     <div className="sort" onClick={() => setisSubMenuOpen(!isSubMenuOpen)}>
                         <p>Featured</p>
                         <i className={`fa-solid ${isSubMenuOpen ? 'fa-caret-up' : 'fa-caret-down'}`}></i>

@@ -9,9 +9,10 @@ import { openBasket } from '../../reduxSlice/basketSlice'
 import Search from '../../components/Search'
 import { userContext } from '../../context/userContext'
 import toast from 'react-hot-toast'
+import MobileNavbar from '../../components/movbileNavbar';
 
 function Navbar() {
-  const { user, setToken, setUser, basketArr, isLoginOpen, setIsLoginOpen, wishlistArr, fetchWishlistData, fetchCurrentUser,currentUSer } = useContext(userContext);
+  const { user, setToken, setUser, basketArr, isLoginOpen, setIsLoginOpen, wishlistArr, fetchWishlistData, fetchCurrentUser, currentUSer } = useContext(userContext);
 
   const basketOpen = useSelector((state) => state.basket.isOpen)
   const dispatch = useDispatch()
@@ -23,15 +24,11 @@ function Navbar() {
   const [isSearchOpen, setisSearchOpen] = useState(false)
   const [isLoginDropDownOpen, setIsLoginDropDownOpen] = useState(false)
   const [scroll, setScroll] = useState(false);
-
-  useEffect(() => {
-    fetchCurrentUser()
-  }, [])
-
-
+  const [isNavOpen, setisNavOpen] = useState(true)
 
   useEffect(() => {
     fetchWishlistData()
+    fetchCurrentUser()
   }, [])
 
   async function handleProfileImageChange(e) {
@@ -101,12 +98,12 @@ function Navbar() {
 
   return (
     <nav className={scroll ? 'navbar scroll' : 'navbar'}>
+      <MobileNavbar setisNavOpen={setisNavOpen} isNavOpen={isNavOpen} />
       {product && product.map(item => (
-        <div key={item._id} style={{ display: "flex", width: "100%", justifyContent: "space-between", alignItems: "center", padding: "20px 0" }}>
-          <div className="nav-inner" >
-            <div className="logo">
-              <img onClick={() => navigate('/')} src={item.logo} alt="" />
-            </div>
+        <div className="nav-inner" key={item._id}>
+          <i onClick={() => setisNavOpen(true)} className='fa-solid fa-bars'></i>
+          <div className="logo">
+            <img onClick={() => navigate('/')} src={item.logo} alt="" />
           </div>
           <ul className='nav-texts'>
             <li className='nav-ul-li'>

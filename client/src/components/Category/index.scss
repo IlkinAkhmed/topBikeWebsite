@@ -1,53 +1,77 @@
-.category {
-    width: 100%;
-    min-height: 500px;
-    padding: 40px 20px;
+@mixin MyFlex {
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
+}
 
-    .categoryCard {
-        width: 32%;
-        height: 450px;
+// @include MyFlex;
+#homeFilterBoxsSection {
+    background-color: white;
+    padding: 50px 0px;
+    width: 100%;
+    @include MyFlex;
+    flex-wrap: wrap;
+    gap: 35px;
+
+    .filterBox {
+        width: 460px;
+        height: 460px;
         position: relative;
-        cursor: pointer;
         overflow: hidden;
 
-        &:hover .cardBgImg {
-            transform: scale(1.05);
-            transition: .5s;
-        }
-        &:hover .categoryName{
-            transform: translateY(0);
-            transition: .5s;
+        img {
+            transition: 0.8s;
+            max-width: 100%;
         }
 
-        .cardBgImg {
-
-            position: absolute;
-            z-index: -1;
-            top: 0;
-            left: 0;
-            transition: .5s;
+        .filterBoxHoverBox {
+            background-color: rgba(255, 255, 255, 0.522);
             width: 100%;
-            height: 100%;
-        }
-
-        .categoryName {
+            height: 17%;
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 100%;
+            @include MyFlex;
             font-size: 25px;
-            padding: 20px 0;
-            text-align: center;
-            color: black;
-            background-color: rgb(255, 255, 255, 0.700);
-            transform: translateY(70px);
-            transition: .5s;
-            &:hover{
-                color: goldenrod;
+            opacity: 0;
+            transition: 0.5s;
+            cursor: pointer;
+
+            p {
+                transition: 0.2s;
+                color: black;
+            }
+
+            p:hover {
+                transition: 0.2s;
+                color: #ffab00;
             }
         }
+
     }
+
+    .filterBox:hover {
+        img {
+            transform: scale(1.1);
+            transition: 0.8s;
+
+        }
+
+        .filterBoxHoverBox {
+            opacity: 1;
+            transition: 0.5s;
+        }
+    }
+}
+
+@media only screen and (max-width: 556px) {
+    #homeFilterBoxsSection {
+        .filterBox {
+            width: 300px;
+            height: 300px;
+
+        }
+
+    }
+
 }

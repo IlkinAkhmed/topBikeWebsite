@@ -1,21 +1,23 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import './Comment.scss'
 import axios from 'axios'
-import { userContext } from '../../context/userContext'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
-import adminLogo from "../../../img/adminLogo.jpg"
 import { useSelector } from 'react-redux'
+import adminLogo from "../../../img/adminLogo.jpg"
+import { userContext } from '../../context/userContext'
+import './Comment.scss'
+import { useNavigate } from 'react-router'
 
 function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
     const { user, token, isLoading, setIsLoading, fetchBasketData, fetchWishlistData } = useContext(userContext)
     const [commentsOfProduct, setCommentsOfProduct] = useState([])
     const [count, setCount] = useState(0)
-    const [openedReplies, setOpenedReplies] = useState([])
     const [text, setText] = useState('')
     const [replyText, setReplyText] = useState('')
     const [isInputSelected, setIsInputSelected] = useState(false)
     const [commentId, setCommentId] = useState('')
-
+    const navigate = useNavigate()
+    
+    const [openedReplies, setOpenedReplies] = useState([])
     const toggleReplies = (commentId) => {
         setOpenedReplies((prevOpenedReplies) => {
             if (prevOpenedReplies.includes(commentId)) {
@@ -47,65 +49,78 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
             toast.error('Please enter a reply!')
             return
         }
-        try {
-            setIsLoading(true)
-            await axios.post(`http://localhost:7000/comments/${commentId}/replyComment`, {
-                text: replyText,
-            }, {
-                headers: {
-                    Authorization: token
-                },
-            });
-            setIsLoading(false)
-            setReplyText("");
-            toast.success('Reply Added Successfully');
-            await fetchComment();
-            setIsInputSelected(false)
-            setCommentId('')
-        } catch (error) {
-            toast.error(error.message);
+        if (token) {
+            try {
+                setIsLoading(true)
+                await axios.post(`http://localhost:7000/comments/${commentId}/replyComment`, {
+                    text: replyText,
+                }, {
+                    headers: {
+                        Authorization: token
+                    },
+                });
+                setIsLoading(false)
+                setReplyText("");
+                toast.success('Reply Added Successfully');
+                await fetchComment();
+                setIsInputSelected(false)
+                setCommentId('')
+            } catch (error) {
+                toast.error(error.message)
+            }
+
+        } else {
+            toast.error('You must be logged in firstly to perform this action')
         }
     }
 
 
 
     const deleteComment = async (id) => {
-        try {
-            setIsLoading(true)
-            await axios.delete(`http://localhost:7000/comments/${id}/delete`, {
-                headers: {
-                    Authorization: token
-                },
-                data: {
-                    userId: user._id,
-                    productId: product._id
-                }
-            });
-            setIsLoading(false)
-            toast.success('Comment Deleted Successfully');
-            await fetchComment();
-        } catch (error) {
-            toast.error(error.message);
+        if (token) {
+            try {
+                setIsLoading(true)
+                await axios.delete(`http://localhost:7000/comments/${id}/delete`, {
+                    headers: {
+                        Authorization: token
+                    },
+                    data: {
+                        userId: user._id,
+                        productId: product._id
+                    }
+                });
+                setIsLoading(false)
+                toast.success('Comment Deleted Successfully');
+                await fetchComment();
+            } catch (error) {
+                toast.error(error.message);
+            }
+        } else {
+            toast.error("You must be logged in firstly to perform this action")
         }
     }
 
     const deleteReply = async (replyId, comment) => {
-        try {
-            setIsLoading(true)
-            await axios.delete(`http://localhost:7000/replies/${replyId}/delete`, {
-                headers: {
-                    Authorization: token
-                },
-                data: {
-                    userId: user._id,
-                    commentId: comment
-                }
-            });
-            setIsLoading(false)
-            toast.success('Reply Deleted Successfully');
-            await fetchComment();
-        } catch (error) {
-            toast.error(error.message);
+        if (token) {
+            try {
+                setIsLoading(true)
+                await axios.delete(`http://localhost:7000/replies/${replyId}/delete`, {
+                    headers: {
+                        Authorization: token
+                    },
+                    data: {
+                        userId: user._id,
+                        commentId: comment
+                    }
+                });
+                setIsLoading(false)
+                toast.success('Reply Deleted Successfully');
+                await fetchComment();
+            } catch (error) {
+                toast.error(error.message);
+            }
+        } else {
+            toast.error("You must be logged in firstly to perform this action")
         }
     }
 
@@ -119,25 +134,35 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
             toast.error('Please enter a valid text');
             return
         }
-        try {
-            setIsLoading(true)
-            await axios.post(`http://localhost:7000/products/${id}/addComment`, {
-                text: text,
-            }, {
-                headers: {
-                    Authorization: token
-                },
-            });
-            setIsLoading(false)
-            setText("");
-            toast.success('Comment Added Successfully');
-            await fetchComment();
-        } catch (error) {
-            toast.error(error.message);
+        if (token) {
+            try {
+                setIsLoading(true)
+                await axios.post(`http://localhost:7000/products/${id}/addComment`, {
+                    text: text,
+                }, {
+                    headers: {
+                        Authorization: token
+                    },
+                });
+                setIsLoading(false)
+                setText("");
+                toast.success('Comment Added Successfully');
+                await fetchComment();
+            } catch (error) {
+                toast.error(error.message);
+            }
+
+        } else {
+            toast.error("You must be logged in firstly to perform this action");
         }
     }
 
     const likeComment = async (id) => {
+        if (token) {
+
+        } else {
+            toast.error("You must be logged in firstly to perform this action")
+        }
         try {
             setIsLoading(true)
             const res = await axios.post(`http://localhost:7000/comments/${id}/like`, {
@@ -148,7 +173,6 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
                 },
             });
             setIsLoading(false)
-
             res.status === 200 ? toast.success('Comment Liked Successfully') : toast.success('Comment Removed Successfully')
             await fetchComment();
         } catch (error) {
@@ -157,22 +181,27 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
     }
 
     const likeReply = async (id, replyId) => {
-        try {
-            setIsLoading(true)
-            const res = await axios.post(`http://localhost:7000/replies/${id}/like`, {
-                userId: user._id,
-                replyId: replyId,
-            }, {
-                headers: {
-                    Authorization: token
-                },
-            });
-            setIsLoading(false)
+        if (token) {
+            try {
+                setIsLoading(true)
+                const res = await axios.post(`http://localhost:7000/replies/${id}/like`, {
+                    userId: user._id,
+                    replyId: replyId,
+                }, {
+                    headers: {
+                        Authorization: token
+                    },
+                });
+                setIsLoading(false)
 
-            res.status === 200 ? toast.success('Comment Liked Successfully') : toast.success('Comment Removed Successfully')
-            await fetchComment();
-        } catch (error) {
-            toast.error(error.message);
+                res.status === 200 ? toast.success('Comment Liked Successfully') : toast.success('Comment Removed Successfully')
+                await fetchComment();
+            } catch (error) {
+                toast.error(error.message);
+            }
+
+        } else {
+            toast.error("You must be logged in to perform this action")
         }
     }
 

@@ -1,60 +1,68 @@
-.teams {
-    width: 100%;
-    text-align: center;
-    min-height: 600px;
-    padding: 40px 0;
+@mixin MyFlex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    .teams-head {
-        width: 50%;
-        margin: auto;
+// @include MyFlex;
 
-        span {
-            font-size: 50px;
-        }
+#aboutDownSection {
+    background-color: white;
+    @include MyFlex;
+    flex-direction: column;
+    padding: 0px 0px 80px;
 
-        p {
-            font-size: 17px;
-            padding: 20px 0;
-        }
+    h1 {
+        font-size: 40px;
+        padding: 40px 0px 35px;
     }
 
-    .teams-wrapper {
-        width: 70%;
-        margin: auto;
-        display: flex;
-        justify-content: space-between;
-        padding: 30px 0;
+    span {
+        text-align: center;
+        padding: 0px 0px 40px;
+        max-width: 600px;
+    }
 
-        .person-card {
-            width: 23%;
+    .aboutPeopleBox {
+        @include MyFlex;
+        gap: 25px;
+        flex-wrap: wrap;
 
-            .img {
+        .peopleCard {
+
+            .peopleImgBox {
                 overflow: hidden;
-                height: 77%;
-
-                &:hover img {
-                    transform: scale(1.09);
-                    transition: .5s;
-                    filter: grayscale(100%);
-                }
+                background-color: black;
+                @include MyFlex;
+                cursor: pointer;
 
                 img {
-                    transition: .3s;
-                    max-width: 100%;
-                    min-height: 100%;
+                    max-width: 260px;
+                    transition: all 0.5s;
+                }
+
+                img:hover {
+                    filter: grayscale(100%);
                 }
             }
 
-            .person-texts {
-                height: 20%;
-                display: flex;
+            .peopleTextBox {
+                padding: 20px;
+                @include MyFlex;
                 flex-direction: column;
-                justify-content: center;
+                gap: 10px;
 
-                h3 {
-                    padding: 10px 0;
+                h4 {
+                    font-size: 25px;
+                }
+
+                p {
+                    font-size: 16px;
+                    color: rgba(0, 0, 0, 0.866);
                 }
             }
         }
     }
+
+
 }

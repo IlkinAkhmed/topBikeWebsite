@@ -3,6 +3,7 @@ import Footer from './Footer'
 import { Outlet } from "react-router-dom"
 import Navbar from './Navbar'
 import Basket from '../components/Basket'
+import MobileNavbar from '../components/movbileNavbar'
 
 function MainLayout({ pageLoading, setPageLoading }) {
 

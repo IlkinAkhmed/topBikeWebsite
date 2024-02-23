@@ -9,44 +9,51 @@ function Footer() {
 
   return (
     <footer>
-      <div className="footer-inner">
-        <div className="logoSide">
-          <img src="https://topbike-store-demo.myshopify.com/cdn/shop/files/LOGO.png?v=1613575279" alt="" />
-          <p>The simple, delicate and light design makes it comfortable for everyone.</p>
-          <div className="icons">
-            <i className='fa-brands fa-twitter'></i>
-            <i className='fa-solid fa-basketball'></i>
-            <i className="fa-brands fa-behance"></i>
-            <i className='fa-brands fa-instagram'></i>
-          </div>
+      <div className="footerLeftBox">
+        <img src="https://topbike-store-demo.myshopify.com/cdn/shop/files/LOGO.png?v=1613575279" alt="" />
+        <p>The simple, delicate and light design
+          makes it comfortable for everyone.</p>
+        <div className="socialMediaBox">
+          <i className=' icon fa-brands fa-twitter'></i>
+          <i className=' icon fa-solid fa-basketball'></i>
+          <i className=" icon fa-brands fa-behance"></i>
+          <i className=' icon fa-brands fa-instagram'></i>
         </div>
-        <ul>
+      </div>
+      <div className="footerRightBox">
+        <div className="footerBox">
           <h2>Shop</h2>
-          <hr />
+          <div className="footerLine"></div>
           <Link className="footer-link" to={'/shop'}>Shopping</Link>
           <Link className="footer-link" onClick={() => setCategory('bike')} to={'/shop'}>Bicycle</Link>
           <Link className="footer-link" onClick={() => setCategory('accessory')} to={'/shop'}>Bicycle Accessories</Link>
           <Link className="footer-link" onClick={() => setCategory('helmet')} to={'/shop'}>Helmets</Link>
-        </ul>
-        <ul>
+        </div>
+        <div className="footerBox">
           <h2>Aboout Us</h2>
-          <hr />
+          <div className="footerLine"></div>
           <Link className="footer-link" to={'/about'}>About Us</Link>
           <Link className="footer-link" to={'/'}>Pagination</Link>
           <Link className="footer-link" to={'/'}>Terms & Conditions</Link>
           <Link className="footer-link" to={'/contact'}>Contact</Link>
           <Link className="footer-link" to={'/shop'}>Accessories</Link>
           <Link className="footer-link" to={'/'}>Term of use</Link>
-        </ul>
-        <ul>
+        </div>
+        <div className="footerBox">
           <h2>Information</h2>
-          <hr />
+          <div className="footerLine"></div>
           <Link className="footer-link" to={'/'}>Address</Link>
           <Link className="footer-link" to={'/'}>Privacy PoLinkcy</Link>
           <Link className="footer-link" to={'/'}>Terms & Conditions</Link>
           <Link className="footer-link" to={'/'}>Products Return</Link>
           <Link className="footer-link" to={'/'}>Wholesale Policy</Link>
-        </ul>
+        </div>
+      </div>
+      <div className="copyRider">
+        <p>© Copyright 2024 | TopBike By <span>IlkinAkhmed</span> Powered by Af104.</p>
+        <div className="cardImages">
+          <img src="https://topbike-store-demo.myshopify.com/cdn/shop/files/payment.png?v=1613576066" alt="" />
+        </div>
       </div>
     </footer>
   )

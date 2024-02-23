@@ -1,5 +1,5 @@
 .basket {
-    width: 340px;
+    width: 300px;
     height: 100vh;
     position: fixed;
     top: 0;
@@ -7,8 +7,8 @@
     text-align: center;
     z-index: 10;
     background-color: #f7f7f7;
-    transform: translateX(340px);
-    transition: all .5s ease;
+    transform: translateX(300px);
+    transition: all .3s ease-in-out;
     border-left: 1px solid black;
     overflow-y: scroll;
 
@@ -40,7 +40,7 @@
         i,
         p,
         h2 {
-            padding: 5px;
+            padding: 8.5px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -196,4 +196,3 @@
 .cart-bottom-position {
     position: sticky !important;
 }
-

@@ -1,50 +1,70 @@
-import React from 'react'
-import "./index.scss"
+import React from 'react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import './index.scss';
+
 
 function Store() {
-    return (
-        <section className='store'>
-            <div className="store-head">
-                <span>Store In The World</span>
-                <p>Quisque vitae nibh iaculis neque blandit hendrerit euismod.Maecenas sit amet purus eget ipsum elementum
-                    venenatis. Aenean maximus urna magna, quis rutrum mi semper non. Cras rhoncus elit non arcu hendrerit rhoncus sit
-                    amet purus eget ipsum.
-                </p>
-            </div>
-            <div className="bike-wrapper">
-                <div className="right-bike">
-                    <img src="https://topbike-store-demo.myshopify.com/cdn/shop/files/aboutUs_5b8fdb9f-6b5a-4fa7-9779-54ee28c20aed.jpg?v=1613576063" alt="" />
-                </div>
-                <div className="left-bikes">
-                    <div className="img">
-                        <img src="https://topbike-store-demo.myshopify.com/cdn/shop/files/aboutUs1.jpg?v=1613576063" alt="" />
-                    </div>
-                    <div className="img">
-                        <img src="https://topbike-store-demo.myshopify.com/cdn/shop/files/aboutUs2.jpg?v=1613576063" alt="" />
-                    </div>
-                </div>
-            </div>
-            <div className="store-details">
-                <ul>
-                    <h3>NEWYORK STORE</h3>
-                    <li>Brooklyn Law School. 250 Joralemon</li>
-                    <li>Monday to Friday : 9am to 8pm</li>
-                    <li>ilkin656.u@gmail.com</li>
-                </ul>
-                <ul>
-                    <h3>AMSTERDAM STORE</h3>
-                    <li>Roeterseiland Campus Building E, 10th Amsterdam</li>
-                    <li>Monday to Friday : 8am to 5pm</li>
-                    <li>ilkin656.u@gmail.com</li>
-                </ul>
-                <ul>
-                    <h3>LONDON STORE</h3>
-                    <li>15-17 Charlotte Street, London</li>
-                    <li>Monday to Friday : 9am to 8pm</li>
-                    <li>Example@gmail.com</li>
-                </ul>
-            </div>
 
+
+    return (
+        <section id='reasonToShopSection'>
+            <h1>Reasons to shop with us</h1>
+            <div className="reasonShopLine"></div>
+            <Swiper
+                slidesPerView={3}
+                spaceBetween={30}
+                pagination={{
+                    clickable: true,
+                }}
+                breakpoints={{
+                    320: {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                    },
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                        spaceBetween: 50,
+                    },
+                }}
+                modules={[Pagination]}
+                className="mySwiper"
+            >
+
+                <SwiperSlide>
+
+                    <div className="aboutInformCard">
+                        <h2>7 DAYS EASY RETURN</h2>
+                        <p>Product any fault within 7 days for an immediately exchange.</p>
+                    </div>
+                </SwiperSlide>
+                <SwiperSlide>
+
+                    <div className="aboutInformCard">
+                        <h2>QUALITY  GUARANTEE</h2>
+                        <p>Product any fault within 7 days for an immediately exchange.</p>
+                    </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                    <div className="aboutInformCard">
+                        <h2>7 DAYS EASY RETURN</h2>
+                        <p>Product any fault within 7 days for an immediately exchange.</p>
+                    </div>
+                </SwiperSlide>
+                <SwiperSlide>
+
+                    <div className="aboutInformCard">
+                        <h2>QUALITY  CHECK ONLINE BEFORE YOU BUY!</h2>
+                        <p>Product any fault within 7 days for an immediately exchange.</p>
+                    </div>
+                </SwiperSlide>
+            </Swiper>
         </section>
     )
 }

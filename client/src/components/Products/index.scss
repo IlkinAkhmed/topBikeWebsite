@@ -1,0 +1,86 @@
+.products {
+    width: 100%;
+    padding: 40 20px;
+    background-color: rgb(218, 218, 218);
+    min-height: 100vh;
+
+    h1 {
+        padding: 30px 0;
+        letter-spacing: 3px;
+        text-align: center;
+    }
+
+    table {
+        border: 1px solid gray;
+        margin: auto;
+        margin-top: 40px;
+        padding: 10px;
+        text-align: center;
+        width: 1100px;
+
+        th,
+        td {
+            padding: 20px;
+            text-align: center;
+        }
+
+        td i {
+            color: red;
+            cursor: pointer;
+
+            &:hover {
+                color: blue;
+            }
+        }
+    }
+
+    form {
+        z-index: 10;
+        width: 330px;
+        height: 430px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 30px;
+        border: 1px solid gray;
+        box-shadow: 0 0 8px rgba(0, 0, 0, .6);
+        opacity: 0;
+        visibility: hidden;
+        transition: all .3s ease-in-out;
+
+        .file {
+            color: red;
+        }
+
+        input[type=text],
+        input[type=number] {
+            display: block;
+            width: 90%;
+            font-size: 1.2em;
+            margin: 10px 0;
+            padding: 7px;
+            border: 1px solid #ccc;
+            height: 40px;
+            border-radius: 5px;
+
+        }
+
+        input,
+        label {
+            margin: 20px auto;
+        }
+        .submit{
+            background-color: black;
+            color: white;
+            padding: 10px 5px;
+        }
+
+    }
+}
+
+.form-open {
+    opacity: 1 !important;
+    visibility: visible !important;
+}

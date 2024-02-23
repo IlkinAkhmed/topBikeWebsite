@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import "./index.scss"
 import emailjs from '@emailjs/browser';
 import toast from 'react-hot-toast';
+import {Link} from "react-router-dom"
 
 function Form() {
 
@@ -55,6 +56,7 @@ function Form() {
                 <input type="text" placeholder='Your Subject' value={subject} onChange={(e) => setSubject(e.target.value)} />
                 <textarea type="text " cols={'80'} rows={'20'} placeholder='Your message' value={message} onChange={(e) => setMessage(e.target.value)} />
                 <button type='submit'>SEND TO US</button>
+
             </form>
         </div>
     )

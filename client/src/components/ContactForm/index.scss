@@ -21,9 +21,10 @@
             transition: all .5s;
 
             border-radius: 8px;
+
             &:focus {
                 border-color: rgb(108, 0, 0);
-                box-shadow: rgb(23, 49, 220)  0px 0px 5px;
+                box-shadow: rgb(23, 49, 220) 0px 0px 5px;
             }
         }
 
@@ -47,10 +48,19 @@
             font-size: 1.1em;
             border: 1px solid black;
             transition: all .3s;
-            &:hover{
+
+            &:hover {
                 background-color: white;
                 color: black;
             }
+        }
+    }
+}
+
+@media screen and (max-width: 577px) {
+    .contact-form {
+        form {
+            width: 90%;
         }
     }
 }

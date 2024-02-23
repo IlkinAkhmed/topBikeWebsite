@@ -7,16 +7,23 @@ import { CategoryContext } from '../../context/categoryContext';
 function Category() {
     const { product } = useFetchData('category')
     const { setCategory } = useContext(CategoryContext)
+
     return (
-        <section className='category'>
-            {product && product.map(item => (
-                <div className="categoryCard" key={item._id} >
-                    <img className="cardBgImg" src={item.image} alt="" />
-                    <Link onClick={() => setCategory(item.category)} to={'/shop'} className='categoryName'>{item.buttonText}</Link>
-                </div>
-            ))}
+        <section id='homeFilterBoxsSection'>
+            {
+                product && product.map((item) => (
+                    <div className="filterBox" key={item._id}> 
+                        <img src={item.image}  alt="" />
+                        <Link onClick={() => setCategory(item.category)} to={'/shop'} className="filterBoxHoverBox"><p>{item.category}</p></Link>
+                    </div>
+                ))
+            }
         </section>
     )
 }
 
 export default Category
+
+
+
+// onClick={() => setCategory(item.category)} to={'/shop'}
