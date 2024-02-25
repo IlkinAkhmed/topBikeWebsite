@@ -16,7 +16,11 @@
             left: 0;
             z-index: -1;
             width: 100%;
+            height: 250px;
             filter: contrast(50%);
+            background-image: url('https://topbike-store-demo.myshopify.com/cdn/shop/files/slider2.jpg?v=1613576060');
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .bottom-img {
@@ -217,3 +221,83 @@
     }
 }
 
+
+@media screen and (max-width: 576px) {
+    .details {
+        .det-wrapper {
+            width: 95%;
+            flex-wrap: wrap;
+
+            .det-prod {
+                width: 100%;
+                flex-wrap: wrap;
+                justify-content: center;
+
+                .det-img {
+                    width: 100%;
+                }
+
+                .det-texts {
+                    width: 100%;
+                    padding: 40px 20px;
+                    .det-name{
+                        gap: 10px;
+                        h3{
+                            font-size: .8em;
+                        }
+                    }
+                    .prod-qty {
+                        flex-wrap: wrap;
+                        justify-content: center;
+                        gap: 20px;
+                        .add-button,
+                        .buy-button {
+                            width: 90%;
+                        }
+                    }
+                    .description{
+                        display: none;
+                    }
+                }
+            }
+
+            .choose {
+                width: 100%;
+            }
+        }
+    }
+}
+
+
+@media screen and (min-width: 577px) and (max-width: 768px) {
+    .details {
+        .det-wrapper {
+            width: 95%;
+
+            .det-prod {
+                width: 65%;
+                flex-wrap: wrap;
+
+                .det-img {
+                    width: 100%;
+                }
+
+                .det-texts {
+                    width: 100%;
+                }
+            }
+
+            .choose {
+                width: 35%;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .details {
+        .det-wrapper {
+            width: 95%;
+        }
+    }
+}

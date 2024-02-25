@@ -21,9 +21,9 @@
         left: 50%;
         transform: translate(-50%, -50%);
         background-color: white;
-        width: 30%;
-        height: 600px;
-        padding: 50px;
+        width: 450px;
+        height: 570px;
+        padding: 10px;
         text-align: center;
         z-index: 12;
 
@@ -139,5 +139,17 @@
                 cursor: pointer;
             }
         }
+    }
+}
+
+@media screen and (max-width: 577px) {
+    .login-bg {
+        .login-form {
+            width: 320px;
+        }
+        form{
+            gap: 2px;
+        }
+
     }
 }

@@ -6,6 +6,10 @@ const commentModel = new Schema(
     {
         from: { type: Object },
         text: { type: String },
+        productId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'bikeProductSchema', // reference to the Product model
+        },
         replies: [
             {
                 text: { type: String },

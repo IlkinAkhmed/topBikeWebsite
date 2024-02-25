@@ -58,6 +58,23 @@ export const deleteDataFromBasket = async (req, res) => {
     }
 }
 
+export const deleteAllBasket = async (req, res) => {
+    try {
+        const userId = req.params.userId
+        const user = await User.findById(userId).populate('basket.product')
+        if (!user) {
+            res.status(404).send("User Not Found")
+            return
+        }
+        user.basket = []
+        await user.save()
+        res.status(200).send("Basket Deleted")
+
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
+
 
 
 

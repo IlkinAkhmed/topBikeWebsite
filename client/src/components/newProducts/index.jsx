@@ -20,7 +20,7 @@ function NewProduct() {
 
     return (
         <section className='newProduct'>
-            {isLoading && basketOpen === false ? <div class="loader"></div> : null}
+            {isLoading && basketOpen === false ? <div className="loader"></div> : null}
             <h1>New Product</h1>
             <div className="newWrapper">
                 {isLoading ? (

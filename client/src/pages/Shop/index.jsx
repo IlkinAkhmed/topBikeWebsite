@@ -11,22 +11,23 @@ import { openModal } from '../../reduxSlice/basketSlice'
 
 function Shop({ pageLoading, setPageLoading, OpenCommentBox }) {
   const isModalOpen = useSelector(state => state.basket.isModalOpen)
-  const { fetchCurrentUser } = useContext(userContext)
+  const { fetchCurrentUser, user } = useContext(userContext)
   const dispatch = useDispatch()
+
   useEffect(() => {
     fetchCurrentUser()
     setTimeout(() => {
       setPageLoading(false);
     }, 2000);
     setPageLoading(true)
-  }, [])
+  }, [user])
   return (
 
     <>
       {pageLoading ? <Loading /> :
         (
           <>
-            {isModalOpen && <div onClick={()=>dispatch(openModal(!isModalOpen))} className="overLay"></div>}
+            {isModalOpen && <div onClick={() => dispatch(openModal(!isModalOpen))} className="ModaloverLay"></div>}
             {isModalOpen ? <Modal /> : null}
             <ShopHeader />
             <Collection />

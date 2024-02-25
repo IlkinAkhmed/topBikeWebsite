@@ -29,6 +29,7 @@ nav {
 
             img {
                 width: 80%;
+                cursor: pointer;
             }
 
         }
@@ -96,9 +97,9 @@ nav {
             transition: 0.3s;
 
             .profile-img {
-                position: relative;
                 display: flex;
                 align-items: center;
+                position: relative;
 
                 .profile-sub-menu {
                     z-index: 10;

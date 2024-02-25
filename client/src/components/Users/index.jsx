@@ -9,13 +9,17 @@ import Spinner from '../SecondLoader'
 function Users() {
 
     const [users, setUsers] = useState([])
+    const [userId, setuserId] = useState('')
     const { token } = useContext(userContext)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const { spinner, setSpinner } = useContext(CategoryContext)
 
+
     const fetchUsers = async () => {
         try {
+            setSpinner(true)
             const res = await axios.get('http://localhost:7000/users')
+            setSpinner(false)
             setUsers(res.data)
         } catch (error) {
             toast.error(error.message)
@@ -53,20 +57,13 @@ function Users() {
                 <div className={`deleteModal ${showDeleteModal ? 'openDeleteModal' : ''}`}>
                     <h3>Are you sure? </h3>
                     <div>
-                        <div onClick={() => setShowDeleteModal(false)}>No</div>
-                        <button onClick={() => { deleteUser(userId) }}>Yes</button>
+                        <button onClick={() => setShowDeleteModal(false)}>No</button>
+                        <button onClick={() => {deleteUser(userId),setShowDeleteModal(false)}}>Yes</button>
                     </div>
                 </div>
                 {users.length !== 1
                     ? (
                         <>
-                            <div className={`deleteModal ${showDeleteModal ? 'openDeleteModal' : ''}`}>
-                                <h3>Are you sure? </h3>
-                                <div>
-                                    <button onClick={() => setShowDeleteModal(false)}>No</button>
-                                    <button onClick={() => { deleteUser(userId) }}>Yes</button>
-                                </div>
-                            </div>
                             <table border={1}>
                                 <thead>
                                     <tr >
@@ -94,7 +91,7 @@ function Users() {
                                                             alt="" />
                                                         </td>
                                                         <td >{user.email}</td>
-                                                        <td ><i className='fa-solid fa-trash' onClick={() => setShowDeleteModal(true)}></i></td>
+                                                        <td ><i className='fa-solid fa-trash' onClick={() => { setShowDeleteModal(true), setuserId(user._id) }}></i></td>
                                                     </tr>
                                                 ))
 

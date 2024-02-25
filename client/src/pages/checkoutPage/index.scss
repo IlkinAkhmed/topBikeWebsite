@@ -1,134 +1,13 @@
 #checkOut {
-    // height: 100vh;
+    min-height: 100vh;
     display: flex;
 
     .leftBox {
         width: 50%;
-        height: 100%;
         display: flex;
-        // justify-content: end;
-        align-items: end;
+        align-items: center;
         padding: 50px 70px;
         flex-direction: column;
-        border-right: 1px solid gray;
-
-        input:focus {
-            border: 3px solid rgb(25, 158, 215) !important;
-            outline: none;
-        }
-
-        #firstForm {
-            display: flex;
-            flex-direction: column;
-            width: 500px;
-            gap: 10px;
-
-            label {
-                font-size: 25px;
-            }
-
-            input {
-                width: 100%;
-                height: 50px;
-                padding: 0px 10px;
-                border-radius: 5px;
-                border: 1px solid gray;
-            }
-
-            .check {
-                display: flex;
-                gap: 10px;
-
-                input {
-                    width: 17px;
-                    height: 17px;
-                }
-            }
-
-        }
-
-        #secondForm {
-            width: 500px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 50px;
-
-            label {
-                font-size: 25px;
-            }
-
-            select {
-                height: 50px;
-                border-radius: 5px;
-            }
-
-            .normalBox {
-                width: 100%;
-                display: flex;
-                gap: 10px;
-                justify-content: space-between;
-
-                input {
-                    height: 50px;
-                    width: 50%;
-                    border-radius: 5px;
-                    padding: 0px 10px;
-                    border: 1px solid gray;
-                }
-
-            }
-
-            p {
-                color: rgb(25, 158, 215);
-                cursor: pointer;
-            }
-
-            input {
-                border-radius: 5px;
-                height: 50px;
-                padding: 0px 10px;
-                border: 1px solid gray;
-
-            }
-
-            .check {
-                display: flex;
-                gap: 10px;
-
-                input {
-                    width: 17px;
-                    height: 17px;
-                }
-            }
-        }
-
-        .shippingBox {
-            width: 500px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 40px;
-
-            p {
-                font-size: 20px;
-            }
-
-            .shipBox {
-                border: 3px solid rgb(25, 158, 215);
-                border-radius: 5px;
-                display: flex;
-                height: 60px;
-                padding: 0px 5px;
-                justify-content: space-between;
-                background: rgba(17, 163, 225, 0.558);
-                align-items: center;
-
-                p {
-                    font-size: 15px;
-                }
-            }
-        }
 
         .paymentBox {
             margin-top: 50px;
@@ -179,23 +58,26 @@
     }
 
     .rightBox {
+        border-left: 1px solid gray;
         background: #FAFAFA;
         width: 50%;
-        // height: 100%;
         padding: 90px 50px;
 
         .upBox {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 10px;
+            margin-top: 20px;
 
             .imgBox {
                 width: 70px;
                 height: 70px;
                 position: relative;
+                margin-bottom: 5px;
 
                 img {
-                    width: 100%;
+                    width: 70px;
                     border-radius: 5px;
                     border: 2px solid gray;
                 }
@@ -261,6 +143,55 @@
                     }
                 }
             }
+        }
+    }
+}
+
+@media screen and (max-width: 576px) {
+    #checkOut {
+        flex-wrap: wrap;
+
+        .leftBox {
+            width: 100%;
+
+            .paymentBox {
+                width: 100%;
+            }
+        }
+
+        .rightBox {
+            width: 100%;
+            padding: 50px 10px;
+
+            .textBox {
+                h1 {
+                    font-size: .8em !important;
+                }
+            }
+            .imgBox{
+                width: 50px !important;
+                img{
+                    width: 50px !important;
+                }
+            }
+
+            .normalBox {
+                width: 320px !important;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 577px) and (max-width: 768px) {
+    #checkOut {
+        flex-wrap: wrap;
+
+        .leftBox {
+            width: 100%;
+        }
+
+        .rightBox {
+            width: 100%;
         }
     }
 }

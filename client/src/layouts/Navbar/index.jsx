@@ -12,7 +12,7 @@ import toast from 'react-hot-toast'
 import MobileNavbar from '../../components/movbileNavbar';
 
 function Navbar() {
-  const { user, setToken, setUser, basketArr, isLoginOpen, setIsLoginOpen, wishlistArr, fetchWishlistData, fetchCurrentUser, currentUSer } = useContext(userContext);
+  const { user, setToken, setUser, basketArr, isLoginOpen, setIsLoginOpen, wishlistArr, fetchWishlistData, fetchCurrentUser, currentUSer, token } = useContext(userContext);
 
   const basketOpen = useSelector((state) => state.basket.isOpen)
   const dispatch = useDispatch()
@@ -20,11 +20,17 @@ function Navbar() {
 
   const { product } = useFetchData('navbar')
 
+  useEffect(() => {
+    if (token === null) {
+      localStorage.removeItem('user')
+    }
+  }, [])
+
 
   const [isSearchOpen, setisSearchOpen] = useState(false)
   const [isLoginDropDownOpen, setIsLoginDropDownOpen] = useState(false)
   const [scroll, setScroll] = useState(false);
-  const [isNavOpen, setisNavOpen] = useState(true)
+  const [isNavOpen, setisNavOpen] = useState(false)
 
   useEffect(() => {
     fetchWishlistData()
@@ -98,10 +104,10 @@ function Navbar() {
 
   return (
     <nav className={scroll ? 'navbar scroll' : 'navbar'}>
-      <MobileNavbar setisNavOpen={setisNavOpen} isNavOpen={isNavOpen} />
+      <MobileNavbar setIsLoginOpen={setIsLoginOpen} setisNavOpen={setisNavOpen} isNavOpen={isNavOpen} />
       {product && product.map(item => (
         <div className="nav-inner" key={item._id}>
-          <i onClick={() => setisNavOpen(true)} className='fa-solid fa-bars'></i>
+          <i onClick={() => { setisNavOpen(true), console.log("isledi") }} className='fa-solid fa-bars'></i>
           <div className="logo">
             <img onClick={() => navigate('/')} src={item.logo} alt="" />
           </div>

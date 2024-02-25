@@ -29,6 +29,7 @@
 
             p {
                 color: rgb(174, 174, 174);
+                margin: 10px 0;
             }
 
         }
@@ -65,7 +66,7 @@
 
         .three {
             background: rgb(0, 21, 36);
-            background: linear-gradient(10deg, rgba(0, 21, 36, 1) 18%, rgba(0, 200, 174, 1) 85%);
+            background: linear-gradient(10deg, rgba(0, 21, 36, 1) 0%, rgba(0, 189, 200, 1) 53%);
         }
     }
 }
@@ -102,8 +103,9 @@
 
         .peopleCommentBox {
             display: flex;
-            justify-content: start;
+            justify-content: space-between;
             align-items: start;
+            padding: 0 10px;
 
             .imgBox {
                 height: 100%;

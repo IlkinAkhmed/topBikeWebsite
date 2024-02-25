@@ -1,4 +1,5 @@
 import { Products } from "../../model/HomeModel/productsModel.js"
+import { User } from "../../model/UserModel/Model.js"
 import cloudinary from "../../utils/categoriesCloudinary.js"
 
 
@@ -25,18 +26,29 @@ export async function productPost(req, res) {
 export async function deleteProduct(req, res) {
     const { id } = req.params;
     try {
-        const data = await Products.findById(id)
-        if (data) {
-            await Products.findByIdAndDelete(id);
-            res.status(200).json({ message: "product deleted" });
-        }
-        else {
-            res.status(404).json({ message: "not found" });
+        const product = await Products.findById(id);
+        if (product) {
+            await User.updateMany(
+                {},
+                {
+                    $pull: {
+                        'basket': { product: product._id },
+                        'wishlist': { product: product._id }
+                    }
+                }
+            );
+
+             await Products.findByIdAndDelete(id);
+
+            res.status(200).json({ message: "Product deleted" });
+        } else {
+            res.status(404).json({ message: "Product not found" });
         }
     } catch (error) {
-        res.status(500).json({ message: "Server connection error!!!" });
+        res.status(500).json({ message: error.message });
     }
 };
+
 
 
 // UPDATE

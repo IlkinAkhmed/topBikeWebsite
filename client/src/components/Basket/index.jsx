@@ -33,7 +33,7 @@ function Basket() {
     async function handleDelete(id) {
         try {
             setIsLoading(true)
-            await axios.delete(`http://localhost:7000/users/${decoded._id}/delete`, {
+            await axios.delete(`http://localhost:7000/users/${user._id}/delete`, {
                 data: {
                     productId: id
                 }
@@ -50,7 +50,7 @@ function Basket() {
         try {
             if (type) {
                 setIsLoading(true)
-                await axios.post(`http://localhost:7000/users/${decoded._id}/increaseCount`, {
+                await axios.post(`http://localhost:7000/users/${user._id}/increaseCount`, {
                     productId: id
                 })
                 setIsLoading(false)
@@ -58,7 +58,7 @@ function Basket() {
                 await fetchBasketData()
             } else {
                 setIsLoading(true)
-                const res = await axios.post(`http://localhost:7000/users/${decoded._id}/decreaseCount`, {
+                const res = await axios.post(`http://localhost:7000/users/${user._id}/decreaseCount`, {
                     productId: id
                 })
                 setIsLoading(false)
@@ -71,14 +71,14 @@ function Basket() {
         }
     }
 
-    const subTotal = basketArr.reduce((initial, value) => initial + parseInt(value.product.newPrice), 0);
+    const subTotal = basketArr.reduce((initial, value) => initial + parseInt(value.product.newPrice * value.count), 0);
 
 
 
 
     return (
-    <>
-        {basketOpen && <div className="overLay" onClick={() => dispatch(openBasket(!basketOpen))}></div>}
+        <>
+            {basketOpen && <div className="overLay" onClick={() => dispatch(openBasket(!basketOpen))}></div>}
             <div className={`basket ${basketOpen ? 'basket-open' : ''}`}>
                 <div className="basket-head">
                     <i onClick={() => dispatch(openBasket(!basketOpen))} className='fa-solid fa-xmark'></i>

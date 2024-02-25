@@ -4,12 +4,12 @@ import "./index.scss"
 
 function CartHeader() {
     return (
-        <header className='cart-header'>
-            <img className='header-bg-img' src="https://topbike-store-demo.myshopify.com/cdn/shop/files/Banner-L2P.jpg?v=1613576665" alt="" />
+        <div className='cart-header'>
+            <div className='header-bg-img'  />
             <h1>Cart</h1>
             <p>Home / <span style={{ color: "goldenrod" }}>Cart</span></p>
             <img className='bottom-img' src={image} alt="" />
-        </header>
+        </div>
     )
 }
 

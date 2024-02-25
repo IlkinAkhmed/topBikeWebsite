@@ -1,5 +1,5 @@
 .basket {
-    width: 300px;
+    width: 320px;
     height: 100vh;
     position: fixed;
     top: 0;
@@ -7,7 +7,7 @@
     text-align: center;
     z-index: 10;
     background-color: #f7f7f7;
-    transform: translateX(300px);
+    transform: translateX(320px);
     transition: all .3s ease-in-out;
     border-left: 1px solid black;
     overflow-y: scroll;

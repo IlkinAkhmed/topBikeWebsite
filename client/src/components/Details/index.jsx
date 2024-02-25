@@ -28,7 +28,6 @@ function Details({ pageLoading, setPageLoading }) {
         try {
             const res = await axios.get(`http://localhost:7000/products/${id}`);
             setProduct(res.data);
-            await fetchCurrentUser()
         } catch (error) {
             return navigate('*')
         }
@@ -47,11 +46,12 @@ function Details({ pageLoading, setPageLoading }) {
 
     useEffect(() => {
         fetchData()
+        fetchCurrentUser()
         setTimeout(() => {
             setPageLoading(false);
         }, 2000);
         setPageLoading(true)
-    }, []);
+    }, [user]);
 
 
 
@@ -75,7 +75,7 @@ function Details({ pageLoading, setPageLoading }) {
                                 {isLoading && basketOpen === false && OpenCommentBox === false ? <div className="loader"></div> : null}
                                 <div className="det-head">
                                     <Comment product={product} OpenCommentBox={OpenCommentBox} handleOpenComment={handleOpenComment} id={id} />
-                                    <img className='backImg' src="https://topbike-store-demo.myshopify.com/cdn/shop/files/slider2.jpg?v=1613576060" alt="" />
+                                    <div className='backImg'  />
                                     <h3>Home <span style={{ color: "goldenrod" }}>{`> ${product.title}`}</span> </h3>
                                     <img className='bottom-img' src={image} alt="" />
                                 </div>

@@ -18,7 +18,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border: 1px solid black;
+        border-bottom: 1px solid black;
 
         .countBox {
             border-right: 1px solid black;
@@ -56,8 +56,9 @@
         height: 90vh;
         display: flex;
         flex-direction: column;
-        overflow-y: scroll;
         position: relative;
+        overflow-y: scroll;
+        overflow-x: hidden;
 
         .covering {
             position: absolute;
@@ -253,4 +254,26 @@
 .replyOpen {
     height: fit-content !important;
     padding: 10px 10px 0px 10px;
+}
+
+@media screen and (max-width: 577px) {
+    .commentBox {
+        width: 320px;
+
+        .emailBox {
+            width: 270px !important;
+
+            .replayBox {
+                width: 270px !important;
+            }
+        }
+
+        .downBox {
+            form {
+                input {
+                    width: 250px !important;
+                }
+            }
+        }
+    }
 }

@@ -1,5 +1,5 @@
 .mob-nav {
-    width: 300px;
+    width: 320px;
     position: fixed;
     top: 0;
     left: 0;
@@ -7,7 +7,7 @@
     z-index: 10;
     background-color: white;
     border-right: 1px solid black;
-    transform: translateX(-300px);
+    transform: translateX(-320px);
     transition: all .3s ease-in-out;
 
     .mob-nav-icons {
@@ -17,6 +17,55 @@
         align-items: center;
         justify-content: space-evenly;
         border-bottom: 1px solid black;
+
+        .profile-img {
+            display: flex;
+            align-items: center;
+            position: relative;
+
+            .profile-sub-menu {
+                z-index: 10;
+                opacity: 0;
+                visibility: hidden;
+                position: absolute;
+                background-color: white;
+                width: 180px;
+                height: 80px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 10px;
+                padding: 10px;
+                border-radius: 5px;
+                top: 50px;
+                left: -50px;
+                color: black;
+                transition: all .3s;
+
+                .changeImage {
+                    input {
+                        position: absolute;
+                        left: 0;
+                        opacity: 0;
+                        width: 180px;
+                        cursor: pointer;
+                        z-index: 5;
+                    }
+                }
+
+                div {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    font-size: 0.7em;
+                    color: rgb(74, 74, 74);
+
+                    &:hover {
+                        color: orange;
+                    }
+                }
+            }
+        }
 
         i {
             color: rgb(72, 72, 72);
@@ -79,6 +128,13 @@
         }
     }
 
+}
+
+
+
+.profileActive {
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
 .nav-open {

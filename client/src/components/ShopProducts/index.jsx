@@ -16,19 +16,15 @@ function ShopProducts() {
     const { product } = useFetchData('products')
     const [isFilterAreOpen, setIsFilterAreOpen] = useState(false)
     const [isSubMenuOpen, setisSubMenuOpen] = useState(false)
-    const [priceInputValue, setpriceInputValue] = useState(0)
+    const [priceInputValue, setpriceInputValue] = useState(5000)
     const { wishlistArr, handleBasket, handleWishlist, fetchWishlistData, user, fetchBasketData, isLoading } = useContext(userContext)
-    
+    const [sortedData, setSortedData] = useState(null);
+    const [isRespFilterOpen, setisRespFilterOpen] = useState(false)
+
     const { sizeCategory, colorCategory, category } = useContext(CategoryContext)
 
-    const [maxPrice, setMaxPrice] = useState(0);
 
-    useEffect(() => {
-        if (product) {
-            const newMaxPrice = Math.max(...product.map(x => x.newPrice));
-            setMaxPrice(newMaxPrice);
-        }
-    }, [product]);
+
 
     const isModalOpen = useSelector(state => state.basket.isModalOpen)
 
@@ -45,6 +41,14 @@ function ShopProducts() {
 
 
 
+    function checkTypeOfProperty(item) {
+        if (typeof item === "string") {
+            return item.toLowerCase();
+        }
+        return item;
+    }
+
+
 
 
 
@@ -52,9 +56,10 @@ function ShopProducts() {
     const basketOpen = useSelector((state) => state.basket.isOpen)
     return (
         <section className='shop-products'>
+            {isSubMenuOpen && <div className='overLay' onClick={() => setisSubMenuOpen(false)}></div>}
             {isLoading && basketOpen === false ? <div class="loader"></div> : null}
             <div className="filter-area">
-                <div onClick={() => setIsFilterAreOpen(!isFilterAreOpen)} className="filter">
+                <div onClick={() => { setIsFilterAreOpen(!isFilterAreOpen), setisRespFilterOpen(true) }} className="filter">
                     <i className="fa-solid fa-filter"></i>
                     <p>FILTER</p>
                 </div>
@@ -64,26 +69,45 @@ function ShopProducts() {
                         <i className={`fa-solid ${isSubMenuOpen ? 'fa-caret-up' : 'fa-caret-down'}`}></i>
                     </div>
                     <ul className={`featured-subMenu ${isSubMenuOpen ? 'featured-subMenu-open' : ''}`}>
-                        <li style={{ cursor: 'pointer' }}>Featured</li>
-                        <li style={{ cursor: 'pointer' }}>Best Selling</li>
-                        <li style={{ cursor: 'pointer' }}>Alphabetically, A-Z</li>
-                        <li style={{ cursor: 'pointer' }}>Price, high to low</li>
-                        <li style={{ cursor: 'pointer' }}>Price, low to high</li>
-                        <li style={{ cursor: 'pointer' }}>Date, old to new</li>
-                        <li style={{ cursor: 'pointer' }}>Date, new to old</li>
+                        <li onClick={() => { setSortedData(null), setisSubMenuOpen(false) }} style={{ cursor: 'pointer' }}>Default</li>
+                        <li onClick={() => { setSortedData({ property: "title", asc: true }), setisSubMenuOpen(false) }} style={{ cursor: 'pointer' }}>Alphabetically, A-z</li>
+                        <li onClick={() => { setSortedData({ property: "title", asc: false }), setisSubMenuOpen(false) }} style={{ cursor: 'pointer' }}>Alphabetically, z-A</li>
+                        <li onClick={() => { setSortedData({ property: "newPrice", asc: false }), setisSubMenuOpen(false) }} style={{ cursor: 'pointer' }}>Price, high to low</li>
+                        <li onClick={() => { setSortedData({ property: "newPrice", asc: true }), setisSubMenuOpen(false) }} style={{ cursor: 'pointer' }}>Price, low to high</li>
                     </ul>
                 </div>
             </div>
-            <FilterArea maxPrice={maxPrice} priceInputValue={priceInputValue} setpriceInputValue={setpriceInputValue}  isFilterAreaOpen={isFilterAreOpen} />
+            <FilterArea isRespFilterOpen={isRespFilterOpen} setisRespFilterOpen={setisRespFilterOpen} priceInputValue={priceInputValue} setpriceInputValue={setpriceInputValue} isFilterAreaOpen={isFilterAreOpen} />
             <div className="product-area">
                 {isLoading ? (
                     <h1>Loading...</h1>
                 ) : (
                     product && product
-                        // .filter(x => x.newPrice < parseInt(priceInputValue, 10))
+                        .filter(x => x.newPrice < parseInt(priceInputValue, 10))
                         .filter(item => item.category === category || category === 'all')
                         .filter(item => item.size === sizeCategory || sizeCategory === 'all')
                         .filter(item => item.color === colorCategory || colorCategory === 'all')
+                        .sort((a, b) => {
+                            if (sortedData && sortedData.asc) {
+                                return checkTypeOfProperty(a[sortedData.property]) >
+                                    checkTypeOfProperty(b[sortedData.property])
+                                    ? 1
+                                    : checkTypeOfProperty(b[sortedData.property]) >
+                                        checkTypeOfProperty(a[sortedData.property])
+                                        ? -1
+                                        : 0;
+                            } else if (sortedData && sortedData.asc === false) {
+                                return checkTypeOfProperty(a[sortedData.property]) >
+                                    checkTypeOfProperty(b[sortedData.property])
+                                    ? -1
+                                    : checkTypeOfProperty(b[sortedData.property]) >
+                                        checkTypeOfProperty(a[sortedData.property])
+                                        ? 1
+                                        : 0;
+                            } else {
+                                return 0;
+                            }
+                        })
                         .map((item) => (
                             <div
                                 key={item._id}

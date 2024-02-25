@@ -29,6 +29,7 @@
             text-align: center;
             display: flex;
             align-items: center;
+
             .img {
                 width: 10%;
 
@@ -37,7 +38,8 @@
                 }
             }
 
-            .product-price,.product-name {
+            .product-price,
+            .product-name {
                 width: 35%;
                 font-size: 1.5em;
                 padding: 0 10px;
@@ -52,20 +54,76 @@
                 color: white;
                 padding: 20px 0;
                 transition: all .3s;
-                &:hover{
+
+                &:hover {
                     border: 1px solid goldenrod;
                     background-color: goldenrod;
 
                 }
             }
-            .fa-trash-can{
+
+            .fa-trash-can {
                 cursor: pointer;
                 padding: 10px;
                 transition: all .3s;
-                &:hover{
+
+                &:hover {
                     color: goldenrod;
                 }
             }
+        }
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .wishlist {
+        .head {
+
+            i,
+            h1 {
+                font-size: 2em;
+            }
+        }
+
+        .wishlist-wrapper {
+            width: 95%;
+            padding: 0;
+            .wishlist-card{
+                padding: 20px 0;
+                margin-top: 20px;
+                border-bottom: 1px solid gray;
+                flex-wrap: wrap;
+                .img{
+                    width: 100%;
+                    text-align: center;
+                    img{
+                        width: 50%;
+                    }
+                }
+                .product-name{
+                    width: 100%;
+                    
+
+                }
+                .product-price{
+                    width: 40%;
+                }
+                button{
+                    width: 50%;
+                }
+                .fa-trash-can{
+                    text-align: center;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 577px) and (max-width: 768px) {
+    .wishlist {
+        .wishlist-wrapper {
+            width: 95%;
         }
     }
 }

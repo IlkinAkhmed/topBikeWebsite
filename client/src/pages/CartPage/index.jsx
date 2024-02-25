@@ -6,14 +6,14 @@ import { userContext } from '../../context/userContext';
 
 function Cart({ pageLoading, setPageLoading }) {
 
-    const { fetchCurrentUser } = useContext(userContext)
+    const { fetchCurrentUser,user } = useContext(userContext)
     useEffect(() => {
         fetchCurrentUser()
         setTimeout(() => {
             setPageLoading(false);
         }, 2000);
         setPageLoading(true)
-    }, [])
+    }, [user])
     return (
         <>
             {pageLoading ? <Loading /> :

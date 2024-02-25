@@ -62,7 +62,7 @@ function Modal() {
     const findedDataInCart = basketArr.find(x => x.product._id === id)
 
 
-    const subTotal = basketArr.reduce((initial, data) => initial + parseInt(data.product.newPrice), 0)
+    const subTotal = basketArr.reduce((initial, data) => initial + parseInt(data.product.newPrice * data.count), 0)
 
 
 

@@ -10,7 +10,7 @@ import axios from 'axios'
 function CartProduct() {
     const { basketArr, decoded, setIsLoading, isLoading, fetchBasketData } = useContext(userContext)
 
-    const subTotal = basketArr.reduce((initial, data) => initial + parseInt(data.product.newPrice), 0)
+    const subTotal = basketArr.reduce((initial, data) => initial + parseInt(data.product.newPrice * data.count), 0)
 
 
     const navigate = useNavigate()

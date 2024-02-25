@@ -12,7 +12,7 @@ function Dashboard() {
     const [comments, setComments] = useState([])
     const [userCount, setUserCount] = useState(0);
     const [productCount, setproductCount] = useState(0)
-    const { user } = useContext(userContext)
+    const { user, isLoading, setIsLoading, token, RevenueArray } = useContext(userContext)
     const [openedReplies, setOpenedReplies] = useState([])
     const [isCommentOpen, setIsCommentOpen] = useState(false)
     const navigate = useNavigate()
@@ -25,6 +25,8 @@ function Dashboard() {
             }
         });
     };
+
+    const subRevenue = RevenueArray.reduce((initial, value) => initial + value, 0)
 
     const fetchUsers = async () => {
         try {
@@ -64,15 +66,68 @@ function Dashboard() {
             if (productCount < products.length) {
                 setproductCount((prevNumber) => prevNumber + 1);
             }
-        }, 100);
+        }, 50);
 
         return () => clearInterval(interval);
     }, [userCount, users.length, productCount, products.length]);
 
 
 
+    const deleteComment = async (id, productId) => {
+        if (token) {
+            try {
+                setIsLoading(true)
+                await axios.delete(`http://localhost:7000/comments/${id}/delete`, {
+                    headers: {
+                        Authorization: token
+                    },
+                    data: {
+                        userId: user._id,
+                        productId
+                    }
+                });
+                setIsLoading(false)
+                toast.success('Comment Deleted Successfully');
+                await fetchComments();
+            } catch (error) {
+                toast.error(error.message);
+            }
+        } else {
+            toast.error("You must be logged in firstly to perform this action")
+        }
+    }
+
+
+
+    const deleteReply = async (replyId, comment) => {
+        if (token) {
+            try {
+                setIsLoading(true)
+                await axios.delete(`http://localhost:7000/replies/${replyId}/delete`, {
+                    headers: {
+                        Authorization: token
+                    },
+                    data: {
+                        userId: user._id,
+                        commentId: comment
+                    }
+                });
+                setIsLoading(false)
+                toast.success('Reply Deleted Successfully');
+                await fetchComments();
+            } catch (error) {
+                toast.error(error.message);
+            }
+        } else {
+            toast.error("You must be logged in firstly to perform this action")
+        }
+    }
+
+
+
     return (
         <>
+            {isLoading && <div className="loader"></div>}
             {isCommentOpen && <div className='overLay' onClick={() => setIsCommentOpen(false)}></div>}
             <div className='dashboard'>
                 <h1>STATISTICS IN TOPBIKE SERIVCE</h1>
@@ -103,6 +158,12 @@ function Dashboard() {
                                             }
                                         </div>
                                         <span>{x.text}</span>
+                                        <div style={{ fontSize: ".7em" }} className="heartBox">
+                                            <i
+                                                className="fa-solid  fa-trash"
+                                                onClick={() => deleteComment(x._id, x.productId._id)}
+                                            ></i>
+                                        </div>
                                     </div>
                                     {x.replies.length !== 0 &&
                                         <div onClick={() => toggleReplies(x._id)} className="replyCount">{x.replies.length} replies</div>}
@@ -131,6 +192,9 @@ function Dashboard() {
                                                     </div>
                                                     <p>{reply.text} </p>
                                                 </div>
+                                                <div className="heartBox">
+                                                    <i onClick={() => { deleteReply(reply._id, x._id) }} className="fa-solid  fa-trash"></i>
+                                                </div>
                                             </div>
 
                                         ))
@@ -143,20 +207,20 @@ function Dashboard() {
                 </div>
                 <div className="statistics">
                     <div className="item one">
-                        <h2>{userCount}</h2>
+                        <h2><i className='fa-solid fa-user'></i> {userCount}</h2>
                         <p>Users</p>
                         <Link to={'/dashboard/users'} style={{ color: 'white' }}>Manage  Users</Link>
                     </div>
                     <div className="item two">
                         <div>
-                            <h2>{productCount}</h2>
+                            <h2><i class="fa-solid fa-database"></i> {productCount}</h2>
                             <p>Products</p>
                             <Link to={'/dashboard/products'} style={{ color: 'white' }}>Manage  Products</Link>
                         </div>
                         <button onClick={() => setIsCommentOpen(true)}>Show All Comments</button>
                     </div>
                     <div className="item three">
-                        <h2>$<span>{225}K</span></h2>
+                        <h2><i class="fa-solid fa-dollar-sign"></i><span>{subRevenue}</span></h2>
                         <p>Revenue</p>
                     </div>
                 </div>

@@ -13,11 +13,13 @@ function UserProvider({ children }) {
     const [currentUSer, setCurrentUSer] = useState([])
     const [wishlistArr, setWishlistArr] = useState([])
 
+    const RevenueArray = localStorage.getItem('revenue') ? JSON.parse(localStorage.getItem('revenue')) : []
+
     const fetchCurrentUser = async () => {
-      const res = user && await axios.get(`http://localhost:7000/users/${user._id}`)
-      user && setCurrentUSer(res.data)
+        const res = user && await axios.get(`http://localhost:7000/users/${user._id}`)
+        user && setCurrentUSer(res.data)
     }
-    
+
     const [token, setToken] = useState(
         getCookie('token')
             ? getCookie('token')
@@ -27,9 +29,11 @@ function UserProvider({ children }) {
             ? JSON.parse(localStorage.getItem("user"))
             : null
     );
-    
-    localStorage.setItem("user", JSON.stringify(user));
 
+
+
+
+    localStorage.setItem("user", JSON.stringify(user));
 
     const decoded = token && jwtDecode(token)
 
@@ -48,7 +52,7 @@ function UserProvider({ children }) {
     const fetchWishlistData = async () => {
         try {
             if (user) {
-            const res = await axios.get(`http://localhost:7000/users/${user._id}/wishlist`);
+                const res = await axios.get(`http://localhost:7000/users/${user._id}/wishlist`);
                 setWishlistArr(res.data);
             }
         } catch (error) {
@@ -100,6 +104,7 @@ function UserProvider({ children }) {
 
 
     const data = {
+        RevenueArray,
         decoded,
         token,
         setToken,

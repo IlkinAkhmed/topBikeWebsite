@@ -23,14 +23,7 @@ import AdminRouter from './routes/AdminRouter'
 import PrivateRoute from './routes/privateRoute'
 function App() {
 
-  const { isLoginOpen, token } = useContext(userContext)
-
-  useEffect(() => {
-    // This code will run after the component has mounted and whenever 'token' changes
-    if (!token) {
-      localStorage.removeItem('user');
-    }
-  }, [token]);
+  const { isLoginOpen } = useContext(userContext)
 
   const [pageLoading, setPageLoading] = useState(true)
 

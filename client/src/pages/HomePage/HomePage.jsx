@@ -41,7 +41,7 @@ function HomePage({ pageLoading, setPageLoading }) {
           )
           :
           <>
-            {isModalOpen && <div onClick={()=>dispatch(openModal(!isModalOpen))} className="overLay"></div>}
+            {isModalOpen && <div onClick={() => dispatch(openModal(!isModalOpen))} className="ModaloverLay"></div>}
             {isModalOpen ? <Modal /> : null}
             <Header />
             <Shipping />

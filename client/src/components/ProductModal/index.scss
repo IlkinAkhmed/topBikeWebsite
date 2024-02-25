@@ -4,7 +4,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50%;
+    width: 700px;
     height: 100vh;
     background-color: white;
     border: 1px solid gray;
@@ -129,4 +129,11 @@
     background-color: rgb(159, 159, 159) !important;
     color: rgb(240, 240, 240) !important;
     border-color: gray !important;
+}
+
+
+@media screen and (max-width: 767px) {
+    .modal{
+        display: none;
+    }
 }

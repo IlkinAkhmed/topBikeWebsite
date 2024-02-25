@@ -16,7 +16,8 @@ export async function postComment(req, res) {
         const decoded = jwt.verify(token, PrivateKey);
         const comment = new Comment({
             text: text,
-            from: decoded
+            from: decoded,
+            productId,
         })
         await comment.save()
         product.commentsCollection.push({ comment: comment._id });
@@ -49,7 +50,7 @@ export async function getAllCommentsOfProduct(req, res) {
 
 export async function getAllComments(req, res) {
     try {
-        const comments = await Comment.find({})
+        const comments = await Comment.find({}).populate('productId')
         res.status(200).send(comments);
     } catch (error) {
         res.status(500).send(error.message);
@@ -238,6 +239,5 @@ export const likeReply = async (req, res) => {
         res.status(500).send(error.message);
     }
 }
-
 
 

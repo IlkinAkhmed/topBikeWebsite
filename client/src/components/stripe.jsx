@@ -3,28 +3,33 @@ import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import StripeCheckout from 'react-stripe-checkout';
 import { userContext } from '../context/userContext';
+import "./stripe.scss"
 
 
 function Stripe() {
-    const { basketArr } = useContext(userContext);
+    const { basketArr, RevenueArray, setBasketArr, user, fetchBasketData } = useContext(userContext);
 
 
-    if (basketArr) {
-        const totalPrice = basketArr.reduce((acc, curVal) => acc + Number(curVal.product.newPrice), 0);
-        console.log(totalPrice)
-    }
+    const totalPrice = basketArr && basketArr.reduce((acc, curVal) => acc + Number(curVal.product.newPrice * curVal.count), 0);
+
+
+
 
 
     const publishableKey =
         'pk_test_51OldjPC2rETq4J308HSM5u1YLYWo6bRLWdDBHZctYBJN5V0CzGBFSDjavB3b5nFUlJmoz330XtWcfWtxW1dmJBG000idjkiPSS';
-    const [product, setProduct] = useState({
-        name: 'Headphone',
-        price: 5,
-    });
-    const priceForStripe = product.price * 100;
 
-    const handleSuccess = () => {
+
+    const handleSuccess = async () => {
         toast.success('Success')
+        RevenueArray.push(totalPrice)
+        localStorage.setItem("revenue", JSON.stringify(RevenueArray));
+        try {
+            await axios.delete(`http://localhost:7000/users/${user._id}/deleteAllBasket`)
+        } catch (error) {
+            toast.error(error.message)
+        }
+        fetchBasketData()
     };
     const handleFailure = () => {
         toast.error('Error')
@@ -35,7 +40,7 @@ function Stripe() {
                 url: 'http://localhost:7000/payment',
                 method: 'post',
                 data: {
-                    amount: product.price * 100,
+                    amount: (totalPrice * 100),
                     token,
                 },
             });
@@ -52,14 +57,13 @@ function Stripe() {
         <div className="container">
 
             <StripeCheckout
-
                 stripeKey={publishableKey}
                 label="Pay Now"
                 name="Pay With Credit Card"
                 billingAddress
                 shippingAddress
-                amount={priceForStripe}
-                description={`Your total is $${product.price}`}
+                amount={totalPrice * 100}
+                description={`Your total is $${totalPrice}`}
                 token={payNow}
             />
         </div>
