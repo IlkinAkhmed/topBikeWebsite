@@ -12,7 +12,7 @@ function NewProduct() {
     const basketOpen = useSelector((state) => state.basket.isOpen)
     const navigate = useNavigate()
     const [image, setImage] = useState(null)
-    const { product } = useFetchData('products')
+    const { product } = useFetchData('products/latestProducts')
     const dispatch = useDispatch()
     const isModalOpen = useSelector(state => state.basket.isModalOpen)
 
@@ -27,7 +27,6 @@ function NewProduct() {
                     <h1>Loading...</h1>
                 ) : (
                     product && product
-                        .filter(item => item.category === 'bike')
                         .map((item) => (
                             <div className="newCard" key={item._id}>
                                 {item.sale ? <p className='sale'>SALE</p> : null}

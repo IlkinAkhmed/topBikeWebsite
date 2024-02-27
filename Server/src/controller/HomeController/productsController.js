@@ -38,7 +38,7 @@ export async function deleteProduct(req, res) {
                 }
             );
 
-             await Products.findByIdAndDelete(id);
+            await Products.findByIdAndDelete(id);
 
             res.status(200).json({ message: "Product deleted" });
         } else {
@@ -52,20 +52,29 @@ export async function deleteProduct(req, res) {
 
 
 // UPDATE
+
 export async function updateProduct(req, res) {
-    const img = req.file.path
     const { id } = req.params;
+
     try {
-        const result = await cloudinary.uploader.upload(img)
-        await Products.findByIdAndUpdate(id, {
-            img: result.secure_url,
-            ...req.body
-        });
-        res.status(200).json({ message: "product updated" });
+        if (req.file) {
+            const img = req.file.path;
+            const result = await cloudinary.uploader.upload(img);
+            await Products.findByIdAndUpdate(id, {
+                img: result.secure_url,
+                ...req.body
+            });
+        } else {
+            await Products.findByIdAndUpdate(id, req.body);
+        }
+
+        res.status(200).json({ message: "Product updated" });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: "Server connection error!!!" });
     }
 };
+
 
 // GET ALL
 export async function GetAllproductItems(req, res) {
@@ -91,3 +100,16 @@ export async function getProductById(req, res) {
         res.status(500).json({ message: "Server connection error!!!" });
     }
 };
+
+
+// GET LATEST 8 PRODUCT 
+export async function latestProducts(req, res) {
+    try {
+        const latestProducts = await Products.find({})
+            .sort({ createdAt: -1 })
+            .limit(8);
+        res.status(200).send(latestProducts)
+    } catch (error) {
+        res.status(500).send("error");
+    }
+}

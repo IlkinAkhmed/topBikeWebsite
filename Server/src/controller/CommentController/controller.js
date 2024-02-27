@@ -69,6 +69,15 @@ export async function deleteComment(req, res) {
                 res.status(404).send("Product Not Found")
                 return
             }
+
+            // await Products.updateMany(
+            //     {},
+            //     {
+            //         $pull: {
+            //             'commentsCollection': { comment: commentId },
+            //         }
+            //     }
+            // );
             product.commentsCollection = product.commentsCollection.filter(x => x.comment._id.toString() !== commentId.toString())
             await Comment.findByIdAndDelete(commentId)
             await product.save()

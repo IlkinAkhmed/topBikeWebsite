@@ -51,6 +51,9 @@ function Products() {
 
 
 
+
+    // UPDATE PRODUCT 
+
     async function handleUpdate(e) {
         e.preventDefault();
         if (!values.title || !values.newPrice || !values.category) {
@@ -103,6 +106,9 @@ function Products() {
         }
     }
 
+
+
+    // ADD PRODUCT 
     async function handlePost(e) {
         e.preventDefault();
         if (!values.title || !values.newPrice) {
@@ -208,25 +214,25 @@ function Products() {
                         setIsPostFormOpen(true)
                     }}>Add Product</button>
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Image</th>
-                            <th>Title</th>
-                            <th>Price</th>
-                            <th>delete</th>
-                            <th>Edit</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {spinner ? <Spinner /> :
-                            products && products.map(x => (
+                {spinner ? <Spinner /> :
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Image</th>
+                                <th>Title</th>
+                                <th>Price</th>
+                                <th>delete</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {products && products.map(x => (
                                 <tr key={x._id}>
                                     <td> {x._id} </td>
                                     <td> <img style={{ width: "50px", height: '50px', borderRadius: "100%" }} src={`${x.img[0]}`} alt="" /> </td>
                                     <td>{x.title}</td>
-                                    <td>{x.newPrice}</td>
+                                    <td>${x.newPrice}.00</td>
                                     <td><i className='fa-solid fa-trash' onClick={() => { setProductId(x._id), setShowDeleteModal(true) }}></i></td>
                                     <td><i onClick={() => {
                                         setValues({ img: x.img[0], title: x.title, newPrice: x.newPrice, oldPrice: x.oldPrice, category: x.category })
@@ -235,11 +241,11 @@ function Products() {
                                         setProductId(x._id)
                                     }} className="fa-regular fa-pen-to-square"></i></td>
                                 </tr>
-                            ))
-                        }
-                    </tbody>
-                </table>
-                <form action="" className={isFormOpen && "form-open"} onSubmit={(e) => isPostFormOpen ? handlePost(e) : handleUpdate(e)}>
+                            ))}
+                        </tbody>
+                    </table>
+                }
+                <form action="" className={`${isFormOpen ? "form-open" : ''}`} onSubmit={(e) => isPostFormOpen ? handlePost(e) : handleUpdate(e)}>
                     <label htmlFor="img">Image</label>
                     <input
                         name="img"

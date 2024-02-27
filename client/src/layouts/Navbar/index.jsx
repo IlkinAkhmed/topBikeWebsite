@@ -107,7 +107,7 @@ function Navbar() {
       <MobileNavbar setIsLoginOpen={setIsLoginOpen} setisNavOpen={setisNavOpen} isNavOpen={isNavOpen} />
       {product && product.map(item => (
         <div className="nav-inner" key={item._id}>
-          <i onClick={() => { setisNavOpen(true), console.log("isledi") }} className='fa-solid fa-bars'></i>
+          <i onClick={() => setisNavOpen(true)} className='fa-solid fa-bars'></i>
           <div className="logo">
             <img onClick={() => navigate('/')} src={item.logo} alt="" />
           </div>

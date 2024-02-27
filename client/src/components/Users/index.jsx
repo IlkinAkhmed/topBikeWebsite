@@ -58,24 +58,24 @@ function Users() {
                     <h3>Are you sure? </h3>
                     <div>
                         <button onClick={() => setShowDeleteModal(false)}>No</button>
-                        <button onClick={() => {deleteUser(userId),setShowDeleteModal(false)}}>Yes</button>
+                        <button onClick={() => { deleteUser(userId), setShowDeleteModal(false) }}>Yes</button>
                     </div>
                 </div>
                 {users.length !== 1
                     ? (
                         <>
-                            <table border={1}>
-                                <thead>
-                                    <tr >
-                                        <th >ID</th>
-                                        <th >Image</th>
-                                        <th >Email</th>
-                                        <th >Delete</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        spinner ? <Spinner /> :
+                            {spinner ? <Spinner /> :
+                                <table border={1}>
+                                    <thead>
+                                        <tr >
+                                            <th >ID</th>
+                                            <th >Image</th>
+                                            <th >Email</th>
+                                            <th >Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
                                             users && users
                                                 .filter(user => user.role !== 'admin')
                                                 .map(user => (
@@ -95,9 +95,9 @@ function Users() {
                                                     </tr>
                                                 ))
 
-                                    }
-                                </tbody>
-                            </table>
+                                        }
+                                    </tbody>
+                                </table>}
                         </>
                     ) : (
                         <h1>No Users Yet!</h1>

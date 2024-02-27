@@ -84,7 +84,7 @@ function ShopProducts() {
                 ) : (
                     product && product
                         .filter(x => x.newPrice < parseInt(priceInputValue, 10))
-                        .filter(item => item.category === category || category === 'all')
+                        .filter(item => item.category.toLowerCase() === category || category === 'all')
                         .filter(item => item.size === sizeCategory || sizeCategory === 'all')
                         .filter(item => item.color === colorCategory || colorCategory === 'all')
                         .sort((a, b) => {
