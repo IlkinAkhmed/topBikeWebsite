@@ -1,10 +1,13 @@
 import React, { useContext } from 'react'
 import "./index.scss"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { CategoryContext } from '../../context/categoryContext'
 
 function Footer() {
   const { setColorCategory, setCategory, setSizeCategory } = useContext(CategoryContext)
+  const handleInstagramClick = () => {
+    window.location.href = 'https://www.instagram.com/ilkin_akhmed/';
+  };
 
 
   return (
@@ -17,7 +20,7 @@ function Footer() {
           <i className=' icon fa-brands fa-twitter'></i>
           <i className=' icon fa-solid fa-basketball'></i>
           <i className=" icon fa-brands fa-behance"></i>
-          <i className=' icon fa-brands fa-instagram'></i>
+          <i onClick={handleInstagramClick} className=' icon fa-brands fa-instagram'></i>
         </div>
       </div>
       <div className="footerRightBox">

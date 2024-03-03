@@ -8,6 +8,7 @@ import Modal from '../../components/ProductModal'
 import { userContext } from '../../context/userContext'
 import Loading from '../Loading'
 import { openModal } from '../../reduxSlice/basketSlice'
+import { Helmet } from 'react-helmet-async'
 
 function Shop({ pageLoading, setPageLoading, OpenCommentBox }) {
   const isModalOpen = useSelector(state => state.basket.isModalOpen)
@@ -27,6 +28,11 @@ function Shop({ pageLoading, setPageLoading, OpenCommentBox }) {
       {pageLoading ? <Loading /> :
         (
           <>
+            <Helmet>
+              <title>
+                Home | Shop
+              </title>
+            </Helmet>
             {isModalOpen && <div onClick={() => dispatch(openModal(!isModalOpen))} className="ModaloverLay"></div>}
             {isModalOpen ? <Modal /> : null}
             <ShopHeader />

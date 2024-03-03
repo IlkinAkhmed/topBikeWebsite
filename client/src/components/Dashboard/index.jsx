@@ -6,6 +6,7 @@ import { userContext } from '../../context/userContext'
 import adminLogo from "../../../img/adminLogo.jpg"
 import { Link, useNavigate } from 'react-router-dom'
 import MyPieChart from '../pieChart'
+import { Helmet } from 'react-helmet-async'
 
 function Dashboard() {
     const [users, setUsers] = useState([])
@@ -54,18 +55,14 @@ function Dashboard() {
     }
 
 
-
     useEffect(() => {
-        fetchUsers()
-        fetchProducts()
-        fetchComments()
+        fetchUsers();
+        fetchProducts();
+        fetchComments();
+
         const interval = setInterval(() => {
-            if (userCount < users.length) {
-                setUserCount((prevNumber) => prevNumber + 1);
-            }
-            if (productCount < products.length) {
-                setproductCount((prevNumber) => prevNumber + 1);
-            }
+            setUserCount((prevNumber) => (prevNumber < users.length ? prevNumber + 1 : prevNumber));
+            setproductCount((prevNumber) => (prevNumber < products.length ? prevNumber + 1 : prevNumber));
         }, 50);
 
         return () => clearInterval(interval);
@@ -124,6 +121,11 @@ function Dashboard() {
 
     return (
         <>
+            <Helmet>
+                <title>
+                    Dashboard
+                </title>
+            </Helmet>
             {isLoading && <div className="loader"></div>}
             {isCommentOpen && <div className='overLay' onClick={() => setIsCommentOpen(false)}></div>}
             <div className='dashboard'>
@@ -203,7 +205,7 @@ function Dashboard() {
                             ))
 
                         ) : (
-                            <i style={{textAlign:"center",marginTop:"20px",fontWeight:"bold"}}>There is no any comment yet</i>
+                            <i style={{ textAlign: "center", marginTop: "20px", fontWeight: "bold" }}>There is no any comment yet</i>
                         )}
                     </div>
                 </div>

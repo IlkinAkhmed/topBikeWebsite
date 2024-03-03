@@ -8,6 +8,7 @@ import "./index.scss";
 import { useSelector } from 'react-redux';
 import Comment from '../../components/Comment';
 import toast from 'react-hot-toast';
+import { Helmet } from 'react-helmet-async';
 
 function Details({ pageLoading, setPageLoading }) {
 
@@ -23,7 +24,7 @@ function Details({ pageLoading, setPageLoading }) {
     function handleOpenComment() {
         setOpenCommentBox(!OpenCommentBox)
     }
-    
+
     async function fetchData() {
         try {
             const res = await axios.get(`http://localhost:7000/products/${id}`);
@@ -51,7 +52,7 @@ function Details({ pageLoading, setPageLoading }) {
             setPageLoading(false);
         }, 2000);
         setPageLoading(true)
-    }, [user]);
+    }, [user, id]);
 
 
 
@@ -70,12 +71,17 @@ function Details({ pageLoading, setPageLoading }) {
                     <Loading />
                     :
                     <>
+                        <Helmet>
+                            <title>
+                                Home | Details
+                            </title>
+                        </Helmet>
                         {
                             product && <section className='details'>
                                 {isLoading && basketOpen === false && OpenCommentBox === false ? <div className="loader"></div> : null}
                                 <div className="det-head">
                                     <Comment product={product} OpenCommentBox={OpenCommentBox} handleOpenComment={handleOpenComment} id={id} />
-                                    <div className='backImg'  />
+                                    <div className='backImg' />
                                     <h3>Home <span style={{ color: "goldenrod" }}>{`> ${product.title}`}</span> </h3>
                                     <img className='bottom-img' src={image} alt="" />
                                 </div>
@@ -118,7 +124,7 @@ function Details({ pageLoading, setPageLoading }) {
                                                 }} className="add-button">
                                                     ADD TO CART
                                                 </div>
-                                                <div className="buy-button" onClick={() => navigate('/checkout')}>
+                                                <div className="buy-button" onClick={() => { navigate('/checkout'), handleBasket(product._id) }}>
                                                     BUY IT NOW
                                                 </div>
                                             </div>

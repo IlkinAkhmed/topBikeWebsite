@@ -4,11 +4,12 @@ import { userContext } from '../../context/userContext'
 import NotMeanSection from '../../components/notMeanSection'
 import BlogsUpSection from '../../components/blogsUpSection'
 import BlogsDownSection from '../../components/blogsDownSection'
+import { Helmet } from 'react-helmet-async'
 
 function Blog({ pageLoading, setPageLoading }) {
 
 
-  const { fetchBasketData, fetchWishlistData, user,fetchCurrentUser } = useContext(userContext)
+  const { fetchBasketData, fetchWishlistData, user, fetchCurrentUser } = useContext(userContext)
 
   useEffect(() => {
     fetchBasketData()
@@ -28,7 +29,11 @@ function Blog({ pageLoading, setPageLoading }) {
       {pageLoading ? <Loading /> :
         (
           <>
-            {/* <NotMeanSection />p */}
+            <Helmet>
+              <title>
+                Home | Blog
+              </title>
+            </Helmet>
             <BlogsUpSection />
             <BlogsDownSection />
           </>

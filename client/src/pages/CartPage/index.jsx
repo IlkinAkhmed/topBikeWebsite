@@ -3,10 +3,11 @@ import CartHeader from '../../components/CartHeader';
 import CartProduct from '../../components/CartProducts';
 import Loading from '../Loading';
 import { userContext } from '../../context/userContext';
+import { Helmet } from 'react-helmet-async';
 
 function Cart({ pageLoading, setPageLoading }) {
 
-    const { fetchCurrentUser,user } = useContext(userContext)
+    const { fetchCurrentUser, user } = useContext(userContext)
     useEffect(() => {
         fetchCurrentUser()
         setTimeout(() => {
@@ -18,6 +19,11 @@ function Cart({ pageLoading, setPageLoading }) {
         <>
             {pageLoading ? <Loading /> :
                 <>
+                    <Helmet>
+                        <title>
+                            Home | Cart
+                        </title>
+                    </Helmet>
                     <CartHeader />
                     <CartProduct />
                 </>

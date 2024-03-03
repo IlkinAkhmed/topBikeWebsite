@@ -7,7 +7,6 @@ const MyPieChart = ({ products }) => {
     const [accessoryCount, setAccessoryCount] = useState(0);
     const [bikeCount, setBikeCount] = useState(0);
 
-    // Update counts when products change
     useEffect(() => {
         let newHelmetCount = 0;
         let newAccessoryCount = 0;

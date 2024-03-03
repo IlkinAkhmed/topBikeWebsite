@@ -11,6 +11,7 @@ import Login from '../../components/login'
 import Loading from '../Loading'
 import { userContext } from '../../context/userContext'
 import { openModal } from '../../reduxSlice/basketSlice'
+import { Helmet } from 'react-helmet-async'
 
 function HomePage({ pageLoading, setPageLoading }) {
   const isModalOpen = useSelector(state => state.basket.isModalOpen)
@@ -41,6 +42,11 @@ function HomePage({ pageLoading, setPageLoading }) {
           )
           :
           <>
+            <Helmet>
+              <title>
+                Home
+              </title>
+            </Helmet>
             {isModalOpen && <div onClick={() => dispatch(openModal(!isModalOpen))} className="ModaloverLay"></div>}
             {isModalOpen ? <Modal /> : null}
             <Header />

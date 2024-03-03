@@ -6,6 +6,7 @@ import Unique from '../../components/AboutUnique'
 import "./index.scss"
 import Loading from '../Loading'
 import { userContext } from '../../context/userContext'
+import { Helmet } from 'react-helmet-async'
 
 function About({ pageLoading, setPageLoading }) {
 
@@ -31,6 +32,11 @@ function About({ pageLoading, setPageLoading }) {
       {pageLoading ? <Loading /> :
         (
           <>
+          <Helmet>
+            <title>
+              Home | About
+            </title>
+          </Helmet>
             <AboutHeader />
             <Unique />
             <Teams />

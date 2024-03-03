@@ -1,15 +1,18 @@
-import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
-import "./index.scss"
-import useFetchData from '../../hooks/useFetchData'
-import FilterArea from '../ShopFilterArea'
+import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addToWishlist } from '../../reduxSlice/wishlistSlice'
 import { useNavigate } from 'react-router'
-import axios from 'axios'
-import toast from "react-hot-toast"
-import { userContext } from '../../context/userContext'
-import { addId, openModal } from '../../reduxSlice/basketSlice'
 import { CategoryContext } from '../../context/categoryContext'
+import { userContext } from '../../context/userContext'
+import useFetchData from '../../hooks/useFetchData'
+import { addId, openModal } from '../../reduxSlice/basketSlice'
+import FilterArea from '../ShopFilterArea'
+import { Grid, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/grid';
+
+import 'swiper/css/pagination';
+import "./index.scss"
 
 function ShopProducts() {
     const [image, setImage] = useState(null)

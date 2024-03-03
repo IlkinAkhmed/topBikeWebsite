@@ -3,9 +3,10 @@ import ContactHeader from '../../components/ContactHeader'
 import Form from '../../components/ContactForm'
 import Loading from '../Loading'
 import { userContext } from '../../context/userContext'
+import { Helmet } from 'react-helmet-async'
 
 function Contact({ pageLoading, setPageLoading }) {
-  const {fetchCurrentUser,user} = useContext(userContext)
+  const { fetchCurrentUser, user } = useContext(userContext)
   useEffect(() => {
     fetchCurrentUser()
     setTimeout(() => {
@@ -17,6 +18,11 @@ function Contact({ pageLoading, setPageLoading }) {
     <>
       {pageLoading ? <Loading /> :
         <>
+          <Helmet>
+            <title>
+              Home | Contact
+            </title>
+          </Helmet>
           <ContactHeader />
           <Form />
         </>
