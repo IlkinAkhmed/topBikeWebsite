@@ -60,7 +60,7 @@ function ShopProducts() {
     return (
         <section className='shop-products'>
             {isSubMenuOpen && <div className='overLay' onClick={() => setisSubMenuOpen(false)}></div>}
-            {isLoading && basketOpen === false ? <div class="loader"></div> : null}
+            {isLoading && basketOpen === false ? <div className="loader"></div> : null}
             <div className="filter-area">
                 <div onClick={() => { setIsFilterAreOpen(!isFilterAreOpen), setisRespFilterOpen(true) }} className="filter">
                     <i className="fa-solid fa-filter"></i>

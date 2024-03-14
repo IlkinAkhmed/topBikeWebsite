@@ -33,7 +33,7 @@ function CheckOut({ pageLoading, setPageLoading }) {
                                     <p>Payment</p>
                                     <span>All transactions are secure and encrypted.</span>
                                     <div className="storeBox">
-                                        <i class="fa-regular fa-money-bill-1"></i>
+                                        <i className="fa-regular fa-money-bill-1"></i>
                                         <p>This store can’t accept payments right now.</p>
                                     </div>
                                     <Stripe />
@@ -41,7 +41,7 @@ function CheckOut({ pageLoading, setPageLoading }) {
                             </div>
                             <div className="rightBox">
                                 {basketArr && basketArr.map(item => (
-                                    <div className="upBox">
+                                    <div className="upBox" key={item._id}>
                                         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
                                             <div className="imgBox">
                                                 <img src={item.product.img[0]} alt="" />

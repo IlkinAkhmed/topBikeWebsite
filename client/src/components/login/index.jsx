@@ -13,7 +13,7 @@ import VerifyForm from '../EmailVerifyForm';
 import ResetPasswordForm from '../ResetPasswordForm';
 
 function Login() {
-    const { token, setUser, setToken, fetchBasketData, isLoginOpen, setIsLoginOpen, fetchWishlistData,fetchCurrentUser } = useContext(userContext);
+    const { token, setUser, setToken, fetchBasketData, isLoginOpen, setIsLoginOpen, fetchWishlistData, fetchCurrentUser } = useContext(userContext);
     const navigate = useNavigate();
 
     const [changeForm, setChangeForm] = useState(true)
@@ -25,7 +25,7 @@ function Login() {
 
 
     // LOGIN
-    const handleLogin = async (values) => {
+    const handleLogin = async (values, resetForm) => {
         try {
             const res = await axios.post('http://localhost:7000/login', values)
             toast.success('Successfully Logined!')
@@ -37,6 +37,7 @@ function Login() {
             await fetchBasketData()
             await fetchCurrentUser()
             await fetchWishlistData()
+            resetForm()
         } catch (error) {
             toast.error("Wrong Details")
         }
@@ -44,20 +45,32 @@ function Login() {
 
 
 
-    function handleSubmit(userValues) {
-        setUserValues(userValues)
-        setIsVerifyFormOpen(true)
-        sendVerifyEmail(userValues.email)
+    async function handleSubmit(userValues, resetForm) {
+        const response = await axios.post('http://localhost:7000/checkUser', {
+            email: userValues.email
+        })
+        if (response.status === 200) {
+            setUserValues(userValues)
+            sendVerifyEmail(userValues.email, resetForm)
+            setIsVerifyFormOpen(true)
+        } else {
+            toast.error(response.data)
+        }
     }
 
-    async function sendVerifyEmail(email) {
+    async function sendVerifyEmail(email, resetForm) {
         try {
             const res = await axios.post('http://localhost:7000/sendVerificationCode', {
                 email: email
             })
-            res.status === 200 ? toast.success('Verivication Code Sent, Please Enter Code') : toast.error('Invalid Email')
+            if (res.status === 200) {
+                toast.success('Verivication Code Sent, Please Enter Code')
+                resetForm()
+            } else {
+                toast.error('Invalid Email')
+            }
         } catch (error) {
-            toast.error('Invalid Email ')
+            toast.error('Invalid Emailllllllllllllll ')
         }
     }
 
@@ -86,8 +99,7 @@ function Login() {
                                     .required('Required')
                             })}
                             onSubmit={(values, { setSubmitting, resetForm }) => {
-                                handleLogin(values)
-                                resetForm()
+                                handleLogin(values, resetForm)
                                 setTimeout(() => {
                                     setSubmitting(false);
                                 }, 400);
@@ -134,8 +146,7 @@ function Login() {
                                     .required('Required')
                             })}
                             onSubmit={(values, { setSubmitting, resetForm }) => {
-                                handleSubmit(values)
-                                resetForm()
+                                handleSubmit(values, resetForm)
                                 setTimeout(() => {
                                     setSubmitting(false);
                                 }, 400);

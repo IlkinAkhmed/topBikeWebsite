@@ -14,28 +14,41 @@ const verificationCodes = {};
 
 export async function register(req, res) {
     try {
-        const findedUser = await User.findOne({ email: req.body.email });
-        if (findedUser) {
-            res.status(406).send("Email already exist!! Please Try other Email");
-            return;
-        } else {
-            const hashedPassword = await hash(req.body.password, 10);
-            const user = new User({
-                email: req.body.email,
-                password: hashedPassword,
-                role: "user",
-            });
-            await user.save();
-            const token = jwt.sign(
-                { _id: user._id, email: user.email, role: user.role, profileImg: user.profileImg },
-                PrivateKey
-            );
-            res.status(200).send(token);
-        }
+        const hashedPassword = await hash(req.body.password, 10);
+        const user = new User({
+            email: req.body.email,
+            password: hashedPassword,
+            role: "user",
+        });
+        await user.save();
+        const token = jwt.sign(
+            { _id: user._id, email: user.email, role: user.role, profileImg: user.profileImg },
+            PrivateKey
+        );
+        res.status(200).send(token);
     } catch (error) {
         res.status(500).send("Internal Server Error");
     }
 }
+
+
+
+// --------------------------CHECK USER--------------------------------------------
+
+export const checkUser = async (req, res) => {
+    try {
+        const { email } = req.body
+        const findedUser = await User.findOne({ email });
+        if (findedUser) {
+            res.status(406).send("Email Alredy Exist!")
+        } else {
+            res.status(200).send("Email Verification Sent")
+        }
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
+
 
 // --------------------------LOGIN--------------------------------------------
 
@@ -155,13 +168,13 @@ export const sendVerificationCode = async (req, res) => {
         port: 465,
         secure: true,
         auth: {
-            user: "tu7mp4w99@code.edu.az",
-            pass: "gyvk wuyx irqn boin",
+            user: "ilkin656.u@gmail.com",
+            pass: "ttkn adpd nykx ryuf",
         },
     });
 
     const mailOptions = {
-        from: 'tu7mp4w99@code.edu.az',
+        from: 'ilkin656.u@gmail.com',
         to: email,
         subject: 'Email Verification Code',
         text: `Hello`,

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import "./index.scss"
 import emailjs from '@emailjs/browser';
 import toast from 'react-hot-toast';
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 
 function Form() {
 
@@ -23,13 +23,17 @@ function Form() {
             const serviceId = "service_36dvwhb"
             const templateId = "template_cae27qq"
             const publicKey = "o6oC4M2FMQmY3Z3ZF"
+            const html = `
+            <h1 style="color:red">you have a message</h1>
+            <p>${message}</p>
+            `
 
             const templateParams = {
                 from_name: name,
                 from_email: email,
                 subject: subject,
                 to_name: "Ilkin",
-                message: message,
+                message: html,
 
             }
 
