@@ -24,7 +24,7 @@ function CheckOut({ pageLoading, setPageLoading }) {
                     <>
                         <Helmet>
                             <title>
-                                Home | Checkout
+                            TopBike | Checkout
                             </title>
                         </Helmet>
                         <section id='checkOut'>

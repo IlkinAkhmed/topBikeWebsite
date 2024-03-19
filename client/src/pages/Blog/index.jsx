@@ -31,7 +31,7 @@ function Blog({ pageLoading, setPageLoading }) {
           <>
             <Helmet>
               <title>
-                Home | Blog
+              TopBike | Blog
               </title>
             </Helmet>
             <BlogsUpSection />

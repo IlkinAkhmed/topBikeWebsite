@@ -44,7 +44,7 @@ function HomePage({ pageLoading, setPageLoading }) {
           <>
             <Helmet>
               <title>
-                Home
+              TopBike
               </title>
             </Helmet>
             {isModalOpen && <div onClick={() => dispatch(openModal(!isModalOpen))} className="ModaloverLay"></div>}

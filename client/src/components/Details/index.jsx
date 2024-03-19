@@ -73,7 +73,7 @@ function Details({ pageLoading, setPageLoading }) {
                     <>
                         <Helmet>
                             <title>
-                                Home | Details
+                                {product.title}
                             </title>
                         </Helmet>
                         {

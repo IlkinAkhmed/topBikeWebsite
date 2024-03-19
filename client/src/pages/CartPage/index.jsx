@@ -21,7 +21,7 @@ function Cart({ pageLoading, setPageLoading }) {
                 <>
                     <Helmet>
                         <title>
-                            Home | Cart
+                        TopBike | Cart
                         </title>
                     </Helmet>
                     <CartHeader />

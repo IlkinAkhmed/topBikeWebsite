@@ -54,7 +54,7 @@ function Wishlist({ pageLoading, setPageLoading }) {
                     <>
                     <Helmet>
                         <title>
-                            Home | Wishlist
+                        TopBike | Wishlist
                         </title>
                     </Helmet>
                         <section className='wishlist'>

@@ -30,7 +30,7 @@ function Shop({ pageLoading, setPageLoading, OpenCommentBox }) {
           <>
             <Helmet>
               <title>
-                Home | Shop
+              TopBike | Shop
               </title>
             </Helmet>
             {isModalOpen && <div onClick={() => dispatch(openModal(!isModalOpen))} className="ModaloverLay"></div>}

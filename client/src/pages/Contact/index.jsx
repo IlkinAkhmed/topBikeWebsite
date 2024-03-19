@@ -20,7 +20,7 @@ function Contact({ pageLoading, setPageLoading }) {
         <>
           <Helmet>
             <title>
-              Home | Contact
+            TopBike | Contact
             </title>
           </Helmet>
           <ContactHeader />

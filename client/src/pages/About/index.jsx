@@ -34,7 +34,7 @@ function About({ pageLoading, setPageLoading }) {
           <>
           <Helmet>
             <title>
-              Home | About
+              TopBike | About
             </title>
           </Helmet>
             <AboutHeader />
