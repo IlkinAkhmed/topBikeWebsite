@@ -38,3 +38,11 @@
     }
 
 }
+
+@media screen and (max-width: 576px) {
+    .contact-hader {
+        .header-bg-img {
+            background-position: -550px;
+        }
+    }
+}

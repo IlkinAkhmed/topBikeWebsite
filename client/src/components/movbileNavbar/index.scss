@@ -152,6 +152,14 @@
     background-color: rgb(0, 0, 0, .6);
 }
 
+@media screen and (max-width: 576px) {
+    .mob-nav{
+        .mob-nav-icons{
+            padding: 10px 0;
+        }
+    }
+}
+
 @media screen and (min-width: 769px) {
     .mob-nav {
         display: none;

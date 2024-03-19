@@ -102,15 +102,21 @@ header {
 @media only screen and (max-width: 476px) {
     header {
         .swiper {
+            .slider1Box {
+                background-position: -600px;
+            }
+
+            .slider2Box {
+                background-color: -400px;
+            }
 
             .slider1Box,
             .slider2Box {
-                background-position: left;
                 .sliderBox {
-                    padding: 0px 50px 0px;
+                    padding: 0px 30px 0px;
 
                     h1 {
-                        font-size: 3.7em;
+                        font-size: 3em;
                     }
 
                     p {

@@ -39,3 +39,12 @@
     }
 
 }
+
+
+@media screen and (max-width: 576px) {
+    .wishlist-header {
+        .header-bg-img {
+            background-position: -550px;
+        }
+    }
+}

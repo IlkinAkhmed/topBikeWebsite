@@ -15,9 +15,13 @@
     }
 
     .backImg {
+        width: 100%;
+        height: 400px;
         position: absolute;
-        top: 0;
-        left: 0;
+        background-image: url('https://topbike-store-demo.myshopify.com/cdn/shop/files/Biking-Basics-5-Essential-Bike-Tools-to-Take-with-You-on-a-Cycling-Adventure.jpg?v=1613576668');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
         z-index: -1;
         transition: all .5s;
         filter: contrast(50%);
@@ -67,8 +71,12 @@
 }
 
 @media screen and (max-width: 576px) {
-    .collection{
+    .collection {
         text-align: center;
         font-size: .9em;
+
+        .backImg {
+            background-position: -460px;
+        }
     }
 }
