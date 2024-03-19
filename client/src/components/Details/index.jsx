@@ -73,7 +73,7 @@ function Details({ pageLoading, setPageLoading }) {
                     <>
                         <Helmet>
                             <title>
-                                {product.title}
+                                {product && product.title}
                             </title>
                         </Helmet>
                         {
