@@ -45,7 +45,7 @@ function Navbar() {
       formData.append('image', file);
 
       try {
-        const res = await axios.post(`http://localhost:7000/user/${user._id}/addProfileImage`, formData, {
+        const res = await axios.post(`https://topbikewebsite.onrender.com/user/${user._id}/addProfileImage`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },

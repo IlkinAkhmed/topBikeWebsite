@@ -31,7 +31,7 @@ function Dashboard() {
 
     const fetchUsers = async () => {
         try {
-            const users = await axios.get('http://localhost:7000/users')
+            const users = await axios.get('https://topbikewebsite.onrender.com/users')
             setUsers(users.data)
         } catch (error) {
             toast.error(error.message)
@@ -39,7 +39,7 @@ function Dashboard() {
     }
     const fetchProducts = async () => {
         try {
-            const product = await axios.get('http://localhost:7000/products')
+            const product = await axios.get('https://topbikewebsite.onrender.com/products')
             setProducts(product.data)
         } catch (error) {
             toast.error(error.message)
@@ -47,7 +47,7 @@ function Dashboard() {
     }
     const fetchComments = async () => {
         try {
-            const comment = await axios.get('http://localhost:7000/comments')
+            const comment = await axios.get('https://topbikewebsite.onrender.com/comments')
             setComments(comment.data)
         } catch (error) {
             toast.error(error.message)
@@ -73,7 +73,7 @@ function Dashboard() {
     const deleteComment = async (id, productId) => {
         try {
             setIsLoading(true)
-            await axios.delete(`http://localhost:7000/comments/${id}/delete`, {
+            await axios.delete(`https://topbikewebsite.onrender.com/comments/${id}/delete`, {
                 headers: {
                     Authorization: token
                 },
@@ -96,7 +96,7 @@ function Dashboard() {
         if (token) {
             try {
                 setIsLoading(true)
-                await axios.delete(`http://localhost:7000/replies/${replyId}/delete`, {
+                await axios.delete(`https://topbikewebsite.onrender.com/replies/${replyId}/delete`, {
                     headers: {
                         Authorization: token
                     },

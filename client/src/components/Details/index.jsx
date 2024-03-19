@@ -27,7 +27,7 @@ function Details({ pageLoading, setPageLoading }) {
 
     async function fetchData() {
         try {
-            const res = await axios.get(`http://localhost:7000/products/${id}`);
+            const res = await axios.get(`https://topbikewebsite.onrender.com/products/${id}`);
             setProduct(res.data);
         } catch (error) {
             return navigate('*')

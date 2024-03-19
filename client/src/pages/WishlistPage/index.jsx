@@ -12,11 +12,7 @@ import { Helmet } from 'react-helmet-async'
 
 function Wishlist({ pageLoading, setPageLoading }) {
     const { wishlistArr, handleBasket, fetchWishlistData, user, decoded, isLoading, setIsLoading, fetchBasketData, fetchCurrentUser } = useContext(userContext)
-    // console.log(Loading)
 
-
-    // const { wishlistArr, fetchWishlistData } = useContext(userContext)
-    // const dispatch = useDispatch()
     useEffect(() => {
         fetchWishlistData()
         fetchBasketData()
@@ -33,7 +29,7 @@ function Wishlist({ pageLoading, setPageLoading }) {
     async function handleDelete(id) {
         try {
             setIsLoading(true)
-            await axios.delete(`http://localhost:7000/users/${decoded._id}/deletewish`, {
+            await axios.delete(`https://topbikewebsite.onrender.com/users/${decoded._id}/deletewish`, {
                 data: {
                     productId: id
                 }

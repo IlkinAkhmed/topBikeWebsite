@@ -27,7 +27,7 @@ function Login() {
     // LOGIN
     const handleLogin = async (values, resetForm) => {
         try {
-            const res = await axios.post('http://localhost:7000/login', values)
+            const res = await axios.post('https://topbikewebsite.onrender.com/login', values)
             toast.success('Successfully Logined!')
             res.status === 200 && setToken(res.data)
             res.status === 200 && setCookie("token", res.data, "600h")
@@ -46,7 +46,7 @@ function Login() {
 
 
     async function handleSubmit(userValues, resetForm) {
-        const response = await axios.post('http://localhost:7000/checkUser', {
+        const response = await axios.post('https://topbikewebsite.onrender.com/checkUser', {
             email: userValues.email
         })
         if (response.status === 200) {
@@ -60,7 +60,7 @@ function Login() {
 
     async function sendVerifyEmail(email, resetForm) {
         try {
-            const res = await axios.post('http://localhost:7000/sendVerificationCode', {
+            const res = await axios.post('https://topbikewebsite.onrender.com/sendVerificationCode', {
                 email: email
             })
             if (res.status === 200) {
@@ -70,7 +70,7 @@ function Login() {
                 toast.error('Invalid Email')
             }
         } catch (error) {
-            toast.error('Invalid Emailllllllllllllll ')
+            toast.error('Invalid Email')
         }
     }
 

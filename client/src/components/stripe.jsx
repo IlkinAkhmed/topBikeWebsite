@@ -25,7 +25,7 @@ function Stripe() {
         RevenueArray.push(totalPrice)
         localStorage.setItem("revenue", JSON.stringify(RevenueArray));
         try {
-            await axios.delete(`http://localhost:7000/users/${user._id}/deleteAllBasket`)
+            await axios.delete(`https://topbikewebsite.onrender.com/users/${user._id}/deleteAllBasket`)
         } catch (error) {
             toast.error(error.message)
         }
@@ -37,7 +37,7 @@ function Stripe() {
     const payNow = async token => {
         try {
             const response = await axios({
-                url: 'http://localhost:7000/payment',
+                url: 'https://topbikewebsite.onrender.com/payment',
                 method: 'post',
                 data: {
                     amount: (totalPrice * 100),

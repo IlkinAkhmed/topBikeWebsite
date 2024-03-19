@@ -40,12 +40,12 @@ function Modal() {
 
 
     async function fetchData() {
-        const res = await axios.get('http://localhost:7000/products')
+        const res = await axios.get('https://topbikewebsite.onrender.com/products')
         setData(res.data)
     }
 
     async function fetchAddedData() {
-        const res = await axios.get(`http://localhost:7000/products/${id}`)
+        const res = await axios.get(`https://topbikewebsite.onrender.com/products/${id}`)
         setAddedData(res.data)
     }
 

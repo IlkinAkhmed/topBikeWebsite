@@ -17,7 +17,7 @@ function Users() {
     const fetchUsers = async () => {
         try {
             setSpinner(true);
-            const res = await axios.get('http://localhost:7000/users');
+            const res = await axios.get('https://topbikewebsite.onrender.com/users');
             setSpinner(false);
             setUsers(res.data);
         } catch (error) {
@@ -28,7 +28,7 @@ function Users() {
     const deleteUser = async (id) => {
         try {
             setSpinner(true);
-            await axios.delete(`http://localhost:7000/users/${id}`, {
+            await axios.delete(`https://topbikewebsite.onrender.com/users/${id}`, {
                 headers: { Authorization: token }
             });
             setSpinner(false);

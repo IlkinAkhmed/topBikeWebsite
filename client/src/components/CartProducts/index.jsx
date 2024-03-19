@@ -13,20 +13,21 @@ function CartProduct() {
     const subTotal = basketArr.reduce((initial, data) => initial + parseInt(data.product.newPrice * data.count), 0)
 
 
+    
     const navigate = useNavigate()
 
     const modifyCount = async (id, type) => {
         try {
             if (type) {
                 setIsLoading(true)
-                await axios.post(`http://localhost:7000/users/${decoded._id}/increaseCount`, {
+                await axios.post(`https://topbikewebsite.onrender.com/users/${decoded._id}/increaseCount`, {
                     productId: id
                 })
                 setIsLoading(false)
                 toast.success('Count Increased')
                 await fetchBasketData()
             } else {
-                const res = await axios.post(`http://localhost:7000/users/${decoded._id}/decreaseCount`, {
+                const res = await axios.post(`https://topbikewebsite.onrender.com/users/${decoded._id}/decreaseCount`, {
                     productId: id
                 })
                 res.status === 201 ? toast.error('Count must be 1 or more') : toast.success('Count Increased')
@@ -41,7 +42,7 @@ function CartProduct() {
     async function handleDelete(id) {
         try {
             setIsLoading(true)
-            await axios.delete(`http://localhost:7000/users/${decoded._id}/delete`, {
+            await axios.delete(`https://topbikewebsite.onrender.com/users/${decoded._id}/delete`, {
                 data: {
                     productId: id
                 }

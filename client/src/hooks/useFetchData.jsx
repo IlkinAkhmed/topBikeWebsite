@@ -7,11 +7,9 @@ function useFetchData(urlTitle) {
     const [isLoading, setisLoading] = useState(true)
 
     async function fetchData() {
-        const res = await axios.get(`http://localhost:7000/${urlTitle}`)
+        const res = await axios.get(`https://topbikewebsite.onrender.com/${urlTitle}`)
         setProduct(res.data)
-
     }
-
     useEffect(() => {
         fetchData()
         setisLoading(false)

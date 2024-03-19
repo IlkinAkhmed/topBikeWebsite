@@ -31,7 +31,7 @@ function Products() {
     const fetchData = async () => {
         setSpinner(true);
         try {
-            const res = await axios.get('http://localhost:7000/products');
+            const res = await axios.get('https://topbikewebsite.onrender.com/products');
             setProducts(res.data);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -74,7 +74,7 @@ function Products() {
                 formData.append('img', newFile);
             }
 
-            const url = isPostFormOpen ? 'http://localhost:7000/products' : `http://localhost:7000/products/${productId}`;
+            const url = isPostFormOpen ? 'https://topbikewebsite.onrender.com/products' : `https://topbikewebsite.onrender.com/products/${productId}`;
             const method = isPostFormOpen ? 'post' : 'put';
 
             const res = await axios[method](url, formData, {
@@ -112,7 +112,7 @@ function Products() {
 
     const handleDelete = async () => {
         try {
-            const res = await axios.delete(`http://localhost:7000/products/${productId}`, {
+            const res = await axios.delete(`https://topbikewebsite.onrender.com/products/${productId}`, {
                 data: { userId: user._id },
                 headers: {
                     Authorization: token,

@@ -53,7 +53,7 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
         if (token) {
             try {
                 setIsLoading(true)
-                await axios.post(`http://localhost:7000/comments/${commentId}/replyComment`, {
+                await axios.post(`https://topbikewebsite.onrender.com/comments/${commentId}/replyComment`, {
                     text: replyText,
                 }, {
                     headers: {
@@ -81,7 +81,7 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
         if (token) {
             try {
                 setIsLoading(true)
-                await axios.delete(`http://localhost:7000/comments/${id}/delete`, {
+                await axios.delete(`https://topbikewebsite.onrender.com/comments/${id}/delete`, {
                     headers: {
                         Authorization: token
                     },
@@ -105,7 +105,7 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
         if (token) {
             try {
                 setIsLoading(true)
-                await axios.delete(`http://localhost:7000/replies/${replyId}/delete`, {
+                await axios.delete(`https://topbikewebsite.onrender.com/replies/${replyId}/delete`, {
                     headers: {
                         Authorization: token
                     },
@@ -134,7 +134,7 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
         if (token) {
             try {
                 setIsLoading(true)
-                await axios.post(`http://localhost:7000/products/${id}/addComment`, {
+                await axios.post(`https://topbikewebsite.onrender.com/products/${id}/addComment`, {
                     text: text,
                 }, {
                     headers: {
@@ -162,7 +162,7 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
         }
         try {
             setIsLoading(true)
-            const res = await axios.post(`http://localhost:7000/comments/${id}/like`, {
+            const res = await axios.post(`https://topbikewebsite.onrender.com/comments/${id}/like`, {
                 userId: user._id,
             }, {
                 headers: {
@@ -181,7 +181,7 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
         if (token) {
             try {
                 setIsLoading(true)
-                const res = await axios.post(`http://localhost:7000/replies/${id}/like`, {
+                const res = await axios.post(`https://topbikewebsite.onrender.com/replies/${id}/like`, {
                     userId: user._id,
                     replyId: replyId,
                 }, {
@@ -207,7 +207,7 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
 
 
     const fetchComment = async () => {
-        const res = await axios.get(`http://localhost:7000/products/${id}/comments`)
+        const res = await axios.get(`https://topbikewebsite.onrender.com/products/${id}/comments`)
         setCommentsOfProduct(res.data)
     }
 

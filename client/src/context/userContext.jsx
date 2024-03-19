@@ -16,7 +16,7 @@ function UserProvider({ children }) {
     const RevenueArray = localStorage.getItem('revenue') ? JSON.parse(localStorage.getItem('revenue')) : []
 
     const fetchCurrentUser = async () => {
-        const res = user && await axios.get(`http://localhost:7000/users/${user._id}`)
+        const res = user && await axios.get(`https://topbikewebsite.onrender.com/users/${user._id}`)
         user && setCurrentUSer(res.data)
     }
 
@@ -40,7 +40,7 @@ function UserProvider({ children }) {
     const fetchBasketData = async () => {
         try {
             if (user) {
-                const res = await axios.get(`http://localhost:7000/users/${user._id}/basket`);
+                const res = await axios.get(`https://topbikewebsite.onrender.com/users/${user._id}/basket`);
                 setBasketArr(res.data);
             }
         } catch (error) {
@@ -52,7 +52,7 @@ function UserProvider({ children }) {
     const fetchWishlistData = async () => {
         try {
             if (user) {
-                const res = await axios.get(`http://localhost:7000/users/${user._id}/wishlist`);
+                const res = await axios.get(`https://topbikewebsite.onrender.com/users/${user._id}/wishlist`);
                 setWishlistArr(res.data);
             }
         } catch (error) {
@@ -64,7 +64,7 @@ function UserProvider({ children }) {
         if (user) {
             try {
                 setIsLoading(true)
-                const res = await axios.post(`http://localhost:7000/users/${user._id}/addBasket`, {
+                const res = await axios.post(`https://topbikewebsite.onrender.com/users/${user._id}/addBasket`, {
                     productId: id
                 })
                 res.status === 201 ? toast.success('Already in Cart, Count increased') : toast.success('Added To Cart')
@@ -83,7 +83,7 @@ function UserProvider({ children }) {
         if (user) {
             try {
                 setIsLoading(true)
-                const res = await axios.post(`http://localhost:7000/users/${user._id}/addWishlist`, {
+                const res = await axios.post(`https://topbikewebsite.onrender.com/users/${user._id}/addWishlist`, {
                     productId: id
                 })
                 res.status === 201 ? toast.success('Deleted from Wishlist') : toast.success('Added To Wishlist')
