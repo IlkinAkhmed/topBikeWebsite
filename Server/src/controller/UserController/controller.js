@@ -173,8 +173,8 @@ export const sendVerificationCode = async (req, res) => {
         },
     });
 
-    const mailOptions = {
-        from: 'ilkin656.u@gmail.com',
+    const mailOptions = {   
+        from: 'topBike@gmail.com',
         to: email,
         subject: 'Email Verification Code',
         text: `Hello`,

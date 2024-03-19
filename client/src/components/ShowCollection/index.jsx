@@ -5,10 +5,10 @@ import image from "../../../img/breadcrumb-shape-2.png"
 function Collection() {
     const handleButtonClick = () => {
         window.scrollTo({
-          top: window.innerHeight,
-          behavior: 'smooth',
+            top: window.innerHeight,
+            behavior: 'smooth',
         });
-      };
+    };
     return (
         <>
             <section className='collection'>
