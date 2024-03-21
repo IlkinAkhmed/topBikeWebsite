@@ -21,10 +21,9 @@ import Wishlist from './pages/WishlistPage'
 import CheckOut from './pages/checkoutPage'
 import AdminRouter from './routes/AdminRouter'
 import PrivateRoute from './routes/privateRoute'
-import Loading from './pages/Loading'
 function App() {
 
-  const { isLoginOpen, pageFirstLoading } = useContext(userContext)
+  const { isLoginOpen } = useContext(userContext)
 
   const [pageLoading, setPageLoading] = useState(true)
 
@@ -35,32 +34,30 @@ function App() {
       reverseOrder={false}
     />
       {isLoginOpen ? <Login /> : null}
-      {pageFirstLoading ? <Loading /> : (
-        <Routes>
-          <Route path="*" element={<Error />} />
-          <Route element={<MainLayout pageLoading={pageLoading} setPageLoading={setPageLoading} />}>
-            <Route path="/" element={<HomePage pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
-            <Route element={<PrivateRoute />}>
-              <Route path="/contact" element={<Contact pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
-              <Route path="/cart" element={<Cart pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
-              <Route path="/wishlist" element={<Wishlist pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
-            </Route>
-            <Route path="/shop" element={<Shop pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
-            <Route path="/about" element={<About pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
-            <Route path="/blog" element={<Blog pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
-            <Route path="/details/:id" element={<Details pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
+      <Routes>
+        <Route path="*" element={<Error />} />
+        <Route element={<MainLayout pageLoading={pageLoading} setPageLoading={setPageLoading} />}>
+          <Route path="/" element={<HomePage pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/contact" element={<Contact pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
+            <Route path="/cart" element={<Cart pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
+            <Route path="/wishlist" element={<Wishlist pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
           </Route>
-          <Route path="/checkout" element={<CheckOut pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
-          <Route element={<AdminRouter />} >
-            <Route path='/admin' element={<Dashboard />} />
-            <Route path='/dashboard/users' element={<Users />} />
-            <Route path='/dashboard/comments' element={<Comments />} />
-            <Route path='/dashboard/products' element={<Products />} />
-          </Route>
+          <Route path="/shop" element={<Shop pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
+          <Route path="/about" element={<About pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
+          <Route path="/blog" element={<Blog pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
+          <Route path="/details/:id" element={<Details pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
+        </Route>
+        <Route path="/checkout" element={<CheckOut pageLoading={pageLoading} setPageLoading={setPageLoading} />} />
+        <Route element={<AdminRouter />} >
+          <Route path='/admin' element={<Dashboard />} />
+          <Route path='/dashboard/users' element={<Users />} />
+          <Route path='/dashboard/comments' element={<Comments />} />
+          <Route path='/dashboard/products' element={<Products />} />
+        </Route>
 
-        </Routes>
+      </Routes>
 
-      )}
     </>
   )
 }

@@ -72,26 +72,3 @@ export default Form
 
 
 
-try {
-    const serviceId = "service_uct2fj2"
-    const templateId = "template_x6x5rnr"
-    const publicKey = "rrxLwbavmOR8uj7V8"
-    const html = `
-        ${user.email} paid  for his order!
-        His total price is ${totalPrice}
-        `
-
-    const templateParams = {
-        from_email: user.email,
-        subject: 'Payment',
-        to_name: "Ilkin",
-        message: html,
-
-    }
-
-    emailjs.send(serviceId, templateId, templateParams, publicKey).then(
-        toast.success('Paymant successfull')
-    )
-} catch (error) {
-    toast.error('Oops! there was an error')
-}

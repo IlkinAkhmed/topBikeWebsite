@@ -6,11 +6,10 @@ function useFetchData(urlTitle) {
 
     const [product, setProduct] = useState(null)
     const [isLoading, setisLoading] = useState(true)
-    const { setpageFirstLoading } = useContext(userContext)
+    console.log(isLoading)
 
     async function fetchData() {
         const res = await axios.get(`https://topbikewebsite.onrender.com/${urlTitle}`)
-        setpageFirstLoading(false)
         setProduct(res.data)
     }
     useEffect(() => {
