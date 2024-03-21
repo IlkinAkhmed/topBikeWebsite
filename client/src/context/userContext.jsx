@@ -12,6 +12,7 @@ function UserProvider({ children }) {
     const [isLoading, setIsLoading] = useState(false);
     const [currentUSer, setCurrentUSer] = useState([])
     const [wishlistArr, setWishlistArr] = useState([])
+    const [pageFirstLoading, setpageFirstLoading] = useState(false)
 
     const RevenueArray = localStorage.getItem('revenue') ? JSON.parse(localStorage.getItem('revenue')) : []
 
@@ -118,6 +119,8 @@ function UserProvider({ children }) {
         setIsLoading,
         isLoginOpen,
         setIsLoginOpen,
+        setpageFirstLoading,
+        pageFirstLoading,
         fetchBasketData,
         fetchWishlistData,
         fetchCurrentUser,

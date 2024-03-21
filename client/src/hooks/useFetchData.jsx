@@ -1,13 +1,16 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { userContext } from '../context/userContext';
 
 function useFetchData(urlTitle) {
 
     const [product, setProduct] = useState(null)
     const [isLoading, setisLoading] = useState(true)
+    const { setpageFirstLoading } = useContext(userContext)
 
     async function fetchData() {
         const res = await axios.get(`https://topbikewebsite.onrender.com/${urlTitle}`)
+        setpageFirstLoading(false)
         setProduct(res.data)
     }
     useEffect(() => {
