@@ -20,12 +20,11 @@ function Form() {
             return
         }
         try {
-            const serviceId = "service_36dvwhb"
-            const templateId = "template_cae27qq"
-            const publicKey = "o6oC4M2FMQmY3Z3ZF"
+            const serviceId = "service_uct2fj2"
+            const templateId = "template_x6x5rnr"
+            const publicKey = "rrxLwbavmOR8uj7V8"
             const html = `
-            <h1 style="color:red">you have a message</h1>
-            <p>${message}</p>
+            ${message}
             `
 
             const templateParams = {
@@ -70,3 +69,29 @@ function Form() {
 export default Form
 
 
+
+
+
+try {
+    const serviceId = "service_uct2fj2"
+    const templateId = "template_x6x5rnr"
+    const publicKey = "rrxLwbavmOR8uj7V8"
+    const html = `
+        ${user.email} paid  for his order!
+        His total price is ${totalPrice}
+        `
+
+    const templateParams = {
+        from_email: user.email,
+        subject: 'Payment',
+        to_name: "Ilkin",
+        message: html,
+
+    }
+
+    emailjs.send(serviceId, templateId, templateParams, publicKey).then(
+        toast.success('Paymant successfull')
+    )
+} catch (error) {
+    toast.error('Oops! there was an error')
+}
