@@ -251,7 +251,7 @@ export const likeReply = async (req, res) => {
 }
 
 export const sendEmailForReply = async (req, res) => {
-    const { from_email, to_email, text } = req.body;
+    const { from_email, to_email, text, product, comment } = req.body;
 
     if (!from_email || !to_email) {
         return res.status(400).json({ error: 'Email is required.' });
@@ -275,7 +275,9 @@ export const sendEmailForReply = async (req, res) => {
         html: `
         <h1 style="color:orange;text-align:center;">TopBike Services</h1>
       <p style="font-size:16px">${from_email} added new  reply for your comment.</p><br></br>
-      <p style="font-size:14px"> Reply text: "${text}"</p><br></br>
+      <p style="font-size:14px"> Your comment: "${comment}"</p>
+      <p style="font-size:14px"> Reply text: "${text}"</p>
+      <p style="font-size:14px"> Product Name: "${product}"</p><br></br>
       <p>Thanks for Comment &#x1F60A;</p>
       <p>Good Luck &#x1F60A;</p>
       `

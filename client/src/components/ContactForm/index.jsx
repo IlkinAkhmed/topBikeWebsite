@@ -30,7 +30,7 @@ function Form() {
             const templateParams = {
                 from_name: name,
                 from_email: email,
-                subject: subject,
+                subject: subject,   
                 to_name: "Ilkin",
                 message: html,
 

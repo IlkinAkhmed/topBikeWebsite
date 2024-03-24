@@ -15,6 +15,8 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
     const [text, setText] = useState('')
     const [replyText, setReplyText] = useState('')
     const [isInputSelected, setIsInputSelected] = useState(false)
+    const [commentUser, setCommentUser] = useState([])
+    const [comment, setcomment] = useState('')
     const [commentId, setCommentId] = useState('')
     const navigate = useNavigate()
 
@@ -31,10 +33,12 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
 
     const input = useRef()
 
-    function handleClick(id) {
+    function handleClick(id, email, commentText) {
         input.current.focus()
         setIsInputSelected(true)
         setCommentId(id)
+        setCommentUser(email)
+        setcomment(commentText)
     }
 
     useEffect(() => {
@@ -60,6 +64,13 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
                     headers: {
                         Authorization: token
                     },
+                });
+                await axios.post(`http://localhost:7000/sendEmailForReply`, {
+                    text: replyText,
+                    comment: comment,
+                    product: product.title,
+                    from_email: user.email,
+                    to_email: commentUser
                 });
                 setIsLoading(false)
                 setReplyText("");
@@ -147,10 +158,12 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
                 const templateId = "template_x6x5rnr"
                 const publicKey = "rrxLwbavmOR8uj7V8"
                 const html = `${user.email}  added  a new comment on your product
+                    Product Name: "${product.title}"
                     Comment: "${text}"
                 `;
 
                 const templateParams = {
+                    from_name: "TopBike Website",
                     from_email: user.email,
                     subject: 'Comment',
                     to_name: "Ilkin",
@@ -292,7 +305,7 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
                                             }
                                         </div>
                                         <div className="replayBtn">
-                                            <i onClick={() => handleClick(x.comment._id)} className="fa-solid fa-reply"></i>
+                                            <i onClick={() => handleClick(x.comment._id, x.comment.from.email, x.comment.text)} className="fa-solid fa-reply"></i>
                                         </div>
                                     </div>
                                     {x.comment.replies.length !== 0 &&
@@ -346,13 +359,13 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
                 </div>
                 <div className="downBox">
                     {user ? (
-                        <form action="" onSubmit={(e) => isInputSelected ? postReply(e) : postComment(e,)}>
+                        <form action="" onSubmit={(e) => isInputSelected ? postReply(e) : postComment(e)}>
                             <input
                                 ref={input}
                                 value={`${isInputSelected ? replyText : text}`}
                                 onChange={(e) => isInputSelected ? setReplyText(e.target.value) : setText(e.target.value)}
                                 type="text"
-                                placeholder='Comment...'
+                                placeholder={isInputSelected ? "Reply...." : "Comment..."}
                             />
                             <button type='submit'>Send</button>
                         </form>
