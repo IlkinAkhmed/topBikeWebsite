@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
+import emailjs from '@emailjs/browser';
 import { useSelector } from 'react-redux'
 import adminLogo from "../../../img/adminLogo.jpg"
 import { userContext } from '../../context/userContext'
@@ -141,6 +142,23 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
                         Authorization: token
                     },
                 });
+
+                const serviceId = "service_uct2fj2"
+                const templateId = "template_x6x5rnr"
+                const publicKey = "rrxLwbavmOR8uj7V8"
+                const html = `${user.email}  added  a new comment on your product
+                    Comment: "${text}"
+                `;
+
+                const templateParams = {
+                    from_email: user.email,
+                    subject: 'Comment',
+                    to_name: "Ilkin",
+                    message: html,
+
+                }
+
+                emailjs.send(serviceId, templateId, templateParams, publicKey)
                 setIsLoading(false)
                 setText("");
                 toast.success('Comment Added Successfully');

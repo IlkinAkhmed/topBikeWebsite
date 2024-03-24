@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import Comment from '../../model/CommentModel/model.js';
 import { Products } from '../../model/HomeModel/productsModel.js';
+import nodemailer from "nodemailer"
 const PrivateKey = "wexvlj@!@#$!__++=";
 
 
@@ -246,6 +247,45 @@ export const likeReply = async (req, res) => {
         }
     } catch (error) {
         res.status(500).send(error.message);
+    }
+}
+
+export const sendEmailForReply = async (req, res) => {
+    const { from_email, to_email, text } = req.body;
+
+    if (!from_email || !to_email) {
+        return res.status(400).json({ error: 'Email is required.' });
+    }
+
+    const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        service: "gmail",
+        port: 465,
+        secure: true,
+        auth: {
+            user: "ilkin656.u@gmail.com",
+            pass: "ttkn adpd nykx ryuf",
+        },
+    });
+
+    const mailOptions = {
+        from: 'ilkin656.u@gmail.com',
+        to: to_email,
+        subject: 'Comment reply',
+        html: `
+        <h1 style="color:orange;text-align:center;">TopBike Services</h1>
+      <p style="font-size:16px">${from_email} added new  reply for your comment.</p><br></br>
+      <p style="font-size:14px"> Reply text: "${text}"</p><br></br>
+      <p>Thanks for Comment &#x1F60A;</p>
+      <p>Good Luck &#x1F60A;</p>
+      `
+    };
+
+    try {
+        await transporter.sendMail(mailOptions)
+        res.status(200).send("Email  sent");
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to send email.' });
     }
 }
 

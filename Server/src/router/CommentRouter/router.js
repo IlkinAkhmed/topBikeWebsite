@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteComment, deleteReply, getAllComments, getAllCommentsOfProduct, getAllRepliesOfComment, getCommentById, likeComment, likeReply, postComment, replyComment, updateComment, updateReply } from "../../controller/CommentController/controller.js";
+import { deleteComment, deleteReply, getAllComments, getAllCommentsOfProduct, getAllRepliesOfComment, getCommentById, likeComment, likeReply, postComment, replyComment, sendEmailForReply, updateComment, updateReply } from "../../controller/CommentController/controller.js";
 const commentRouter = Router();
 
 // -------------------------------COMMENT--------------------------------------------
@@ -18,5 +18,6 @@ commentRouter.get('/comment/:commentId/replies', getAllRepliesOfComment);
 commentRouter.delete("/replies/:replyId/delete", deleteReply);
 commentRouter.put("/replies/:replyId/update", updateReply);
 commentRouter.post('/replies/:commentId/like', likeReply);
+commentRouter.post('/sendEmailForReply', sendEmailForReply);
 
 export default commentRouter;

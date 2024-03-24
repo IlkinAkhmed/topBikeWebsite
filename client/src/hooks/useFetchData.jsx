@@ -6,7 +6,6 @@ function useFetchData(urlTitle) {
 
     const [product, setProduct] = useState(null)
     const [isLoading, setisLoading] = useState(true)
-    console.log(isLoading)
 
     async function fetchData() {
         const res = await axios.get(`https://topbikewebsite.onrender.com/${urlTitle}`)

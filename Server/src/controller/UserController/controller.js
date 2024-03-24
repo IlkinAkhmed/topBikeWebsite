@@ -174,7 +174,7 @@ export const sendVerificationCode = async (req, res) => {
     });
 
     const mailOptions = {   
-        from: 'topBike@gmail.com',
+        from: 'ilkin656.u@gmail.com',
         to: email,
         subject: 'Email Verification Code',
         text: `Hello`,
