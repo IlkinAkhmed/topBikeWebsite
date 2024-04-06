@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { userContext } from '../context/userContext';
+import toast from 'react-hot-toast';
 
 function useFetchData(urlTitle) {
 
@@ -8,8 +9,12 @@ function useFetchData(urlTitle) {
     const [isLoading, setisLoading] = useState(true)
 
     async function fetchData() {
-        const res = await axios.get(`https://topbikewebsite.onrender.com/${urlTitle}`)
-        setProduct(res.data)
+        try {
+            const res = await axios.get(`https://topbikewebsite.onrender.com/${urlTitle}`)
+            setProduct(res.data)
+        } catch (error) {
+            toast.error(error.message)
+        }
     }
     useEffect(() => {
         fetchData()

@@ -12,11 +12,14 @@ function Search({ isSearchOpen, setisSearchOpen }) {
 
     return (
         <>
-            {isSearchOpen && <div className="overLay" onClick={() => setisSearchOpen(!isSearchOpen)}></div>}
+            {isSearchOpen && <div className="overLay" onClick={() => {
+                setisSearchOpen(!isSearchOpen)
+                setSearhcValue('')
+            }}></div>}
             <div className={`search ${isSearchOpen ? 'search-open' : ''}`}>
                 <i onClick={() => {
-                    setisSearchOpen(!isSearchOpen),
-                        setSearhcValue('')
+                    setisSearchOpen(!isSearchOpen)
+                    setSearhcValue('')
                 }} className='fa-solid fa-xmark'></i>
                 <h1>Start typing and hit Enter</h1>
                 <input value={searhcValue} onChange={(e) => setSearhcValue(e.target.value)} type="text" placeholder='search product name...' />

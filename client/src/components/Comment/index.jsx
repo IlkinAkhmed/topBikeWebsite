@@ -9,7 +9,7 @@ import './Comment.scss'
 import { useNavigate } from 'react-router'
 
 function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
-    const { user, token, isLoading, setIsLoading, fetchBasketData, fetchWishlistData, currentUSer, fetchCurrentUser } = useContext(userContext)
+    const { user, token, isLoading, setIsLoading, fetchBasketData, fetchWishlistData, fetchCurrentUser } = useContext(userContext)
     const [commentsOfProduct, setCommentsOfProduct] = useState([])
     const [count, setCount] = useState(0)
     const [text, setText] = useState('')
@@ -18,7 +18,6 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
     const [commentUser, setCommentUser] = useState([])
     const [comment, setcomment] = useState('')
     const [commentId, setCommentId] = useState('')
-    const navigate = useNavigate()
 
     const [openedReplies, setOpenedReplies] = useState([])
     const toggleReplies = (commentId) => {
@@ -41,11 +40,7 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
         setcomment(commentText)
     }
 
-    useEffect(() => {
-        fetchBasketData()
-        fetchWishlistData()
-        fetchCurrentUser()
-    }, [user])
+
 
 
 
