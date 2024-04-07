@@ -239,9 +239,8 @@ function Comment({ OpenCommentBox, handleOpenComment, id, product }) {
 
     useEffect(() => {
         fetchComment()
-    }, [])
+    }, [id])
 
-    const basketOpen = useSelector((state) => state.basket.isOpen)
 
     return (
         <>
